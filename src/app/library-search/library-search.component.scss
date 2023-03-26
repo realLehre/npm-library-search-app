@@ -1,0 +1,47 @@
+@import "base-styles";
+
+.form-group {
+  position: relative;
+  width: 40%;
+  margin-inline: auto;
+
+  & input {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    background: $main-color;
+    color: $light-text-color;
+    font-size: 1rem;
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2);
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: $light-text-color;
+    }
+  }
+
+  & button {
+    position: absolute;
+    background: rgb(0, 68, 255);
+    border: none;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    height: 100%;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+
+    &:hover {
+      background: rgb(0, 35, 131);
+    }
+
+    & i {
+      color: $light-text-color;
+      font-size: 1.2rem;
+    }
+  }
+}

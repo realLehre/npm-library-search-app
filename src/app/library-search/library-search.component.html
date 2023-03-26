@@ -1,0 +1,14 @@
+<div class="search-container">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="enter a library name"
+        [formControlName]="'libraryName'"
+      />
+      <button type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </form>
+</div>

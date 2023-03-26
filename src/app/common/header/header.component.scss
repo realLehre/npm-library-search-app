@@ -1,0 +1,47 @@
+@import "base-styles";
+
+#header-container {
+  padding: 20px 0;
+  background: $main-color;
+  color: $light-text-color;
+}
+
+#header {
+  width: 90%;
+  max-width: 1200px;
+
+  & .logo {
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  & .links {
+    list-style: none;
+
+    & .link {
+      & a {
+        position: relative;
+        cursor: pointer;
+        font-size: 1.2rem;
+
+        &::after {
+          position: absolute;
+          content: "";
+          bottom: 1px;
+          left: 0;
+          height: 2px;
+          width: 0;
+          background: $light-text-color;
+          transition: all 200ms ease-in-out;
+        }
+
+        &:hover {
+          &:after {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
