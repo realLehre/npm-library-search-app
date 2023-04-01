@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
     this.libService.libInfo.subscribe({
       next: (data) => {
         this.libData = data;
-        console.log(data);
       },
     });
 

@@ -22,7 +22,7 @@
         <div></div>
       </div>
 
-      <div class="lib-main-info" *ngIf="!isLoading && libData">
+      <div class="lib-main-info" *ngIf="!isLoading && libData && !libError">
         <h3 class="lib-name">{{ libData.name }}</h3>
         <p class="desc">{{ libData.description }}</p>
         <button type="button">Click to see more</button>
