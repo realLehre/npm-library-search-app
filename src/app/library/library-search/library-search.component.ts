@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LibraryService } from '../services/library.service';
+import { LibraryService } from '../../services/library.service';
 
 @Component({
   selector: 'app-library-search',
@@ -20,5 +20,6 @@ export class LibrarySearchComponent implements OnInit {
 
   onSubmit() {
     this.libService.getLibStats(this.searchForm.value.libraryName);
+    this.searchForm.reset();
   }
 }

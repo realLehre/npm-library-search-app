@@ -8,9 +8,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { HeaderComponent } from './common/header/header.component';
-import { LibrarySearchComponent } from './library-search/library-search.component';
+import { LibrarySearchComponent } from './library/library-search/library-search.component';
 import { MaterialModule } from './material.module';
 import { HomeComponent } from './home/home.component';
+import { LibraryDetailsComponent } from './library/library-details/library-details.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HomeComponent } from './home/home.component';
     FooterComponent,
     LibrarySearchComponent,
     HomeComponent,
+    LibraryDetailsComponent,
   ],
   imports: [
     BrowserModule,

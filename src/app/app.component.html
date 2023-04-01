@@ -27,6 +27,10 @@
         <p class="desc">{{ libData.description }}</p>
         <button type="button">Click to see more</button>
       </div>
+
+      <div class="lib-error" *ngIf="!isLoading && libError">
+        Library not found
+      </div>
     </div>
   </div>
 </div>

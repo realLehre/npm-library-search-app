@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Subject } from 'rxjs';
-import { Library } from '../library-search/library.model';
+import { catchError, map, Subject } from 'rxjs';
+import { Library } from '../library/library.model';
 
 @Injectable({ providedIn: 'root' })
 export class LibraryService {
   libInfo = new Subject<Library>();
+  libError = new Subject<String>();
   isLoading = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
@@ -21,9 +22,16 @@ export class LibraryService {
           };
         })
       )
-      .subscribe((data) => {
-        this.isLoading.next(false);
-        this.libInfo.next(data);
+      .subscribe({
+        next: (data) => {
+          this.isLoading.next(false);
+          this.libInfo.next(data);
+          this.libError.next('');
+        },
+        error: (err) => {
+          this.isLoading.next(false);
+          this.libError.next('Library not found');
+        },
       });
   }
 }

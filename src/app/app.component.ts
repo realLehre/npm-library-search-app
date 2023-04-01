@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Library } from './library-search/library.model';
+import { Library } from './library/library.model';
 import { LibraryService } from './services/library.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { LibraryService } from './services/library.service';
 export class AppComponent implements OnInit {
   libData!: Library;
   isLoading!: boolean;
+  libError!: String;
 
   constructor(private libService: LibraryService) {}
 
@@ -19,9 +20,10 @@ export class AppComponent implements OnInit {
         this.libData = data;
         console.log(data);
       },
-      error: (err) => {
-        console.log(err);
-      },
+    });
+
+    this.libService.libError.subscribe((data) => {
+      this.libError = data;
     });
 
     this.libService.isLoading.subscribe((status) => {
