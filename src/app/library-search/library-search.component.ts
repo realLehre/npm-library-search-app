@@ -19,6 +19,6 @@ export class LibrarySearchComponent implements OnInit {
   }
 
   onSubmit() {
-    this.libService.getLibStats(this.searchForm.value);
+    this.libService.getLibStats(this.searchForm.value.libraryName);
   }
 }

@@ -31,12 +31,12 @@
     right: 0;
     transform: translateY(-50%);
     height: 100%;
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
     transition: all 300ms ease-in-out;
 
     &:hover {
-      background: rgb(0, 35, 131);
+      background: rgb(0, 48, 179);
     }
 
     & i {
