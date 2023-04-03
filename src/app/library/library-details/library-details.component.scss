@@ -1,0 +1,21 @@
+@import "base-styles";
+
+.lib-details-container {
+  margin-top: 20px;
+}
+
+.lib-name-info {
+  & .lib-name-desc {
+    & .lib-name {
+      font-size: 2.8rem;
+      font-weight: 600;
+
+      & .latest-v {
+        font-size: 1rem;
+        background: $main-color;
+        color: $light-text-color;
+        padding: 1px 5px;
+      }
+    }
+  }
+}

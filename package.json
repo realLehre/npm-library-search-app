@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "all-package-names": "^2.0.661",
     "api-npm": "^1.0.0",
     "assert": "^2.0.0",
     "crypto-browserify": "^3.12.0",
