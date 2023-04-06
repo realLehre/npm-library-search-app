@@ -17,5 +17,38 @@
         padding: 1px 5px;
       }
     }
+
+    & .lib-desc {
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+  }
+
+  & .lib-homepage {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.lib-actions {
+  margin-top: 20px;
+  & a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 5px 10px;
+    background: $main-color;
+    color: $light-text-color;
+    font-size: 0.9rem;
+    transition: all 300ms ease-in-out;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+      background: green;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }
