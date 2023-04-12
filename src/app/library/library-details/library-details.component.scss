@@ -2,6 +2,11 @@
 
 .lib-details-container {
   margin-top: 20px;
+  padding-bottom: 30px;
+}
+
+.lib {
+  width: 100%;
 }
 
 .lib-name-info {
@@ -51,4 +56,29 @@
       transform: scale(1.05);
     }
   }
+}
+
+.lib-versions {
+  margin-top: 30px;
+  width: 100%;
+
+  &-header {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  & ag-grid-angular {
+    width: 100%;
+    height: 500px;
+
+    & .ag-row-even,
+    & .ag-row-odd {
+      width: 100%;
+    }
+  }
+}
+
+.download-chart {
+  margin-top: 30px;
 }

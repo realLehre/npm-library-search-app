@@ -11,7 +11,7 @@ export interface Library {
   maintainers: Array<Object>;
   readme: String;
   repository: Object;
-  time: Object;
+  time: { [key: string]: string };
   users: Object;
   versions: Object;
   _id: String;

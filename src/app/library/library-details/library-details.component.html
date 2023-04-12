@@ -12,5 +12,20 @@
       <a href="" class="github">Github</a>
       <a href="" class="npm">Npm</a>
     </div>
+
+    <div class="lib-versions">
+      <div class="lib-versions-header">Versions</div>
+      <ag-grid-angular
+        class="ag-theme-alpine"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [animateRows]="true"
+      >
+      </ag-grid-angular>
+    </div>
+
+    <div class="download-chart">
+      <app-library-download-chart></app-library-download-chart>
+    </div>
   </div>
 </div>
