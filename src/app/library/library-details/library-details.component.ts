@@ -48,11 +48,5 @@ export class LibraryDetailsComponent implements OnInit {
           this.rowData = this.libVersion;
         },
       });
-
-    this.http
-      .get('https://api.npmjs.org/downloads/range/last-week/react')
-      .subscribe((data) => {
-        console.log(data);
-      });
   }
 }
