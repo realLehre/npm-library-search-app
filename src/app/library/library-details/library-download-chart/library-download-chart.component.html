@@ -1,4 +1,40 @@
 <div class="download-chart-container">
-  <p class="download-chart-container-header">Downloads</p>
+  <p class="download-chart-container-header">
+    Downloads
+    <span
+      class="downloads-toggle"
+      [matMenuTriggerFor]="menu"
+      matTooltip="select downloads period"
+      >over the last 30 days</span
+    >
+    <span
+      ><mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onSelectRange('today')">
+          <span>Today</span>
+        </button>
+        <button mat-menu-item (click)="onSelectRange('yesterday')">
+          <span>Yesterday</span>
+        </button>
+        <button mat-menu-item (click)="onSelectRange('7-days')">
+          <span>Last 7 days from yesterday</span>
+        </button>
+        <button mat-menu-item (click)="onSelectRange('14-days')">
+          <span>Last 14 days</span>
+        </button>
+        <button mat-menu-item (click)="onSelectRange('30-days')">
+          <span>Last 30 days</span>
+        </button>
+        <button mat-menu-item (click)="onSelectRange('this-week')">
+          <span>This week</span>
+        </button>
+        <button mat-menu-item (click)="onSelectRange('this-month')">
+          <span>This month</span>
+        </button>
+        <button mat-menu-item (click)="onSelectRange('custom')">
+          <span>Custom range</span>
+        </button>
+      </mat-menu></span
+    >
+  </p>
   <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
 </div>
