@@ -5,14 +5,18 @@ import { map, Subject } from 'rxjs';
 import { Library } from '../library/library.model';
 import { LibraryDownloadInterface } from '../library/library-details/library-download-chart/library-download.model';
 
+export interface DownloadStat {
+  count: number[];
+  period: string[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class LibraryService {
   libInfo = new Subject<Library>();
   libError = new Subject<boolean>();
   isLoading = new Subject<boolean>();
 
-  downloadCounts = new Subject<number[]>();
-  downloadPeriod = new Subject<string[]>();
+  downloadStats = new Subject<DownloadStat>();
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +36,6 @@ export class LibraryService {
           this.isLoading.next(false);
           this.libInfo.next(data);
           this.libError.next(false);
-          console.log(data);
         },
         error: (err) => {
           this.isLoading.next(false);
@@ -41,21 +44,22 @@ export class LibraryService {
       });
   }
 
-  getDownloads() {
+  getDownloads(range: any) {
     this.http
       .get<LibraryDownloadInterface>(
-        'https://api.npmjs.org/downloads/range/last-week/vue'
+        `https://api.npmjs.org/downloads/range/${range}/vue`
       )
       .subscribe((data) => {
         console.log(data);
         const downloads = [];
         const period = [];
+
         for (const key in data.downloads) {
           downloads.push(data.downloads[key].downloads);
           period.push(data.downloads[key].day);
         }
-        this.downloadCounts.next(downloads);
-        this.downloadPeriod.next(period);
+
+        this.downloadStats.next({ count: downloads, period: period });
       });
   }
 }

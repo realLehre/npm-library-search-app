@@ -34,7 +34,6 @@ export class LibraryDetailsComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          console.log(data);
           this.lib = data;
 
           for (const key in data.time) {

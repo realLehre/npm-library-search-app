@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { combineLatest } from 'rxjs';
+
 import { LibraryService } from 'src/app/services/library.service';
 
 @Component({
@@ -24,18 +23,15 @@ export class LibraryDownloadChartComponent implements OnInit {
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
 
-  constructor(private http: HttpClient, private libService: LibraryService) {}
+  constructor(private libService: LibraryService) {}
 
   ngOnInit(): void {
-    this.libService.getDownloads();
+    this.libService.getDownloads('last-week');
 
-    combineLatest([
-      this.libService.downloadCounts,
-      this.libService.downloadPeriod,
-    ]).subscribe((data) => {
+    this.libService.downloadStats.subscribe((data) => {
       console.log(data);
-      this.downloadCounts.push(...data[0]);
-      this.downloadPeriod.push(...data[1]);
+      // this.downloadCounts.push(...data.count);
+      // this.downloadPeriod.push(...data.period);
 
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
@@ -45,11 +41,11 @@ export class LibraryDownloadChartComponent implements OnInit {
       const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
       this.basicData = {
-        labels: [...this.downloadPeriod],
+        labels: [...data.period],
         datasets: [
           {
             label: 'Downloads',
-            data: [...this.downloadCounts],
+            data: [...data.count],
             backgroundColor: [
               'rgba(255, 159, 64, 0.2)',
               'rgba(75, 192, 192, 0.2)',
@@ -101,6 +97,6 @@ export class LibraryDownloadChartComponent implements OnInit {
   }
 
   onSelectRange(range: any) {
-    console.log(range);
+    this.libService.getDownloads(range);
   }
 }
