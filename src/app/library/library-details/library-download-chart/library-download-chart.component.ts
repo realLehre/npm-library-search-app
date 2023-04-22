@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { LibraryService } from 'src/app/services/library.service';
+import { RangeDialogComponent } from './download-range-dialog/range-dialog/range-dialog.component';
 
 @Component({
   selector: 'app-library-download-chart',
@@ -23,10 +25,10 @@ export class LibraryDownloadChartComponent implements OnInit {
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
 
-  constructor(private libService: LibraryService) {}
+  constructor(private libService: LibraryService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.libService.getDownloads('last-week');
+    this.libService.getDownloads('2023-04-20:2023-04-21');
 
     this.libService.downloadStats.subscribe((data) => {
       console.log(data);
@@ -94,9 +96,24 @@ export class LibraryDownloadChartComponent implements OnInit {
         },
       };
     });
+    const dialogRef = this.dialog.open(RangeDialogComponent, {
+      width: '500px',
+      height: '400px',
+    });
   }
 
   onSelectRange(range: any) {
     this.libService.getDownloads(range);
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(RangeDialogComponent, {
+      width: '500px',
+      height: '200px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

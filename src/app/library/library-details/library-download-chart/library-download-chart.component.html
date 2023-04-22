@@ -30,7 +30,11 @@
         <!-- <button mat-menu-item (click)="onSelectRange('this-month')">
           <span>This month</span>
         </button> -->
-        <button mat-menu-item (click)="onSelectRange('custom')">
+        <button
+          mat-menu-item
+          (click)="onSelectRange('custom')"
+          (click)="openDialog()"
+        >
           <span>Custom range</span>
         </button>
       </mat-menu></span

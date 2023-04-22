@@ -16,6 +16,7 @@ import { MaterialModule } from './material.module';
 import { HomeComponent } from './home/home.component';
 import { LibraryDetailsComponent } from './library/library-details/library-details.component';
 import { LibraryDownloadChartComponent } from './library/library-details/library-download-chart/library-download-chart.component';
+import { RangeDialogComponent } from './library/library-details/library-download-chart/download-range-dialog/range-dialog/range-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { LibraryDownloadChartComponent } from './library/library-details/library
     HomeComponent,
     LibraryDetailsComponent,
     LibraryDownloadChartComponent,
+    RangeDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,28 @@
+.dialog-container {
+  & mat-form-field {
+    width: 100%;
+    position: relative;
+
+    & mat-label {
+      font-size: 1rem;
+    }
+
+    & mat-date-range-input {
+      padding: 10px 0;
+
+      & input {
+        // font-size: 0.8rem;
+
+        &.start-date {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    & mat-datepicker-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}
