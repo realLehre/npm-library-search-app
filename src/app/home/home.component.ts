@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Library } from '../library/library.model';
 import { LibraryService } from '../services/library.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ export class HomeComponent implements OnInit {
   isLoading!: boolean;
   libError: boolean = false;
 
-  constructor(private libService: LibraryService) {}
+  constructor(private libService: LibraryService, private router: Router) {}
 
   ngOnInit(): void {
     this.libService.libInfo.subscribe({
