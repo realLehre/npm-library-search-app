@@ -13,6 +13,9 @@ import { Library } from '../library.model';
 })
 export class LibraryDetailsComponent implements OnInit {
   lib!: Library;
+  libName!: String;
+  libCurrentVersion!: String;
+
   libVersion: { date: string; version: string }[] = [];
   columnDefs: ColDef[] = [
     { field: 'date', sortable: true },
@@ -23,29 +26,26 @@ export class LibraryDetailsComponent implements OnInit {
   constructor(private http: HttpClient, private libService: LibraryService) {}
 
   ngOnInit(): void {
-    this.http
-      .get<Library>(`https://registry.npmjs.org/vue`)
-      .pipe(
-        map((data: Library) => {
-          return {
-            ...data,
-          };
-        })
-      )
-      .subscribe({
-        next: (data) => {
-          this.lib = data;
+    this.libService.libInfo.subscribe({
+      next: (data) => {
+        this.lib = data;
+        this.libName = data.name;
+        this.libCurrentVersion = Object.keys(data.versions)[
+          Object.keys(data.versions).length - 1
+        ];
 
-          for (const key in data.time) {
-            this.libVersion.push({
-              date: data.time[key].slice(-data.time[key].length, 10),
-              version: key,
-            });
-          }
+        console.log(data);
 
-          this.libVersion = this.libVersion.slice(2);
-          this.rowData = this.libVersion;
-        },
-      });
+        for (const key in data.time) {
+          this.libVersion.push({
+            date: data.time[key].slice(-data.time[key].length, 10),
+            version: key,
+          });
+        }
+
+        this.libVersion = this.libVersion.slice(2);
+        this.rowData = this.libVersion;
+      },
+    });
   }
 }

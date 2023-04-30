@@ -10,12 +10,13 @@
     & mat-date-range-input {
       padding: 10px 0;
 
-      & input {
+      & input.mat-start-date {
         // font-size: 0.8rem;
+        // margin-right: 10px;
 
-        &.start-date {
-          margin-right: 10px;
-        }
+        // &.start-date {
+        //   margin-right: 10px;
+        // }
       }
     }
 
@@ -25,4 +26,12 @@
       right: 0;
     }
   }
+}
+
+.mat-form-field-flex.ng-tns-c118-2 {
+  display: none;
+}
+
+button {
+  margin-top: 20px;
 }

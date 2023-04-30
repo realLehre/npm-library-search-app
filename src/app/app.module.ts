@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { ChartModule } from 'primeng/chart';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,7 +17,11 @@ import { MaterialModule } from './material.module';
 import { HomeComponent } from './home/home.component';
 import { LibraryDetailsComponent } from './library/library-details/library-details.component';
 import { LibraryDownloadChartComponent } from './library/library-details/library-download-chart/library-download-chart.component';
-import { RangeDialogComponent } from './library/library-details/library-download-chart/download-range-dialog/range-dialog/range-dialog.component';
+import {
+  MY_DATE_FORMATS,
+  RangeDialogComponent,
+} from './library/library-details/library-download-chart/download-range-dialog/range-dialog/range-dialog.component';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -40,8 +45,9 @@ import { RangeDialogComponent } from './library/library-details/library-download
     AgGridModule,
     ChartModule,
     BrowserAnimationsModule,
+    MomentDateModule,
   ],
-  providers: [],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

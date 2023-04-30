@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LibraryService } from '../../services/library.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-library-search',
@@ -10,7 +11,7 @@ import { LibraryService } from '../../services/library.service';
 export class LibrarySearchComponent implements OnInit {
   searchForm!: FormGroup;
 
-  constructor(private libService: LibraryService) {}
+  constructor(private libService: LibraryService, private router: Router) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
@@ -20,6 +21,9 @@ export class LibrarySearchComponent implements OnInit {
 
   onSubmit() {
     this.libService.getLibStats(this.searchForm.value.libraryName);
+
+    this.router.navigate(['details']);
+
     this.searchForm.reset();
   }
 }

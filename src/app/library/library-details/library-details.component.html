@@ -2,8 +2,10 @@
   <div class="lib">
     <div class="lib-name-info" fxLayout fxLayoutAlign="space-between center">
       <div class="lib-name-desc">
-        <div class="lib-name">Angular <span class="latest-v">8.2.0</span></div>
-        <div class="lib-desc">Fast, reliable, good!</div>
+        <div class="lib-name">
+          {{ libName }} <span class="latest-v">{{ libCurrentVersion }}</span>
+        </div>
+        <div class="lib-desc">{{ lib.description }}</div>
       </div>
       <a href="" target="_blank" class="lib-homepage">Homepage</a>
     </div>

@@ -1,5 +1,6 @@
 <div class="download-chart-container">
   <p class="download-chart-container-header">
+    <span class="download-count">{{ totalDownloadCount }}</span>
     Downloads
     <span
       class="downloads-toggle"
@@ -30,11 +31,7 @@
         <!-- <button mat-menu-item (click)="onSelectRange('this-month')">
           <span>This month</span>
         </button> -->
-        <button
-          mat-menu-item
-          (click)="onSelectRange('custom')"
-          (click)="openDialog()"
-        >
+        <button mat-menu-item (click)="openDialog()">
           <span>Custom range</span>
         </button>
       </mat-menu></span

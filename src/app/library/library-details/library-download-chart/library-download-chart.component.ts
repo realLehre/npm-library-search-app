@@ -16,6 +16,8 @@ export class LibraryDownloadChartComponent implements OnInit {
   downloadPeriod: string[] = [];
   downloadCounts: number[] = [];
 
+  totalDownloadCount: number = 0;
+
   foods: {
     value: string;
     viewValue: string;
@@ -32,8 +34,13 @@ export class LibraryDownloadChartComponent implements OnInit {
 
     this.libService.downloadStats.subscribe((data) => {
       console.log(data);
-      // this.downloadCounts.push(...data.count);
-      // this.downloadPeriod.push(...data.period);
+
+      let totalDownloadCount = 0;
+      data.count.forEach((value) => {
+        totalDownloadCount += value;
+      });
+
+      this.totalDownloadCount = totalDownloadCount;
 
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
@@ -96,10 +103,6 @@ export class LibraryDownloadChartComponent implements OnInit {
         },
       };
     });
-    const dialogRef = this.dialog.open(RangeDialogComponent, {
-      width: '500px',
-      height: '400px',
-    });
   }
 
   onSelectRange(range: any) {
@@ -110,10 +113,6 @@ export class LibraryDownloadChartComponent implements OnInit {
     const dialogRef = this.dialog.open(RangeDialogComponent, {
       width: '500px',
       height: '200px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 }
