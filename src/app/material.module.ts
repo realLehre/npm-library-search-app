@@ -6,8 +6,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DATE_FORMATS, MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 @NgModule({
   imports: [
     MatToolbarModule,
@@ -19,6 +22,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatNativeDateModule,
     MatInputModule,
     MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   exports: [
     MatToolbarModule,
@@ -30,6 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatNativeDateModule,
     MatInputModule,
     MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [],
 })

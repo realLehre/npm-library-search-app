@@ -18,6 +18,8 @@ export class LibraryService {
 
   downloadStats = new Subject<DownloadStat>();
 
+  libDownloadCustomRange = new Subject<{ start: string; end: string }>();
+
   constructor(private http: HttpClient) {}
 
   getLibStats(libName: string) {
@@ -34,8 +36,9 @@ export class LibraryService {
       .subscribe({
         next: (data) => {
           this.isLoading.next(false);
-          this.libInfo.next(data);
           this.libError.next(false);
+          this.libInfo.next(data);
+          localStorage.setItem('libData', JSON.stringify(data));
         },
         error: (err) => {
           this.isLoading.next(false);
@@ -50,7 +53,6 @@ export class LibraryService {
         `https://api.npmjs.org/downloads/range/${range}/vue`
       )
       .subscribe((data) => {
-        console.log(data);
         const downloads = [];
         const period = [];
 

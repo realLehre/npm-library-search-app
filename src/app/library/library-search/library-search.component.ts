@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LibraryService } from '../../services/library.service';
 import { Router } from '@angular/router';
 import { Library } from '../library.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-library-search',
   templateUrl: './library-search.component.html',
   styleUrls: ['./library-search.component.scss'],
 })
-export class LibrarySearchComponent implements OnInit {
+export class LibrarySearchComponent implements OnInit, OnDestroy {
+  libSub!: Subscription;
   searchForm!: FormGroup;
   libData!: Library;
   isLoading!: boolean;
@@ -22,21 +24,34 @@ export class LibrarySearchComponent implements OnInit {
       libraryName: new FormControl('', Validators.required),
     });
 
-    this.libService.libInfo.subscribe({
+    this.libSub = this.libService.libInfo.subscribe({
       next: (data) => {
         this.libData = data;
       },
     });
+
+    this.libService.libError.subscribe((errorState) => {
+      this.libError = errorState;
+    });
+
+    this.libService.isLoading.subscribe((status) => {
+      this.isLoading = status;
+    });
   }
 
   onSubmit() {
-    // this.router.navigate(['details']);
+    this.router.navigate(['details']);
 
+    this.libService.getLibStats(this.searchForm.value.libraryName);
+    localStorage.setItem('libName', this.searchForm.value.libraryName);
     this.searchForm.reset();
   }
 
   loadLib() {
-    this.libService.getLibStats(this.searchForm.value.libraryName);
     this.router.navigate(['/details']);
+  }
+
+  ngOnDestroy(): void {
+    this.libSub.unsubscribe();
   }
 }

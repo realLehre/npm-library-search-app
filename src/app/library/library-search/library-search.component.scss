@@ -45,3 +45,43 @@
     }
   }
 }
+
+.lib-main-info {
+  text-align: center;
+  margin-top: 30px;
+
+  & .lib-name {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+  }
+
+  & .desc {
+    font-size: 1rem;
+  }
+
+  & .see-more {
+    display: inline-block;
+    margin-top: 20px;
+    background: $main-color;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 10px;
+    border: none;
+    color: $light-text-color;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+
+    &:hover {
+      box-shadow: 1px 1px 4px rgb(82, 82, 82);
+    }
+  }
+}
+
+.lib-error {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 1rem;
+  background: red;
+  color: white;
+  padding: 8px;
+}

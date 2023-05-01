@@ -34,6 +34,10 @@ export class RangeDialogComponent implements OnInit {
     const startDate = moment(this.range.value.start).format('YYYY-MM-DD');
     const endDate = moment(this.range.value.end).format('YYYY-MM-DD');
     const newRange = startDate + ':' + endDate;
+    this.libService.libDownloadCustomRange.next({
+      start: startDate,
+      end: endDate,
+    });
 
     this.libService.getDownloads(newRange);
     this.dialog.closeAll();

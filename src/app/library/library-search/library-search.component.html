@@ -17,4 +17,6 @@
     <p class="desc">{{ libData.description }}</p>
     <a class="see-more" (click)="loadLib()">See more</a>
   </div>
+
+  <div class="lib-error" *ngIf="!isLoading && libError">Library not found</div>
 </div>

@@ -17,6 +17,7 @@ export class LibraryDownloadChartComponent implements OnInit {
   downloadCounts: number[] = [];
 
   totalDownloadCount: number = 0;
+  downloadPeriodDisplay: string = 'Yesterday';
 
   foods: {
     value: string;
@@ -30,11 +31,13 @@ export class LibraryDownloadChartComponent implements OnInit {
   constructor(private libService: LibraryService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.libService.getDownloads('2023-04-20:2023-04-21');
+    this.libService.getDownloads('last-day');
+
+    this.libService.libDownloadCustomRange.subscribe((data) => {
+      this.downloadPeriodDisplay = `from ${data.start} to ${data.end}`;
+    });
 
     this.libService.downloadStats.subscribe((data) => {
-      console.log(data);
-
       let totalDownloadCount = 0;
       data.count.forEach((value) => {
         totalDownloadCount += value;
@@ -106,7 +109,25 @@ export class LibraryDownloadChartComponent implements OnInit {
   }
 
   onSelectRange(range: any) {
+    if (range == 'custom-range') {
+      return;
+    }
     this.libService.getDownloads(range);
+
+    switch (range) {
+      case (range = 'last-day'):
+        this.downloadPeriodDisplay = 'Yesterday';
+        console.log(range);
+        break;
+
+      case (range = 'last-month'):
+        this.downloadPeriodDisplay = 'Last 30 days';
+        console.log(range);
+        break;
+
+      default:
+        this.downloadPeriodDisplay = 'Yesterday';
+    }
   }
 
   openDialog() {
