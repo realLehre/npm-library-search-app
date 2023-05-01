@@ -41,5 +41,14 @@
       </mat-menu></span
     >
   </p>
-  <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+  <div class="chart">
+    <app-loader *ngIf="isLoading"></app-loader>
+
+    <p-chart
+      type="bar"
+      [data]="basicData"
+      [options]="basicOptions"
+      *ngIf="!isLoading"
+    ></p-chart>
+  </div>
 </div>

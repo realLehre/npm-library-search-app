@@ -22,6 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class LibraryDetailsComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
+  isLoading: boolean = true;
   libSub!: Subscription;
 
   lib!: Library;
@@ -36,16 +37,22 @@ export class LibraryDetailsComponent
   constructor(private http: HttpClient, private libService: LibraryService) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('libData')) {
-      const libData = JSON.parse(localStorage.getItem('libData') || '{}');
-      this.getLibInfo(libData);
-    }
+    // this.isLoading = true;
+    // if (localStorage.getItem('libData')) {
+    //   const libData = JSON.parse(localStorage.getItem('libData') || '{}');
+    //   this.getLibInfo(libData);
+    // }
+    this.libService.isLoading.subscribe((status) => {
+      this.isLoading = status;
+    });
 
     this.libSub = this.libService.libInfo.subscribe({
       next: (data) => {
         this.getLibInfo(data);
       },
     });
+
+    console.log(this.isLoading);
   }
 
   ngAfterViewInit(): void {
@@ -53,6 +60,7 @@ export class LibraryDetailsComponent
   }
 
   getLibInfo(lib: Library) {
+    // this.isLoading = false;
     this.lib = lib;
     this.libName = lib.name;
     this.libCurrentVersion = Object.keys(lib.versions)[

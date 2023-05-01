@@ -12,19 +12,6 @@
   </div>
 
   <div class="lib-info" fxLayout="column" fxLayoutAlign="center center">
-    <div class="lds-spinner" *ngIf="isLoading">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <app-loader *ngIf="isLoading"></app-loader>
   </div>
 </div>

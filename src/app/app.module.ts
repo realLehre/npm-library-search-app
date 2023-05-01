@@ -22,6 +22,7 @@ import {
   RangeDialogComponent,
 } from './library/library-details/library-download-chart/download-range-dialog/range-dialog/range-dialog.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { LoaderComponent } from './common/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
     LibraryDetailsComponent,
     LibraryDownloadChartComponent,
     RangeDialogComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

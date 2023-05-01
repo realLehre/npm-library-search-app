@@ -10,6 +10,7 @@ import { RangeDialogComponent } from './download-range-dialog/range-dialog/range
   styleUrls: ['./library-download-chart.component.scss'],
 })
 export class LibraryDownloadChartComponent implements OnInit {
+  isLoading: boolean = false;
   basicData!: any;
   basicOptions!: any;
 
@@ -32,6 +33,9 @@ export class LibraryDownloadChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.libService.getDownloads('last-day');
+    this.libService.isLoadingDownload.subscribe((status) => {
+      this.isLoading = status;
+    });
 
     this.libService.libDownloadCustomRange.subscribe((data) => {
       this.downloadPeriodDisplay = `from ${data.start} to ${data.end}`;

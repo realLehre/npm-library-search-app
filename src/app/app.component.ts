@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Library } from './library/library.model';
+
 import { LibraryService } from './services/library.service';
 
 @Component({
@@ -9,7 +8,12 @@ import { LibraryService } from './services/library.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor() {}
+  isLoading: boolean = false;
+  constructor(private libService: LibraryService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.libService.isLoading.subscribe((status) => {
+      this.isLoading = status;
+    });
+  }
 }

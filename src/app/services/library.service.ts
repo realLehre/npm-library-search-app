@@ -15,6 +15,7 @@ export class LibraryService {
   libInfo = new Subject<Library>();
   libError = new Subject<boolean>();
   isLoading = new Subject<boolean>();
+  isLoadingDownload = new Subject<boolean>();
 
   downloadStats = new Subject<DownloadStat>();
 
@@ -48,11 +49,13 @@ export class LibraryService {
   }
 
   getDownloads(range: any) {
+    this.isLoadingDownload.next(true);
     this.http
       .get<LibraryDownloadInterface>(
         `https://api.npmjs.org/downloads/range/${range}/vue`
       )
       .subscribe((data) => {
+        this.isLoadingDownload.next(false);
         const downloads = [];
         const period = [];
 
