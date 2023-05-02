@@ -40,15 +40,15 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.router.navigate(['details']);
-
-    this.libService.getLibStats(this.searchForm.value.libraryName);
-    localStorage.setItem('libName', this.searchForm.value.libraryName);
+    const libName = this.searchForm.value.libraryName;
+    this.libService.getLibStats(libName);
+    this.router.navigate(['details/' + libName]);
+    localStorage.setItem('libName', libName);
     this.searchForm.reset();
   }
 
   loadLib() {
-    this.router.navigate(['/details']);
+    // this.router.navigate(['/details']);
   }
 
   ngOnDestroy(): void {

@@ -48,11 +48,11 @@ export class LibraryService {
       });
   }
 
-  getDownloads(range: any) {
+  getDownloads(range: any, lib: string) {
     this.isLoadingDownload.next(true);
     this.http
       .get<LibraryDownloadInterface>(
-        `https://api.npmjs.org/downloads/range/${range}/vue`
+        `https://api.npmjs.org/downloads/range/${range}/${lib}`
       )
       .subscribe((data) => {
         this.isLoadingDownload.next(false);

@@ -5,7 +5,7 @@ import { LibraryDetailsComponent } from './library/library-details/library-detai
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'details', component: LibraryDetailsComponent },
+  { path: 'details/:lib', component: LibraryDetailsComponent },
 ];
 
 @NgModule({

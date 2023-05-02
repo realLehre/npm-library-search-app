@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { LibraryService } from 'src/app/services/library.service';
 import { RangeDialogComponent } from './download-range-dialog/range-dialog/range-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-library-download-chart',
@@ -11,6 +12,7 @@ import { RangeDialogComponent } from './download-range-dialog/range-dialog/range
 })
 export class LibraryDownloadChartComponent implements OnInit {
   isLoading: boolean = false;
+  libName!: string;
   basicData!: any;
   basicOptions!: any;
 
@@ -29,10 +31,18 @@ export class LibraryDownloadChartComponent implements OnInit {
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
 
-  constructor(private libService: LibraryService, private dialog: MatDialog) {}
+  constructor(
+    private libService: LibraryService,
+    private dialog: MatDialog,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.libService.getDownloads('last-day');
+    this.route.params.subscribe((param) => {
+      this.libName = param['lib'];
+    });
+
+    this.libService.getDownloads('last-day', this.libName);
     this.libService.isLoadingDownload.subscribe((status) => {
       this.isLoading = status;
     });
@@ -116,7 +126,7 @@ export class LibraryDownloadChartComponent implements OnInit {
     if (range == 'custom-range') {
       return;
     }
-    this.libService.getDownloads(range);
+    this.libService.getDownloads(range, this.libName);
 
     switch (range) {
       case (range = 'last-day'):

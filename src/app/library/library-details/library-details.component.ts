@@ -13,6 +13,7 @@ import { LibraryService } from 'src/app/services/library.service';
 import { Library } from '../library.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-library-details',
@@ -26,25 +27,30 @@ export class LibraryDetailsComponent
   libSub!: Subscription;
 
   lib!: Library;
-  libName!: String;
-  libCurrentVersion!: String;
+  libName!: string;
+  libCurrentVersion!: string;
   libVersion: { date: string; version: string }[] = [];
 
   displayedColumns = ['date', 'version'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private http: HttpClient, private libService: LibraryService) {}
+  constructor(
+    private http: HttpClient,
+    private libService: LibraryService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    // this.isLoading = true;
-    // if (localStorage.getItem('libData')) {
-    //   const libData = JSON.parse(localStorage.getItem('libData') || '{}');
-    //   this.getLibInfo(libData);
-    // }
-    this.libService.isLoading.subscribe((status) => {
-      this.isLoading = status;
+    this.route.params.subscribe((param) => {
+      this.libName = param['lib'];
     });
+
+    // this.libService.getLibStats(this.libName);
+    // this.isLoading = true;
+    // const libData: Library = JSON.parse(
+    //   localStorage.getItem('libData') || '{}'
+    // );
 
     this.libSub = this.libService.libInfo.subscribe({
       next: (data) => {
@@ -52,7 +58,14 @@ export class LibraryDetailsComponent
       },
     });
 
-    console.log(this.isLoading);
+    this.libService.isLoading.subscribe((status) => {
+      this.isLoading = status;
+    });
+
+    // if (libData.name) {
+    //   this.isLoading = false;
+    //   this.getLibInfo(libData);
+    // }
   }
 
   ngAfterViewInit(): void {
@@ -60,14 +73,11 @@ export class LibraryDetailsComponent
   }
 
   getLibInfo(lib: Library) {
-    // this.isLoading = false;
     this.lib = lib;
     this.libName = lib.name;
     this.libCurrentVersion = Object.keys(lib.versions)[
       Object.keys(lib.versions).length - 1
     ];
-
-    console.log(lib);
 
     for (const key in lib.time) {
       this.libVersion.push({
@@ -78,6 +88,8 @@ export class LibraryDetailsComponent
 
     this.libVersion = this.libVersion.slice(2);
     this.dataSource.data = this.libVersion;
+    console.log(this.libVersion);
+    console.log(lib);
   }
 
   ngOnDestroy(): void {

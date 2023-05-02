@@ -1,19 +1,19 @@
 export interface Library {
-  name: String;
+  name: string;
   author: Object;
-  description: String;
-  homepage: String;
+  description: string;
+  homepage: string;
   bugs: Object;
   contributors: Array<Object>;
   distTags: Object;
-  keywords: Array<String>;
-  license: String;
+  keywords: Array<string>;
+  license: string;
   maintainers: Array<Object>;
-  readme: String;
+  readme: string;
   repository: Object;
   time: { [key: string]: string };
   users: Object;
   versions: Object;
-  _id: String;
-  _rev: String;
+  _id: string;
+  _rev: string;
 }
