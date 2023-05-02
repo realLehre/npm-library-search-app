@@ -47,10 +47,11 @@ export class LibraryDetailsComponent
     });
 
     // this.libService.getLibStats(this.libName);
+
     // this.isLoading = true;
-    // const libData: Library = JSON.parse(
-    //   localStorage.getItem('libData') || '{}'
-    // );
+    const libData: Library = JSON.parse(
+      localStorage.getItem('libData') || '{}'
+    );
 
     this.libSub = this.libService.libInfo.subscribe({
       next: (data) => {
@@ -69,6 +70,9 @@ export class LibraryDetailsComponent
   }
 
   ngAfterViewInit(): void {
+    // this.libService.libVersionSubject.subscribe((data) => {
+    //   this.dataSource.data = data;
+    // });
     this.dataSource.paginator = this.paginator;
   }
 
@@ -88,8 +92,6 @@ export class LibraryDetailsComponent
 
     this.libVersion = this.libVersion.slice(2);
     this.dataSource.data = this.libVersion;
-    console.log(this.libVersion);
-    console.log(lib);
   }
 
   ngOnDestroy(): void {

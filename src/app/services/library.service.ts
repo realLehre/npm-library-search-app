@@ -18,6 +18,7 @@ export class LibraryService {
   isLoadingDownload = new Subject<boolean>();
 
   downloadStats = new Subject<DownloadStat>();
+  libVersionSubject = new Subject<any>();
 
   libDownloadCustomRange = new Subject<{ start: string; end: string }>();
 
@@ -39,6 +40,18 @@ export class LibraryService {
           this.isLoading.next(false);
           this.libError.next(false);
           this.libInfo.next(data);
+
+          let libVersion = [];
+          for (const key in data.time) {
+            libVersion.push({
+              date: data.time[key].slice(-data.time[key].length, 10),
+              version: key,
+            });
+          }
+          libVersion = libVersion.slice(2);
+
+          this.libVersionSubject.next(libVersion);
+
           localStorage.setItem('libData', JSON.stringify(data));
         },
         error: (err) => {
