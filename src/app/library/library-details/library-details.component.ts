@@ -29,6 +29,8 @@ export class LibraryDetailsComponent
   libName!: string;
   libCurrentVersion!: string;
   libVersion: DataTable[] = [];
+  libGithub!: string;
+  libNpm!: string;
 
   displayedColumns: string[] = ['date', 'version'];
   dataSource = new MatTableDataSource<DataTable>();
@@ -57,6 +59,8 @@ export class LibraryDetailsComponent
 
         this.lib = data;
         this.libName = data.name;
+        this.libGithub = data.homepage;
+        this.libNpm = `https://www.npmjs.com/package/${data._id}`;
         this.libCurrentVersion = Object.keys(data.versions)[
           Object.keys(data.versions).length - 1
         ];

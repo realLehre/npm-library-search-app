@@ -7,12 +7,12 @@
         </div>
         <div class="lib-desc">{{ lib.description }}</div>
       </div>
-      <a href="" target="_blank" class="lib-homepage">Homepage</a>
+      <!-- <a href="" target="_blank" class="lib-homepage">Homepage</a> -->
     </div>
 
     <div class="lib-actions">
-      <a href="" class="github">Github</a>
-      <a href="" class="npm">Npm</a>
+      <a [href]="libGithub" class="github" target="_blank">Github</a>
+      <a [href]="libNpm" class="npm" target="_blank">Npm</a>
     </div>
 
     <div class="lib-versions">
