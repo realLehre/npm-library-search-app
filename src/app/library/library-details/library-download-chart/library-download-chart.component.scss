@@ -18,3 +18,11 @@
     margin-inline-end: auto;
   }
 }
+
+@media (max-width: 500px) {
+  .download-chart-container {
+    &-header {
+      font-size: 0.7rem;
+    }
+  }
+}
