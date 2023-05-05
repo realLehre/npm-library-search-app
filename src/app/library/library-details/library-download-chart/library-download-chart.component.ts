@@ -39,20 +39,16 @@ export class LibraryDownloadChartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((param) => {
-      this.libName = param['lib'];
-    });
-
     this.libService.isLoadingDownload.subscribe((status) => {
       this.isLoading = status;
     });
 
+    this.libService.getDownloads('last-day', this.libName);
     const downloadRange = localStorage.getItem('downloadStats');
     if (downloadRange) {
-      this.libService.getDownloads(downloadRange, this.libName);
-      this.periodDisplay(downloadRange);
+      // this.libService.getDownloads(downloadRange, this.libName);
+      // this.periodDisplay(downloadRange);
     } else {
-      this.libService.getDownloads('last-day', this.libName);
     }
 
     this.libService.libDownloadCustomRange.subscribe((data) => {

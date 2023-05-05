@@ -1,12 +1,14 @@
 @import "base-styles";
 
 .lib-details-container {
+  width: 100%;
+  overflow: hidden;
   margin-top: 20px;
   padding-bottom: 30px;
 }
 
 .lib {
-  width: 100%;
+  // width: 100%;
 }
 
 .lib-name-info {
@@ -84,4 +86,6 @@
 
 .download-chart {
   margin-top: 30px;
+  // width: 700px;
+  // overflow: scroll;
 }

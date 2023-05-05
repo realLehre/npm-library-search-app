@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private libService: LibraryService) {}
 
   ngOnInit(): void {
-    this.libService.isLoading.subscribe((status) => {
+    this.libService.appIsLoading.subscribe((status) => {
       this.isLoading = status;
     });
   }

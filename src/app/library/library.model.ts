@@ -17,3 +17,8 @@ export interface Library {
   _id: string;
   _rev: string;
 }
+
+export interface DataTable {
+  date: string;
+  version: string;
+}

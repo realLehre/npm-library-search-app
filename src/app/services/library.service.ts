@@ -15,10 +15,10 @@ export class LibraryService {
   libInfo = new Subject<Library>();
   libError = new Subject<boolean>();
   isLoading = new Subject<boolean>();
+  appIsLoading = new Subject<boolean>();
   isLoadingDownload = new Subject<boolean>();
 
   downloadStats = new Subject<DownloadStat>();
-  libVersionSubject = new Subject<any>();
 
   libDownloadCustomRange = new Subject<{ start: string; end: string }>();
 
@@ -26,6 +26,7 @@ export class LibraryService {
 
   getLibStats(libName: string) {
     this.isLoading.next(true);
+    this.appIsLoading.next(true);
     this.http
       .get<Library>(`https://registry.npmjs.org/${libName}`)
       .pipe(
@@ -38,24 +39,13 @@ export class LibraryService {
       .subscribe({
         next: (data) => {
           this.isLoading.next(false);
+          this.appIsLoading.next(false);
           this.libError.next(false);
           this.libInfo.next(data);
-
-          let libVersion = [];
-          for (const key in data.time) {
-            libVersion.push({
-              date: data.time[key].slice(-data.time[key].length, 10),
-              version: key,
-            });
-          }
-          libVersion = libVersion.slice(2);
-
-          this.libVersionSubject.next(libVersion);
-
-          localStorage.setItem('libData', JSON.stringify(data));
         },
         error: (err) => {
           this.isLoading.next(false);
+          this.appIsLoading.next(false);
           this.libError.next(true);
         },
       });

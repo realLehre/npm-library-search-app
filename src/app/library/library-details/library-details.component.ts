@@ -6,11 +6,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
-import { Subscription, map } from 'rxjs';
+import { Subscription, map, take } from 'rxjs';
 
 import { LibraryService } from 'src/app/services/library.service';
-import { Library } from '../library.model';
+import { DataTable, Library } from '../library.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
@@ -29,72 +28,58 @@ export class LibraryDetailsComponent
   lib!: Library;
   libName!: string;
   libCurrentVersion!: string;
-  libVersion: { date: string; version: string }[] = [];
+  libVersion: DataTable[] = [];
 
-  displayedColumns = ['date', 'version'];
-  dataSource = new MatTableDataSource<any>();
+  displayedColumns: string[] = ['date', 'version'];
+  dataSource = new MatTableDataSource<DataTable>();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private http: HttpClient,
     private libService: LibraryService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((param) => {
+    this.route.queryParams.subscribe((param) => {
       this.libName = param['lib'];
     });
 
-    // this.libService.getLibStats(this.libName);
-
-    // this.isLoading = true;
-    const libData: Library = JSON.parse(
-      localStorage.getItem('libData') || '{}'
-    );
-
-    this.libService.isLoading.subscribe((status) => {
+    this.libService.appIsLoading.subscribe((status) => {
       this.isLoading = status;
     });
 
-    this.libSub = this.libService.libInfo.subscribe({
+    this.libService.getLibStats(this.libName);
+
+    this.libSub = this.libService.libInfo.pipe(take(1)).subscribe({
       next: (data) => {
-        this.getLibInfo(data);
+        console.log(data);
+
+        this.lib = data;
+        this.libName = data.name;
+        this.libCurrentVersion = Object.keys(data.versions)[
+          Object.keys(data.versions).length - 1
+        ];
+
+        for (const key in data.time) {
+          this.libVersion.push({
+            date: data.time[key].slice(-data.time[key].length, 10),
+            version: key,
+          });
+        }
+
+        this.libVersion = this.libVersion.slice(2);
+
+        this.dataSource.data = this.libVersion;
       },
     });
-
-    if (libData.name) {
-      this.isLoading = false;
-      this.getLibInfo(libData);
-    }
   }
 
   ngAfterViewInit(): void {
-    // this.libService.libVersionSubject.subscribe((data) => {
-    //   this.dataSource.data = data;
-    // });
     this.dataSource.paginator = this.paginator;
   }
 
-  getLibInfo(lib: Library) {
-    this.lib = lib;
-    this.libName = lib.name;
-    this.libCurrentVersion = Object.keys(lib.versions)[
-      Object.keys(lib.versions).length - 1
-    ];
-
-    for (const key in lib.time) {
-      this.libVersion.push({
-        date: lib.time[key].slice(-lib.time[key].length, 10),
-        version: key,
-      });
-    }
-
-    this.libVersion = this.libVersion.slice(2);
-    this.dataSource.data = this.libVersion;
-  }
-
   ngOnDestroy(): void {
-    // this.libSub.unsubscribe();
+    this.libSub.unsubscribe();
   }
 }

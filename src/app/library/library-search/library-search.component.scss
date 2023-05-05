@@ -85,3 +85,9 @@
   color: white;
   padding: 8px;
 }
+
+@media (max-width: 500px) {
+  .form-group {
+    width: 100%;
+  }
+}

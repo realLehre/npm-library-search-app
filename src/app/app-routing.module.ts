@@ -7,8 +7,9 @@ import { RangeDialogComponent } from './library/library-details/library-download
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
-    path: 'details/:lib',
+    path: 'details',
     component: LibraryDetailsComponent,
+
     // children: [{ path: '?custom', component: RangeDialogComponent }],
   },
 ];
