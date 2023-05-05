@@ -78,6 +78,7 @@ export class LibraryService {
         }
 
         this.downloadStats.next({ count: downloads, period: period });
+        localStorage.setItem('downloadStats', range);
       });
   }
 }

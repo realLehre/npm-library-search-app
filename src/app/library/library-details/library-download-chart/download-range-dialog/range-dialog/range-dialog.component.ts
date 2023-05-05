@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { LibraryService } from 'src/app/services/library.service';
@@ -31,24 +31,42 @@ export class RangeDialogComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private libService: LibraryService,
-    private route: ActivatedRoute
+    @Inject(MAT_DIALOG_DATA) private data: { libName: string }
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.libName = this.data.libName;
+  }
 
   onSubmit() {
-    this.route.params.subscribe((param) => {
-      this.libName = param['lib'];
-    });
     const startDate = moment(this.range.value.start).format('YYYY-MM-DD');
     const endDate = moment(this.range.value.end).format('YYYY-MM-DD');
     const newRange = startDate + ':' + endDate;
-    this.libService.libDownloadCustomRange.next({
-      start: startDate,
-      end: endDate,
-    });
 
-    this.libService.getDownloads(newRange, this.libName);
+    localStorage.setItem(
+      'customRange',
+      JSON.stringify({
+        start: startDate,
+        end: endDate,
+      })
+    );
+
+    const customRange = JSON.parse(localStorage.getItem('customRange') || '{}');
+
+    if (customRange) {
+      this.updateCustomRange(customRange.start, customRange.end);
+    } else {
+      this.updateCustomRange(startDate, endDate);
+    }
+
     this.dialog.closeAll();
+  }
+
+  updateCustomRange(start: string, end: string) {
+    this.libService.libDownloadCustomRange.next({
+      start: start,
+      end: end,
+    });
+    this.libService.getDownloads(start + ':' + end, this.libName);
   }
 }

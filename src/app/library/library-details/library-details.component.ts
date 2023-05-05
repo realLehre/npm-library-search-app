@@ -53,20 +53,20 @@ export class LibraryDetailsComponent
       localStorage.getItem('libData') || '{}'
     );
 
+    this.libService.isLoading.subscribe((status) => {
+      this.isLoading = status;
+    });
+
     this.libSub = this.libService.libInfo.subscribe({
       next: (data) => {
         this.getLibInfo(data);
       },
     });
 
-    this.libService.isLoading.subscribe((status) => {
-      this.isLoading = status;
-    });
-
-    // if (libData.name) {
-    //   this.isLoading = false;
-    //   this.getLibInfo(libData);
-    // }
+    if (libData.name) {
+      this.isLoading = false;
+      this.getLibInfo(libData);
+    }
   }
 
   ngAfterViewInit(): void {
