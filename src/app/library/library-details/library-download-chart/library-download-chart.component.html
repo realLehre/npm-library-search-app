@@ -1,36 +1,56 @@
 <div class="download-chart-container">
-  <p class="download-chart-container-header">
-    <span class="download-count">{{ totalDownloadCount }}</span>
-    Downloads
-    <span
-      class="downloads-toggle"
-      [matMenuTriggerFor]="menu"
-      matTooltip="select downloads period"
-      >({{ downloadPeriodDisplay }})</span
-    >
-    <span
-      ><mat-menu #menu="matMenu">
+  <p
+    class="download-chart-container-header"
+    fxLayout
+    fxLayoutAlign="space-between center"
+  >
+    <span>
+      <span class="download-count">{{ totalDownloadCount }}</span>
+      downloads
+      <span
+        class="downloads-toggle"
+        [matMenuTriggerFor]="menu"
+        matTooltip="select downloads period"
+        >({{ downloadPeriodDisplay }})</span
+      >
+      <span
+        ><mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onSelectRange('today')">
+            <span>Today</span>
+          </button>
+          <button mat-menu-item (click)="onSelectRange('last-day')">
+            <span>Yesterday</span>
+          </button>
+
+          <button mat-menu-item (click)="onSelectRange('last-month')">
+            <span>Last 30 days</span>
+          </button>
+
+          <button
+            mat-menu-item
+            (click)="openDialog()"
+            (click)="onSelectRange('custom-range')"
+          >
+            <span>Custom range</span>
+          </button>
+        </mat-menu></span
+      >
+    </span>
+
+    <span class="chart-type">
+      <p [matMenuTriggerFor]="chartType">Select chart</p>
+      <mat-menu #chartType="matMenu">
         <button mat-menu-item (click)="onSelectRange('today')">
           <span>Today</span>
         </button>
         <button mat-menu-item (click)="onSelectRange('last-day')">
           <span>Yesterday</span>
         </button>
-        <!-- <button mat-menu-item (click)="onSelectRange('7-days')">
-          <span>Last 7 days from yesterday</span>
-        </button> -->
-        <!-- <button mat-menu-item (click)="onSelectRange('14-days')">
-          <span>Last 14 days</span>
-        </button> -->
+
         <button mat-menu-item (click)="onSelectRange('last-month')">
           <span>Last 30 days</span>
         </button>
-        <!-- <button mat-menu-item (click)="onSelectRange('this-week')">
-          <span>This week</span>
-        </button> -->
-        <!-- <button mat-menu-item (click)="onSelectRange('this-month')">
-          <span>This month</span>
-        </button> -->
+
         <button
           mat-menu-item
           (click)="openDialog()"

@@ -39,6 +39,9 @@ export class LibraryDownloadChartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((param) => {
+      this.libName = param['lib'];
+    });
     this.libService.isLoadingDownload.subscribe((status) => {
       this.isLoading = status;
     });
