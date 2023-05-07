@@ -7,42 +7,30 @@
 
   & input {
     width: 100%;
-    border: none;
+    border: 1px solid rgba($dark-color, 0.8);
+    border-radius: 50px;
     padding: 12px;
-    background: $main-color;
-    color: $light-text-color;
+    padding-left: 40px;
+    background: transparent;
+    color: $dark-color;
     font-size: 1rem;
-    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2);
 
     &:focus {
       outline: none;
     }
 
     &::placeholder {
-      color: $light-text-color;
+      color: $dark-color;
     }
   }
 
-  & button {
+  & i {
+    color: rgba($dark-color, 0.9);
+    font-size: 1rem;
     position: absolute;
-    background: rgb(0, 68, 255);
-    border: none;
     top: 50%;
-    right: 0;
+    left: 15px;
     transform: translateY(-50%);
-    height: 100%;
-    padding: 15px;
-    cursor: pointer;
-    transition: all 300ms ease-in-out;
-
-    &:hover {
-      background: rgb(0, 48, 179);
-    }
-
-    & i {
-      color: $light-text-color;
-      font-size: 1.2rem;
-    }
   }
 }
 
@@ -57,23 +45,6 @@
 
   & .desc {
     font-size: 1rem;
-  }
-
-  & .see-more {
-    display: inline-block;
-    margin-top: 20px;
-    background: $main-color;
-    font-size: 1rem;
-    text-decoration: none;
-    padding: 10px;
-    border: none;
-    color: $light-text-color;
-    cursor: pointer;
-    transition: all 200ms ease-in-out;
-
-    &:hover {
-      box-shadow: 1px 1px 4px rgb(82, 82, 82);
-    }
   }
 }
 

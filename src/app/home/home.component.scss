@@ -3,11 +3,17 @@
 #home-container {
   margin-top: 20px;
   text-align: center;
+  color: $dark-color;
 
-  & p {
-    font-size: 1.5rem;
+  & .hero-main-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
 
-    font-weight: 500;
+  & .hero-copy {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 10px;
   }
 }
 
