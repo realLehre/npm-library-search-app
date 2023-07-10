@@ -37,31 +37,52 @@
       >
     </span>
 
-    <span class="chart-type">
+    <span class="chart-type" fxLayout>
       <p [matMenuTriggerFor]="chartType">Select chart</p>
-      <mat-menu #chartType="matMenu">
-        <button mat-menu-item (click)="onSelectRange('today')">
-          <span>Today</span>
-        </button>
-        <button mat-menu-item (click)="onSelectRange('last-day')">
-          <span>Yesterday</span>
-        </button>
-
-        <button mat-menu-item (click)="onSelectRange('last-month')">
-          <span>Last 30 days</span>
+      <mat-menu #chartType="matMenu" class="chart-type-menu">
+        <button
+          mat-menu-item
+          (click)="onSelectChartType('bar')"
+          class="chart-type-button"
+          fxLayoutAlign="center center"
+        >
+          <img src="assets/bar chart.png" alt="" class="chart-img" />
+          <span class="chart-type-name">Bar chart</span>
         </button>
 
         <button
           mat-menu-item
-          (click)="openDialog()"
-          (click)="onSelectRange('custom-range')"
+          (click)="onSelectChartType('doughnut')"
+          class="chart-type-button"
+          fxLayoutAlign="center center"
         >
-          <span>Custom range</span>
+          <img src="assets/doughnut.png" alt="" class="chart-img r-img" />
+          <span class="chart-type-name">Doughnut</span>
+        </button>
+
+        <button
+          mat-menu-item
+          (click)="onSelectChartType('line')"
+          class="chart-type-button"
+          fxLayoutAlign="center center"
+        >
+          <img src="assets/line graph.png" alt="" class="chart-img l-img" />
+          <span class="chart-type-name">Line graph</span>
+        </button>
+
+        <button
+          mat-menu-item
+          (click)="onSelectChartType('today')"
+          class="chart-type-button"
+          fxLayoutAlign="center center"
+        >
+          <img src="assets/pie chart.png" alt="" class="chart-img r-img" />
+          <span class="chart-type-name">Pie chart</span>
         </button>
       </mat-menu></span
     >
   </p>
-  <div class="chart">
+  <div class="chart" #chart>
     <app-loader *ngIf="isLoading"></app-loader>
 
     <p-chart

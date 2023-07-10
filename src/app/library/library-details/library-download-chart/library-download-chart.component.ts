@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { DownloadStat, LibraryService } from 'src/app/services/library.service';
@@ -30,6 +30,8 @@ export class LibraryDownloadChartComponent implements OnInit {
     { value: 'pizza-1', viewValue: 'Pizza' },
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
+
+  chartType: any = 'bar';
 
   constructor(
     private libService: LibraryService,
@@ -173,5 +175,9 @@ export class LibraryDownloadChartComponent implements OnInit {
       width: '500px',
       height: '200px',
     });
+  }
+
+  onSelectChartType(type: string) {
+    this.chartType = type;
   }
 }

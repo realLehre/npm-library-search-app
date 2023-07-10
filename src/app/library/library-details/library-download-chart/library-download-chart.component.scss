@@ -23,6 +23,33 @@
   cursor: pointer;
 }
 
+::ng-deep .mat-menu-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.chat-type-button {
+  display: none;
+}
+
+.chart-img {
+  width: 40px;
+  margin-right: 5px;
+
+  &.r-img {
+    width: 35px;
+  }
+
+  &.l-img {
+    width: 45px;
+  }
+}
+
+.chart-type-name {
+  line-height: 15px;
+}
+
 @media (max-width: 500px) {
   .download-chart-container {
     &-header {

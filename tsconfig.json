@@ -25,7 +25,8 @@
       "stream": ["./node_modules/stream-browserify"],
       "http": ["./node_modules/stream-http"],
       "https": ["./node_modules/https-browserify"]
-    }
+    },
+    "exactOptionalPropertyTypes": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
