@@ -4,6 +4,7 @@ import { LibraryService } from '../../services/library.service';
 import { Router } from '@angular/router';
 import { Library } from '../library.model';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-library-search',
@@ -17,11 +18,17 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
   isLoading!: boolean;
   libError: boolean = false;
 
-  constructor(private libService: LibraryService, private router: Router) {}
+  text: string = '';
+
+  constructor(
+    private libService: LibraryService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
-      libraryName: new FormControl('', Validators.required),
+      libraryName: new FormControl('', [Validators.required]),
     });
 
     this.libSub = this.libService.libInfo.subscribe({
@@ -36,6 +43,18 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
 
     this.libService.isLoading.subscribe((status) => {
       this.isLoading = status;
+    });
+
+    this.searchForm.valueChanges.subscribe((value) => {
+      if (value.libraryName != '') {
+        this.http
+          .get(
+            `https://www.npmjs.com/search/suggestions?q=${value.libraryName}`
+          )
+          .subscribe((data) => {
+            console.log(data);
+          });
+      }
     });
   }
 

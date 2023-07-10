@@ -19,6 +19,10 @@
   }
 }
 
+.chart-type {
+  cursor: pointer;
+}
+
 @media (max-width: 500px) {
   .download-chart-container {
     &-header {

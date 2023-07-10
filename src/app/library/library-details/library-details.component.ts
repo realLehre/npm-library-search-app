@@ -61,9 +61,15 @@ export class LibraryDetailsComponent
         this.libName = data.name;
         this.libGithub = data.homepage;
         this.libNpm = `https://www.npmjs.com/package/${data._id}`;
-        this.libCurrentVersion = Object.keys(data.versions)[
+        let currentVersion = Object.keys(data.versions)[
           Object.keys(data.versions).length - 1
         ];
+        if (currentVersion.charAt(0) == '0') {
+          currentVersion = Object.keys(data.versions)[
+            Object.keys(data.versions).length - 2
+          ];
+        }
+        this.libCurrentVersion = currentVersion;
 
         for (const key in data.time) {
           this.libVersion.push({
@@ -73,9 +79,14 @@ export class LibraryDetailsComponent
         }
 
         this.libVersion = this.libVersion.slice(2);
+        console.log(this.libVersion);
 
         this.dataSource.data = this.libVersion;
       },
+    });
+
+    this.libService.testServer().subscribe((data) => {
+      console.log(data);
     });
   }
 

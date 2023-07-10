@@ -71,4 +71,8 @@ export class LibraryService {
         localStorage.setItem('downloadStats', range);
       });
   }
+
+  testServer() {
+    return this.http.get('http://localhost:3000/api/message');
+  }
 }
