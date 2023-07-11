@@ -1,5 +1,5 @@
 <div class="download-chart-container">
-  <p
+  <div
     class="download-chart-container-header"
     fxLayout
     fxLayoutAlign="space-between center"
@@ -81,15 +81,20 @@
         </button>
       </mat-menu></span
     >
-  </p>
+  </div>
   <div class="chart" #chart>
     <app-loader *ngIf="isLoading"></app-loader>
 
-    <p-chart
-      type="bar"
-      [data]="basicData"
-      [options]="basicOptions"
-      *ngIf="!isLoading"
-    ></p-chart>
+    <div class="chart-main">
+      <p-chart
+        type="bar"
+        [data]="basicData"
+        [options]="basicOptions"
+        [responsive]="true"
+        width="90vw"
+        height="500px"
+        *ngIf="!isLoading"
+      ></p-chart>
+    </div>
   </div>
 </div>

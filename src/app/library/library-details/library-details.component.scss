@@ -2,7 +2,6 @@
 
 .lib-details-container {
   width: 100%;
-  max-width: 1200px;
   margin-inline: auto;
   overflow: hidden;
   margin-top: 20px;
@@ -10,6 +9,9 @@
 }
 
 .lib-name-info {
+  width: 90%;
+  margin-inline: auto;
+
   & .lib-name-desc {
     & .lib-name {
       font-size: 3.2rem;
@@ -39,6 +41,8 @@
 }
 
 .lib-actions {
+  width: 90%;
+  margin-inline: auto;
   margin-top: 20px;
   & a {
     display: inline-block;
@@ -62,10 +66,10 @@
 }
 
 .lib-versions {
-  display: none;
   position: relative;
   margin-top: 30px;
-  width: 100%;
+  width: 90%;
+  margin-inline: auto;
   height: 500px;
   overflow: auto;
 
@@ -83,8 +87,32 @@
       width: 50%;
     }
   }
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $dark-color;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+  }
 }
 
 .download-chart {
+  width: 100%;
   margin-top: 30px;
+  overflow: hidden;
 }
