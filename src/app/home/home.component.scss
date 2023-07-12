@@ -4,9 +4,8 @@
   width: 100%;
   max-width: 1200px;
   height: 100%;
-  margin-inline: auto;
-  // margin-top: 0px;
   text-align: center;
+  padding: 0 20px;
   color: $light-text-color;
   background: url("../../assets/home-bg.jpg") no-repeat center center / cover;
   background-size: cover;
@@ -20,7 +19,7 @@
   & .hero-copy {
     font-size: 1.2rem;
     font-weight: 600;
-    margin-top: 10px;
+    margin-top: 30px;
   }
 
   & .search {
