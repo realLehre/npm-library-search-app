@@ -45,17 +45,17 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
       this.isLoading = status;
     });
 
-    this.searchForm.valueChanges.subscribe((value) => {
-      if (value.libraryName != '') {
-        this.http
-          .get(
-            `https://www.npmjs.com/search/suggestions?q=${value.libraryName}`
-          )
-          .subscribe((data) => {
-            console.log(data);
-          });
-      }
-    });
+    // this.searchForm.valueChanges.subscribe((value) => {
+    //   if (value.libraryName != '') {
+    //     this.http
+    //       .get(
+    //         `https://www.npmjs.com/search/suggestions?q=${value.libraryName}`
+    //       )
+    //       .subscribe((data) => {
+    //         console.log(data);
+    //       });
+    //   }
+    // });
   }
 
   onSubmit() {

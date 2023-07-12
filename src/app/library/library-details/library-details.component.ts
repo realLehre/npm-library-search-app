@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -35,7 +34,13 @@ export class LibraryDetailsComponent
   displayedColumns: string[] = ['date', 'version'];
   dataSource = new MatTableDataSource<DataTable>();
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) set paginator(
+    value: MatPaginator
+  ) {
+    if (this.dataSource) {
+      this.dataSource.paginator = value;
+    }
+  }
 
   constructor(
     private libService: LibraryService,
@@ -81,14 +86,12 @@ export class LibraryDetailsComponent
         this.dataSource.data = this.libVersion;
       },
     });
-
-    // this.libService.testServer().subscribe((data) => {
-    //   console.log(data);
-    // });
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    // if (this.dataSource) {
+    //   this.dataSource.paginator = this.paginator;
+    // }
   }
 
   ngOnDestroy(): void {
