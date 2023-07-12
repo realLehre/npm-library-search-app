@@ -37,7 +37,7 @@
       >
     </span>
 
-    <span class="chart-type" fxLayout>
+    <span class="chart-type" fxLayout fxLayoutAlign="center center">
       <p [matMenuTriggerFor]="chartType">Select chart</p>
       <mat-menu #chartType="matMenu" class="chart-type-menu">
         <button
@@ -72,18 +72,51 @@
 
         <button
           mat-menu-item
-          (click)="onSelectChartType('today')"
+          (click)="onSelectChartType('pie')"
           class="chart-type-button"
           fxLayoutAlign="center center"
         >
           <img src="assets/pie chart.png" alt="" class="chart-img r-img" />
           <span class="chart-type-name">Pie chart</span>
         </button>
-      </mat-menu></span
-    >
+      </mat-menu>
+
+      <span class="chart-type-icon">
+        <img
+          src="assets/bar chart.png"
+          alt=""
+          class="chart-icon"
+          *ngIf="chartTypeIcon == 'bar'"
+        />
+
+        <img
+          src="assets/doughnut.png"
+          alt=""
+          class="chart-icon d-icon"
+          *ngIf="chartTypeIcon == 'doughnut'"
+        />
+
+        <img
+          src="assets/line graph.png"
+          alt=""
+          class="chart-icon l-icon"
+          *ngIf="chartTypeIcon == 'line'"
+        />
+
+        <img
+          src="assets/pie chart.png"
+          alt=""
+          class="chart-icon p-icon"
+          *ngIf="chartTypeIcon == 'pie'"
+        />
+      </span>
+    </span>
   </div>
+
   <div class="chart" #chart>
-    <app-loader *ngIf="isLoading"></app-loader>
+    <div class="chart-loader">
+      <app-loader *ngIf="isLoading"></app-loader>
+    </div>
 
     <div class="chart-main">
       <p-chart
@@ -92,8 +125,38 @@
         [options]="basicOptions"
         [responsive]="true"
         width="90vw"
-        height="500px"
-        *ngIf="!isLoading"
+        height="400px"
+        *ngIf="!isLoading && chartTypeIcon == 'bar'"
+      ></p-chart>
+
+      <p-chart
+        type="pie"
+        [data]="basicData"
+        [options]="basicOptions"
+        [responsive]="true"
+        width="90vw"
+        height="400px"
+        *ngIf="!isLoading && chartTypeIcon == 'pie'"
+      ></p-chart>
+
+      <p-chart
+        type="doughnut"
+        [data]="basicData"
+        [options]="basicOptions"
+        [responsive]="true"
+        width="90vw"
+        height="400px"
+        *ngIf="!isLoading && chartTypeIcon == 'doughnut'"
+      ></p-chart>
+
+      <p-chart
+        type="line"
+        [data]="basicData"
+        [options]="basicOptions"
+        [responsive]="true"
+        width="90vw"
+        height="300px"
+        *ngIf="!isLoading && chartTypeIcon == 'line'"
       ></p-chart>
     </div>
   </div>

@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 import { DownloadStat, LibraryService } from 'src/app/services/library.service';
 import { RangeDialogComponent } from './download-range-dialog/range-dialog/range-dialog.component';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-library-download-chart',
   templateUrl: './library-download-chart.component.html',
   styleUrls: ['./library-download-chart.component.scss'],
 })
-export class LibraryDownloadChartComponent implements OnInit {
+export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
   isLoading: boolean = false;
   libName!: string;
   basicData!: any;
@@ -31,7 +32,7 @@ export class LibraryDownloadChartComponent implements OnInit {
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
 
-  chartType: any = 'bar';
+  chartTypeIcon: string = 'bar';
 
   constructor(
     private libService: LibraryService,
@@ -47,6 +48,8 @@ export class LibraryDownloadChartComponent implements OnInit {
     this.libService.isLoadingDownload.subscribe((status) => {
       this.isLoading = status;
     });
+
+    console.log(this.chartTypeIcon);
 
     this.libService.getDownloads('last-day', this.libName);
     const downloadRange = localStorage.getItem('downloadStats');
@@ -69,17 +72,32 @@ export class LibraryDownloadChartComponent implements OnInit {
     });
   }
 
+  ngAfterViewChecked(): void {
+    // console.log(this.chartTypeIcon);
+    // this.chartTypeIcon = this.chartTypeIcon;
+  }
+
   onSelectRange(range: any) {
     if (range == 'custom-range') {
       return;
     }
-    this.libService.getDownloads(range, this.libName);
+
+    if (range == 'today') {
+      const date = moment(new Date()).format('YYYY-MM-DD');
+      this.libService.getDownloads(date, this.libName);
+    } else {
+      this.libService.getDownloads(range, this.libName);
+    }
 
     this.periodDisplay(range);
   }
 
   periodDisplay(range: string) {
     switch (range) {
+      case (range = 'today'):
+        this.downloadPeriodDisplay = 'Today';
+        break;
+
       case (range = 'last-day'):
         this.downloadPeriodDisplay = 'Yesterday';
         break;
@@ -178,6 +196,6 @@ export class LibraryDownloadChartComponent implements OnInit {
   }
 
   onSelectChartType(type: string) {
-    this.chartType = type;
+    this.chartTypeIcon = type;
   }
 }

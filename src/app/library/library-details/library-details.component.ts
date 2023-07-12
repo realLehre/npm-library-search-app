@@ -55,8 +55,6 @@ export class LibraryDetailsComponent
 
     this.libSub = this.libService.libInfo.pipe(take(1)).subscribe({
       next: (data) => {
-        console.log(data);
-
         this.lib = data;
         this.libName = data.name;
         this.libGithub = data.homepage;
@@ -79,15 +77,14 @@ export class LibraryDetailsComponent
         }
 
         this.libVersion = this.libVersion.slice(2);
-        console.log(this.libVersion);
 
         this.dataSource.data = this.libVersion;
       },
     });
 
-    this.libService.testServer().subscribe((data) => {
-      console.log(data);
-    });
+    // this.libService.testServer().subscribe((data) => {
+    //   console.log(data);
+    // });
   }
 
   ngAfterViewInit(): void {
