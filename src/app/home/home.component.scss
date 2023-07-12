@@ -1,6 +1,8 @@
 @import "base-styles";
 
 #home-container {
+  width: 90%;
+  margin-inline: auto;
   margin-top: 20px;
   text-align: center;
   color: $dark-color;
