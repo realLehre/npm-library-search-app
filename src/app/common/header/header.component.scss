@@ -1,6 +1,8 @@
 @import "base-styles";
 
 #header-container {
+  position: fixed;
+  width: 100%;
   padding: 20px 0;
   background: $light-text-color;
   color: $dark-color;
@@ -8,6 +10,7 @@
 
 #header {
   width: 90%;
+  margin-inline: auto;
   max-width: 1200px;
 
   & .logo {

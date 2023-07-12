@@ -1,11 +1,15 @@
 @import "base-styles";
 
 #home-container {
-  width: 90%;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
   margin-inline: auto;
-  margin-top: 20px;
+  // margin-top: 0px;
   text-align: center;
-  color: $dark-color;
+  color: $light-text-color;
+  background: url("../../assets/home-bg.jpg") no-repeat center center / cover;
+  background-size: cover;
 
   & .hero-main-text {
     font-size: 2.5rem;
@@ -18,12 +22,37 @@
     font-weight: 600;
     margin-top: 10px;
   }
+
+  & .search {
+    width: 100%;
+    margin-top: 50px;
+  }
+
+  .lib-info {
+    margin-top: 30px;
+  }
+
+  & .hero-main-text,
+  & .hero-copy,
+  & .search {
+    position: relative;
+    z-index: 2;
+  }
 }
 
-.search {
-  margin-top: 50px;
+.bg-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 1;
+  opacity: 0.9;
+  filter: blur(50px);
+  -webkit-filter: blur(50px);
 }
 
-.lib-info {
-  margin-top: 30px;
+.bg-img {
+  width: 100%;
 }

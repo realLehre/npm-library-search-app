@@ -7,12 +7,12 @@
 
   & input {
     width: 100%;
-    border: 1px solid rgba($dark-color, 0.8);
+    border: 1px solid rgba($light-text-color, 0.8);
     border-radius: 50px;
     padding: 12px;
     padding-left: 40px;
     background: transparent;
-    color: $dark-color;
+    color: $light-text-color;
     font-size: 1rem;
 
     &:focus {
@@ -20,12 +20,12 @@
     }
 
     &::placeholder {
-      color: $dark-color;
+      color: $light-text-color;
     }
   }
 
   & i {
-    color: rgba($dark-color, 0.9);
+    color: rgba($light-text-color, 0.9);
     font-size: 1rem;
     position: absolute;
     top: 50%;

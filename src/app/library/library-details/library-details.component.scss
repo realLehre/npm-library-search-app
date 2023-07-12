@@ -1,17 +1,20 @@
 @import "base-styles";
 
 .lib-details-container {
-  width: 100%;
+  width: 90%;
+  max-width: 1200px;
   margin-inline: auto;
   overflow: hidden;
   margin-top: 20px;
   padding-bottom: 30px;
 }
 
-.lib-name-info {
+.lib {
   width: 90%;
   margin-inline: auto;
+}
 
+.lib-name-info {
   & .lib-name-desc {
     & .lib-name {
       font-size: 3.2rem;
@@ -41,9 +44,7 @@
 }
 
 .lib-actions {
-  width: 90%;
   margin-inline: auto;
-  margin-top: 20px;
   & a {
     display: inline-block;
     text-decoration: none;
@@ -68,8 +69,6 @@
 .lib-versions {
   position: relative;
   margin-top: 30px;
-  width: 90%;
-  margin-inline: auto;
   height: 500px;
   overflow: auto;
 
@@ -101,7 +100,7 @@
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: $dark-color;
+    background: rgba($dark-color, 0.6);
     border-radius: 10px;
   }
 
