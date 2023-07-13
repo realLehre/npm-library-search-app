@@ -18,6 +18,7 @@
           <button mat-menu-item (click)="onSelectRange('today')">
             <span>Today</span>
           </button>
+
           <button mat-menu-item (click)="onSelectRange('last-day')">
             <span>Yesterday</span>
           </button>
@@ -124,7 +125,7 @@
         [data]="basicData"
         [options]="basicOptions"
         [responsive]="true"
-        width="90vw"
+        width="100vw"
         height="400px"
         *ngIf="!isLoading && chartTypeIcon == 'bar'"
       ></p-chart>
@@ -134,7 +135,7 @@
         [data]="basicData"
         [options]="basicOptions"
         [responsive]="true"
-        width="90vw"
+        width="100vw"
         height="400px"
         *ngIf="!isLoading && chartTypeIcon == 'pie'"
       ></p-chart>
@@ -144,7 +145,7 @@
         [data]="basicData"
         [options]="basicOptions"
         [responsive]="true"
-        width="90vw"
+        width="100vw"
         height="400px"
         *ngIf="!isLoading && chartTypeIcon == 'doughnut'"
       ></p-chart>
@@ -154,7 +155,7 @@
         [data]="basicData"
         [options]="basicOptions"
         [responsive]="true"
-        width="90vw"
+        width="100vw"
         height="300px"
         *ngIf="!isLoading && chartTypeIcon == 'line'"
       ></p-chart>

@@ -49,8 +49,6 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
       this.isLoading = status;
     });
 
-    console.log(this.chartTypeIcon);
-
     this.libService.getDownloads('last-day', this.libName);
     const downloadRange = localStorage.getItem('downloadStats');
     if (downloadRange) {
@@ -69,6 +67,7 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
     this.libService.downloadStats.subscribe((data) => {
       this.loadChart(data);
+      console.log(data);
     });
   }
 
