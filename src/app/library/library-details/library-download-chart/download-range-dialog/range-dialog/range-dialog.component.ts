@@ -38,6 +38,12 @@ export class RangeDialogComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.range.value.start == null || this.range.value.end == null) {
+      this.dialog.closeAll();
+
+      return;
+    }
+
     const startDate = moment(this.range.value.start).format('YYYY-MM-DD');
     const endDate = moment(this.range.value.end).format('YYYY-MM-DD');
     const newRange = startDate + ':' + endDate;
