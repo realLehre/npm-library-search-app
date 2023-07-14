@@ -23,6 +23,8 @@ import {
 } from './library/library-details/library-download-chart/download-range-dialog/range-dialog/range-dialog.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { LoaderComponent } from './common/loader/loader.component';
+import { LibraryVersionComponent } from './library/library-details/library-version/library-version.component';
+import { LibraryService } from './services/library.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { LoaderComponent } from './common/loader/loader.component';
     LibraryDownloadChartComponent,
     RangeDialogComponent,
     LoaderComponent,
+    LibraryVersionComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,10 @@ import { LoaderComponent } from './common/loader/loader.component';
     BrowserAnimationsModule,
     MomentDateModule,
   ],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    LibraryService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

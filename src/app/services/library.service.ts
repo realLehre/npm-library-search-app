@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Subject } from 'rxjs';
 
-import { Library } from '../library/library.model';
+import { DataTable, Library } from '../library/library.model';
 import { LibraryDownloadInterface } from '../library/library-details/library-download-chart/library-download.model';
 
 export interface DownloadStat {
@@ -21,6 +21,8 @@ export class LibraryService {
   downloadStats = new Subject<DownloadStat>();
 
   libDownloadCustomRange = new Subject<{ start: string; end: string }>();
+  libVersion: DataTable[] = [];
+  libCommonInfo = new Subject<any>();
 
   constructor(private http: HttpClient) {}
 
@@ -42,6 +44,29 @@ export class LibraryService {
           this.appIsLoading.next(false);
           this.libError.next(false);
           this.libInfo.next(data);
+
+          let currentVersion = Object.keys(data.versions)[
+            Object.keys(data.versions).length - 1
+          ];
+          if (currentVersion.charAt(0) == '0') {
+            currentVersion = Object.keys(data.versions)[
+              Object.keys(data.versions).length - 2
+            ];
+          }
+
+          for (const key in data.time) {
+            this.libVersion.push({
+              date: data.time[key].slice(-data.time[key].length, 10),
+              version: key,
+            });
+          }
+
+          this.libVersion = this.libVersion.slice(2);
+
+          this.libCommonInfo.next({
+            currentVersion: currentVersion,
+            libVersion: this.libVersion,
+          });
         },
         error: (err) => {
           this.isLoading.next(false);
@@ -68,6 +93,7 @@ export class LibraryService {
         }
 
         this.downloadStats.next({ count: downloads, period: period });
+
         localStorage.setItem('downloadStats', range);
       });
   }

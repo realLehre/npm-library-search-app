@@ -30,17 +30,7 @@ export class LibraryDetailsComponent
   libVersion: DataTable[] = [];
   libGithub!: string;
   libNpm!: string;
-
-  displayedColumns: string[] = ['date', 'version'];
-  dataSource = new MatTableDataSource<DataTable>();
-
-  @ViewChild(MatPaginator, { static: false }) set paginator(
-    value: MatPaginator
-  ) {
-    if (this.dataSource) {
-      this.dataSource.paginator = value;
-    }
-  }
+  libAuthor!: string;
 
   constructor(
     private libService: LibraryService,
@@ -63,35 +53,23 @@ export class LibraryDetailsComponent
         this.lib = data;
         this.libName = data.name;
         this.libGithub = data.homepage;
+        if (data.author) {
+          for (const key in data.author) {
+            this.libAuthor = data.author[key];
+          }
+        }
         this.libNpm = `https://www.npmjs.com/package/${data._id}`;
-        let currentVersion = Object.keys(data.versions)[
-          Object.keys(data.versions).length - 1
-        ];
-        if (currentVersion.charAt(0) == '0') {
-          currentVersion = Object.keys(data.versions)[
-            Object.keys(data.versions).length - 2
-          ];
-        }
-        this.libCurrentVersion = currentVersion;
-
-        for (const key in data.time) {
-          this.libVersion.push({
-            date: data.time[key].slice(-data.time[key].length, 10),
-            version: key,
-          });
-        }
-
-        this.libVersion = this.libVersion.slice(2);
-
-        this.dataSource.data = this.libVersion;
+        console.log(this.lib);
       },
+    });
+
+    this.libService.libCommonInfo.subscribe((info) => {
+      this.libCurrentVersion = info.currentVersion;
     });
   }
 
   ngAfterViewInit(): void {
-    // if (this.dataSource) {
-    //   this.dataSource.paginator = this.paginator;
-    // }
+    this.libService.getLibStats(this.libName);
   }
 
   ngOnDestroy(): void {

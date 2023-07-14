@@ -1,6 +1,6 @@
 export interface Library {
   name: string;
-  author: Object;
+  author: { [key: string]: string };
   description: string;
   homepage: string;
   bugs: Object;
