@@ -24,6 +24,8 @@ export class LibraryService {
   libVersion: DataTable[] = [];
   libCommonInfo = new Subject<any>();
 
+  comparedLibNames = new Subject<any>();
+
   constructor(private http: HttpClient) {}
 
   getLibStats(libName: string) {
@@ -77,8 +79,16 @@ export class LibraryService {
       });
   }
 
-  getDownloads(range: any, lib: string) {
+  getDownloads(range: any, lib: string, compare: boolean) {
     this.isLoadingDownload.next(true);
+
+    if (compare) {
+      this.http
+        .get(`https://api.npmjs.org/downloads/range/last-month/npm,express`)
+        .subscribe((value) => {
+          console.log(value);
+        });
+    }
 
     this.http
       .get<LibraryDownloadInterface>(

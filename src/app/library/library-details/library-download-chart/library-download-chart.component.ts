@@ -43,7 +43,8 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
       this.isLoading = status;
     });
 
-    this.libService.getDownloads('last-day', this.libName);
+    this.onSelectRange('last-day');
+    // this.libService.getDownloads('last-day', this.libName, false);
 
     const downloadRange = localStorage.getItem('downloadStats');
 
@@ -61,11 +62,27 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
       );
     });
 
-    this.libService.compareDownloads();
+    // this.libService.compareDownloads();
 
-    const dialogRef2 = this.dialog.open(CompareDownloadsComponent, {
-      width: '500px',
-      height: '200px',
+    // const dialogRef2 = this.dialog.open(CompareDownloadsComponent, {
+    //   width: '500px',
+    //   height: '50%',
+    // });
+
+    this.libService.comparedLibNames.subscribe((value) => {
+      let libNames: any = [];
+      let range = localStorage.getItem('range');
+
+      value.libNames.forEach((value: { [key: string]: any }) => {
+        for (const key in value) {
+          libNames.push(value[key]);
+        }
+      });
+
+      libNames = libNames.join(',');
+      this.libService.getDownloads(range, libNames, true);
+      // console.log(libNames);
+      // console.log(range);
     });
   }
 
@@ -86,15 +103,16 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
   }
 
   onSelectRange(range: any) {
+    localStorage.setItem('range', range);
     if (range == 'custom-range') {
       return;
     }
 
     if (range == 'today') {
       const date = moment(new Date()).format('YYYY-MM-DD');
-      this.libService.getDownloads(date, this.libName);
+      this.libService.getDownloads(date, this.libName, false);
     } else {
-      this.libService.getDownloads(range, this.libName);
+      this.libService.getDownloads(range, this.libName, false);
     }
 
     this.downloadChartService.periodDisplay(range);

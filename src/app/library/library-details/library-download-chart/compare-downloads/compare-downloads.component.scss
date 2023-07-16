@@ -3,28 +3,51 @@
 #compare-form {
   width: 60%;
   margin-inline: auto;
-  & .form-item {
-    width: 100%;
 
+  & .form-group {
     &:not(:last-child) {
       margin-bottom: 15px;
     }
 
-    & label {
-      font-size: 0.8rem;
-      font-weight: 700;
+    & .form-item {
+      width: 100%;
+
+      & label {
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      & input {
+        width: 100%;
+        margin-top: 3px;
+        display: block;
+        padding: 8px 10px;
+        border: 1px solid rgba($dark-color, 0.5);
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}
+
+.form-actions {
+  margin-top: 20px;
+  & button {
+    border: none;
+    background: $dark-color;
+    color: $light-text-color;
+    padding: 10px;
+    cursor: pointer;
+
+    &.add-input {
+      margin-left: 10px;
+      background: rgba($dark-color, 0.5);
     }
 
-    & input {
-      width: 100%;
-      margin-top: 3px;
-      display: block;
-      padding: 8px 10px;
-      border: 1px solid rgba($dark-color, 0.5);
-
-      &:focus {
-        outline: none;
-      }
+    &:hover {
+      background: rgba($dark-color, 0.8);
     }
   }
 }

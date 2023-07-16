@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { DownloadChartService } from 'src/app/services/download-chart-service.service';
+import { LibraryService } from 'src/app/services/library.service';
 
 @Component({
   selector: 'app-compare-downloads',
@@ -9,11 +12,14 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 export class CompareDownloadsComponent implements OnInit {
   compareForm!: FormGroup;
 
-  constructor() {}
+  constructor(private libService: LibraryService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.compareForm = new FormGroup({
       libNames: new FormArray([
+        new FormGroup({
+          libraryName: new FormControl(null),
+        }),
         new FormGroup({
           libraryName: new FormControl(null),
         }),
@@ -25,7 +31,17 @@ export class CompareDownloadsComponent implements OnInit {
     return (<FormArray>this.compareForm.get('libNames')).controls;
   }
 
+  addInputs() {
+    (<FormArray>this.compareForm.get('libNames')).push(
+      new FormGroup({
+        libraryName: new FormControl(null),
+      })
+    );
+  }
+
   onSubmit() {
-    console.log(this.compareForm.value);
+    this.libService.comparedLibNames.next(this.compareForm.value);
+
+    this.dialog.closeAll();
   }
 }

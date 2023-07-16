@@ -7,16 +7,7 @@
         [formGroupName]="i"
       >
         <div class="form-item">
-          <label>Library 1</label>
-          <input
-            type="text"
-            placeholder="enter library name"
-            [formControlName]="'libraryName'"
-          />
-        </div>
-
-        <div class="form-item">
-          <label>Library 1</label>
+          <label>Library {{ i + 1 }}</label>
           <input
             type="text"
             placeholder="enter library name"
@@ -26,6 +17,11 @@
       </div>
     </div>
 
-    <button type="submit">Submit</button>
+    <div class="form-actions">
+      <button type="submit">Submit</button>
+      <button type="button" class="add-input" (click)="addInputs()">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
   </form>
 </div>

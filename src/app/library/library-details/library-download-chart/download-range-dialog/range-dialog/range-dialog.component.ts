@@ -72,6 +72,6 @@ export class RangeDialogComponent implements OnInit {
       start: start,
       end: end,
     });
-    this.libService.getDownloads(start + ':' + end, this.libName);
+    this.libService.getDownloads(start + ':' + end, this.libName, false);
   }
 }
