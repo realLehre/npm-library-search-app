@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { DataTable, Library } from '../library/library.model';
 import { LibraryDownloadInterface } from '../library/library-details/library-download-chart/library-download.model';
@@ -84,9 +85,44 @@ export class LibraryService {
 
     if (compare) {
       this.http
-        .get(`https://api.npmjs.org/downloads/range/last-month/npm,express`)
-        .subscribe((value) => {
-          console.log(value);
+        .get<{
+          [key: string]: {
+            downloads: [key: { day: string; downloads: number }];
+            end: string;
+            package: string;
+            start: string;
+          };
+        }>(`https://api.npmjs.org/downloads/range/last-month/npm,express`)
+        .subscribe((data) => {
+          this.isLoadingDownload.next(false);
+          const comparedPackagesNames = [];
+          const comparedPackagesDownloads = [];
+
+          for (const key in data) {
+            // console.log(data[key]);
+
+            comparedPackagesNames.push(data[key].package);
+
+            comparedPackagesDownloads.push(data[key].downloads);
+          }
+
+          // for (const Key in comparedPackagesDownloads) {
+          //   mainComparedPackagesDownloads.push(comparedPackagesDownloads[Key]);
+          // }
+
+          comparedPackagesDownloads.forEach(
+            (downloadPackage: { downloads: number; day: string }[]) => {
+              const mainComparedPackagesDownloads: any[] = [];
+              downloadPackage.forEach((v) => {
+                console.log(v.downloads);
+                mainComparedPackagesDownloads.push(v.downloads);
+              });
+              console.log(mainComparedPackagesDownloads);
+            }
+          );
+          console.log(comparedPackagesDownloads);
+
+          // console.log(comparedPackagesNames);
         });
     }
 
@@ -95,6 +131,8 @@ export class LibraryService {
         `https://api.npmjs.org/downloads/range/${range}/${lib}`
       )
       .subscribe((data) => {
+        console.log(data);
+
         this.isLoadingDownload.next(false);
         const downloads = [];
         const period = [];

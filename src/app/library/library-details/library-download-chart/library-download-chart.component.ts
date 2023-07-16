@@ -64,10 +64,10 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
     // this.libService.compareDownloads();
 
-    // const dialogRef2 = this.dialog.open(CompareDownloadsComponent, {
-    //   width: '500px',
-    //   height: '50%',
-    // });
+    const dialogRef2 = this.dialog.open(CompareDownloadsComponent, {
+      width: '500px',
+      height: '50%',
+    });
 
     this.libService.comparedLibNames.subscribe((value) => {
       let libNames: any = [];
