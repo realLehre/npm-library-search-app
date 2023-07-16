@@ -1,7 +1,5 @@
 <div class="download-chart-container">
-  <div class="chart-loader">
-    <app-loader *ngIf="isLoading"></app-loader>
-  </div>
+  <p class="download-chart-header">Downloads</p>
   <div
     class="download-chart-container-header"
     fxLayout
@@ -117,8 +115,11 @@
     </span>
   </div>
 
-  <div class="chart" #chart>
+  <div class="chart" #chart [ngClass]="{ scroll_bar: !isLoading }">
     <div class="chart-main">
+      <div class="chart-loader">
+        <app-loader *ngIf="isLoading"></app-loader>
+      </div>
       <p-chart
         type="bar"
         [data]="basicData"
@@ -159,5 +160,11 @@
         *ngIf="!isLoading && chartTypeIcon == 'line'"
       ></p-chart>
     </div>
+  </div>
+
+  <div class="compare">
+    <p class="compare-header" (click)="openCompareDialog()">
+      Compare downloads
+    </p>
   </div>
 </div>

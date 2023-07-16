@@ -100,6 +100,14 @@ export class LibraryService {
       });
   }
 
+  compareDownloads() {
+    this.http
+      .get(`https://api.npmjs.org/downloads/range/last-month/npm,express`)
+      .subscribe((value) => {
+        console.log(value);
+      });
+  }
+
   testServer() {
     return this.http.get('http://localhost:3000/api/message');
   }

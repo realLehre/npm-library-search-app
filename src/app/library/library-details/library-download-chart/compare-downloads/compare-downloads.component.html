@@ -1,0 +1,31 @@
+<div class="compare-container">
+  <form [formGroup]="compareForm" id="compare-form" (submit)="onSubmit()">
+    <div class="form-group-container" formArrayName="libNames">
+      <div
+        class="form-group"
+        *ngFor="let libNameControl of formArrayControl; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="form-item">
+          <label>Library 1</label>
+          <input
+            type="text"
+            placeholder="enter library name"
+            [formControlName]="'libraryName'"
+          />
+        </div>
+
+        <div class="form-item">
+          <label>Library 1</label>
+          <input
+            type="text"
+            placeholder="enter library name"
+            [formControlName]="'libraryName'"
+          />
+        </div>
+      </div>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>

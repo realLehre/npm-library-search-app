@@ -1,11 +1,12 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
-import { DownloadStat, LibraryService } from 'src/app/services/library.service';
+import { LibraryService } from 'src/app/services/library.service';
 import { RangeDialogComponent } from './download-range-dialog/range-dialog/range-dialog.component';
 import { DownloadChartService } from 'src/app/services/download-chart-service.service';
+import { CompareDownloadsComponent } from './compare-downloads/compare-downloads.component';
 
 @Component({
   selector: 'app-library-download-chart',
@@ -40,7 +41,6 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
     this.libService.isLoadingDownload.subscribe((status) => {
       this.isLoading = status;
-      console.log(status);
     });
 
     this.libService.getDownloads('last-day', this.libName);
@@ -59,6 +59,13 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
         'customRangeDisplay',
         JSON.stringify(`from ${data.start} to ${data.end}`)
       );
+    });
+
+    this.libService.compareDownloads();
+
+    const dialogRef2 = this.dialog.open(CompareDownloadsComponent, {
+      width: '500px',
+      height: '200px',
     });
   }
 
@@ -95,6 +102,14 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
   openDialog() {
     const dialogRef = this.dialog.open(RangeDialogComponent, {
+      data: { libName: this.libName },
+      width: '500px',
+      height: '200px',
+    });
+  }
+
+  openCompareDialog() {
+    const dialogRef = this.dialog.open(CompareDownloadsComponent, {
       data: { libName: this.libName },
       width: '500px',
       height: '200px',

@@ -46,7 +46,7 @@ export class LibraryDetailsComponent
       this.isLoading = status;
     });
 
-    this.libService.getLibStats(this.libName);
+    // this.libService.getLibStats(this.libName);
 
     this.libSub = this.libService.libInfo.pipe(take(1)).subscribe({
       next: (data) => {

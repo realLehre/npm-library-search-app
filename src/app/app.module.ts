@@ -26,6 +26,7 @@ import { LoaderComponent } from './common/loader/loader.component';
 import { LibraryVersionComponent } from './library/library-details/library-version/library-version.component';
 import { LibraryService } from './services/library.service';
 import { LibraryErrorComponent } from './library/lib-error/library-error.component';
+import { CompareDownloadsComponent } from './library/library-details/library-download-chart/compare-downloads/compare-downloads.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { LibraryErrorComponent } from './library/lib-error/library-error.compone
     LoaderComponent,
     LibraryVersionComponent,
     LibraryErrorComponent,
+    CompareDownloadsComponent,
   ],
   imports: [
     BrowserModule,
