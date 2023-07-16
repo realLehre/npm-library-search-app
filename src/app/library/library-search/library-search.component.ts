@@ -62,8 +62,16 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
     const libName = this.searchForm.value.libraryName.toLowerCase();
 
     this.libService.getLibStats(libName);
-    this.router.navigate(['/details'], { queryParams: { lib: libName } });
+
     this.libService.appIsLoading.next(true);
+
+    this.libService.libError.subscribe((error) => {
+      if (error) {
+        this.router.navigate(['/error']);
+      } else {
+        this.router.navigate(['/details'], { queryParams: { lib: libName } });
+      }
+    });
 
     this.searchForm.reset();
   }

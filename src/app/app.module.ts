@@ -25,6 +25,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { LoaderComponent } from './common/loader/loader.component';
 import { LibraryVersionComponent } from './library/library-details/library-version/library-version.component';
 import { LibraryService } from './services/library.service';
+import { LibraryErrorComponent } from './library/lib-error/library-error.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { LibraryService } from './services/library.service';
     RangeDialogComponent,
     LoaderComponent,
     LibraryVersionComponent,
+    LibraryErrorComponent,
   ],
   imports: [
     BrowserModule,

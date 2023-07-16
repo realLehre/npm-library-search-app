@@ -1,0 +1,30 @@
+@import "base-styles";
+
+.lib-error-container {
+  width: 90%;
+  max-width: 1200px;
+  margin-inline: auto;
+
+  & #lib-error-header {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+
+  & #lib-error-copy {
+    font-size: 1.5rem;
+  }
+
+  & button {
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    background: $dark-color;
+    color: $light-text-color;
+    font-size: 1rem;
+    margin-top: 30px;
+
+    &:hover {
+      background: rgba($dark-color, 0.8);
+    }
+  }
+}
