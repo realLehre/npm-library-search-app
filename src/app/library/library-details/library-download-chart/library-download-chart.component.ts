@@ -40,6 +40,7 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
     this.libService.isLoadingDownload.subscribe((status) => {
       this.isLoading = status;
+      console.log(status);
     });
 
     this.libService.getDownloads('last-day', this.libName);
