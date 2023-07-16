@@ -2,27 +2,34 @@
 
 #home-container {
   width: 100%;
-  max-width: 1200px;
   height: 100vh;
   text-align: center;
   padding: 0 20px;
   color: $light-text-color;
-  background: url("../../assets/home-bg.jpg") no-repeat center center / cover;
+  background: url("../../assets/background.jpg") no-repeat center center / cover;
   background-size: cover;
 
+  &.blur {
+    filter: blur(3px);
+  }
+
   & .hero-main-text {
+    max-width: 1200px;
     font-size: 2.5rem;
     font-weight: 700;
     line-height: 0.9;
   }
 
   & .hero-copy {
+    max-width: 1200px;
     font-size: 1.2rem;
     font-weight: 600;
     margin-top: 30px;
   }
 
   & .search {
+    max-width: 1200px;
+
     width: 100%;
     margin-top: 50px;
   }

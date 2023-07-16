@@ -59,7 +59,6 @@ export class LibraryDetailsComponent
           }
         }
         this.libNpm = `https://www.npmjs.com/package/${data._id}`;
-        console.log(this.lib);
       },
     });
 

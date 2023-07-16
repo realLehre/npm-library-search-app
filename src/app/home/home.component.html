@@ -1,4 +1,9 @@
-<div id="home-container" fxLayout="column" fxLayoutAlign="center center">
+<div
+  id="home-container"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  [ngClass]="{ blur: isLoading }"
+>
   <h1 class="hero-main-text">Effortlessly search and explore NPM packages</h1>
 
   <p class="hero-copy">
@@ -11,11 +16,7 @@
     <app-library-search></app-library-search>
   </div>
 
-  <div class="lib-info" fxLayout="column" fxLayoutAlign="center center">
-    <!-- <app-loader *ngIf="isLoading"></app-loader> -->
-  </div>
+  <div class="lib-info" fxLayout="column" fxLayoutAlign="center center"></div>
 
-  <div class="bg-overlay"></div>
-
-  <!-- <img src="assets/home-bg.jpg" alt="" class="bg-img" /> -->
+  <!-- <div class="bg-overlay"></div> -->
 </div>

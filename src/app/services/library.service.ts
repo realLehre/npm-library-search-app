@@ -72,6 +72,7 @@ export class LibraryService {
           this.isLoading.next(false);
           this.appIsLoading.next(false);
           this.libError.next(true);
+          console.log(err);
         },
       });
   }
