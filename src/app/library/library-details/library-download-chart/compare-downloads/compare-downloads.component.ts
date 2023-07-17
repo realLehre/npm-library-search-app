@@ -41,6 +41,7 @@ export class CompareDownloadsComponent implements OnInit {
 
   onSubmit() {
     this.libService.comparedLibNames.next(this.compareForm.value);
+    this.libService.isComparingDownloads.next(true);
 
     this.dialog.closeAll();
   }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DataTable, Library } from '../library/library.model';
@@ -26,6 +26,9 @@ export class LibraryService {
   libCommonInfo = new Subject<any>();
 
   comparedLibNames = new Subject<any>();
+  isComparingDownloads = new BehaviorSubject<boolean>(false);
+
+  comparedPackageDownloads = new Subject<any[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -96,64 +99,73 @@ export class LibraryService {
         .subscribe((data) => {
           this.isLoadingDownload.next(false);
           const comparedPackagesNames = [];
-          const comparedPackagesDownloads = [];
+          const comparedPackagesDownloads: any[] = [];
+
+          let package1: { downloads: number; day: string }[] = [];
+          let package2: { downloads: number; day: string }[] = [];
+
+          let package1Downloads: number[] = [];
+          let package2Downloads: number[] = [];
+
+          let anyPackageDay: string[] = [];
+
+          let totalPackageDownloads: any[] = [];
 
           for (const key in data) {
-            // console.log(data[key]);
-
             comparedPackagesNames.push(data[key].package);
 
             comparedPackagesDownloads.push(data[key].downloads);
+
+            package1 = comparedPackagesDownloads[0];
+            package2 = comparedPackagesDownloads[1];
           }
 
-          // for (const Key in comparedPackagesDownloads) {
-          //   mainComparedPackagesDownloads.push(comparedPackagesDownloads[Key]);
-          // }
+          package1.map((value, index) => {
+            package1Downloads.push(value.downloads);
 
-          comparedPackagesDownloads.forEach(
-            (downloadPackage: { downloads: number; day: string }[]) => {
-              const mainComparedPackagesDownloads: any[] = [];
-              downloadPackage.forEach((v) => {
-                console.log(v.downloads);
-                mainComparedPackagesDownloads.push(v.downloads);
-              });
-              console.log(mainComparedPackagesDownloads);
-            }
-          );
-          console.log(comparedPackagesDownloads);
+            anyPackageDay.push(value.day);
+          });
+          package2.map((value, index) => {
+            package2Downloads.push(value.downloads);
+          });
 
-          // console.log(comparedPackagesNames);
+          totalPackageDownloads = [
+            package1Downloads,
+            package2Downloads,
+            anyPackageDay,
+          ];
+          this.comparedPackageDownloads.next(totalPackageDownloads);
+
+          console.log(totalPackageDownloads);
+
+          console.log(comparedPackagesDownloads[0]);
+        });
+    } else {
+      this.http
+        .get<LibraryDownloadInterface>(
+          `https://api.npmjs.org/downloads/range/${range}/${lib}`
+        )
+        .subscribe((data) => {
+          this.isLoadingDownload.next(false);
+          const downloads = [];
+          const period = [];
+
+          for (const key in data.downloads) {
+            downloads.push(data.downloads[key].downloads);
+            period.push(data.downloads[key].day);
+          }
+
+          this.downloadStats.next({ count: downloads, period: period });
+
+          localStorage.setItem('downloadStats', range);
         });
     }
-
-    this.http
-      .get<LibraryDownloadInterface>(
-        `https://api.npmjs.org/downloads/range/${range}/${lib}`
-      )
-      .subscribe((data) => {
-        console.log(data);
-
-        this.isLoadingDownload.next(false);
-        const downloads = [];
-        const period = [];
-
-        for (const key in data.downloads) {
-          downloads.push(data.downloads[key].downloads);
-          period.push(data.downloads[key].day);
-        }
-
-        this.downloadStats.next({ count: downloads, period: period });
-
-        localStorage.setItem('downloadStats', range);
-      });
   }
 
   compareDownloads() {
     this.http
       .get(`https://api.npmjs.org/downloads/range/last-month/npm,express`)
-      .subscribe((value) => {
-        console.log(value);
-      });
+      .subscribe((value) => {});
   }
 
   testServer() {

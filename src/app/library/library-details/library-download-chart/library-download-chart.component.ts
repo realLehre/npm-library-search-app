@@ -27,6 +27,8 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
   chartTypeIcon: string = 'bar';
 
+  isCompareDownloads!: boolean;
+
   constructor(
     private libService: LibraryService,
     private dialog: MatDialog,
@@ -35,6 +37,8 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
+    this.libService.isComparingDownloads.next(false);
+
     this.route.queryParams.subscribe((param) => {
       this.libName = param['lib'];
     });
@@ -81,25 +85,39 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
       libNames = libNames.join(',');
       this.libService.getDownloads(range, libNames, true);
-      // console.log(libNames);
-      // console.log(range);
+    });
+
+    this.libService.isComparingDownloads.subscribe((value) => {
+      this.isCompareDownloads = value;
     });
   }
 
   ngAfterViewChecked(): void {
-    this.libService.downloadStats.subscribe((data) => {
-      this.downloadChartService.loadChart(data);
+    if (!this.isCompareDownloads) {
+      this.libService.downloadStats.subscribe((data) => {
+        this.downloadChartService.loadChart(data);
 
-      this.downloadChartService.downloadChartInfo.subscribe((info) => {
-        this.basicData = info.basicData;
-        this.basicOptions = info.basicOptions;
-        this.totalDownloadCount = info.totalDownloadCount;
+        this.downloadChartService.downloadChartInfo.subscribe((info) => {
+          this.basicData = info.basicData;
+          this.basicOptions = info.basicOptions;
+          this.totalDownloadCount = info.totalDownloadCount;
+        });
       });
-    });
 
-    this.downloadChartService.downloadPeriodDisplay.subscribe((period) => {
-      this.downloadPeriodDisplay = period;
-    });
+      this.downloadChartService.downloadPeriodDisplay.subscribe((period) => {
+        this.downloadPeriodDisplay = period;
+      });
+    } else {
+      this.libService.comparedPackageDownloads.subscribe((data) => {
+        this.downloadChartService.loadChart2(data);
+
+        this.downloadChartService.downloadChartInfo.subscribe((info) => {
+          this.basicData = info.basicData;
+          this.basicOptions = info.basicOptions;
+          this.totalDownloadCount = info.totalDownloadCount;
+        });
+      });
+    }
   }
 
   onSelectRange(range: any) {
