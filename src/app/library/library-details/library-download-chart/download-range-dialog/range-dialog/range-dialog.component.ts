@@ -78,6 +78,8 @@ export class RangeDialogComponent implements OnInit {
       end: end,
     });
     if (this.isComparingDownloads) {
+      console.log(start, end);
+
       let libNames = localStorage.getItem('libNames');
       if (libNames) {
         this.libService.isComparingDownloads.next(true);

@@ -1,5 +1,13 @@
 <div class="download-chart-container">
-  <p class="download-chart-header">Downloads</p>
+  <p class="download-chart-header">
+    Downloads
+    <i
+      class="fa fa-refresh"
+      #tooltip="matTooltip"
+      matTooltip="reload previous library chart"
+      (click)="onChartReload()"
+    ></i>
+  </p>
   <div
     class="download-chart-container-header"
     fxLayout

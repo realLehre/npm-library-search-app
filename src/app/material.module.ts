@@ -12,6 +12,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   imports: [
     MatToolbarModule,
@@ -27,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatProgressBarModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatToolbarModule,
@@ -42,6 +45,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatProgressBarModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
   providers: [],
 })

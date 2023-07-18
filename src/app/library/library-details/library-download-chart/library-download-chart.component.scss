@@ -8,6 +8,11 @@
     font-weight: 500;
     margin-bottom: 10px;
     text-decoration: underline;
+
+    & i {
+      cursor: pointer;
+      margin-left: 10px;
+    }
   }
 
   &-header {
@@ -137,5 +142,13 @@
     &-header {
       font-size: 0.7rem;
     }
+  }
+
+  .download-count {
+    line-height: 1.5;
+  }
+
+  .compared-package-download {
+    font-size: 0.5rem;
   }
 }

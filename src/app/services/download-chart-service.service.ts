@@ -59,25 +59,25 @@ export class DownloadChartService {
         [this.package1Name, this.package2Name] = data.comparedDownloads[3];
       }
 
+      let download1 = 0;
       data.comparedDownloads[0].forEach((download: number) => {
-        let test1 = 0;
-        if ((data.comparedDownloads[0].length = 1)) {
-          this.package1TotalDownload = download;
-          test1 = download;
+        if (data.comparedDownloads[0].length == 1) {
+          download1 = download;
         } else {
-          test1 += download;
-          // this.package1TotalDownload += download;
+          download1 += download;
         }
-        this.package1TotalDownload = test1;
       });
+      this.package1TotalDownload = download1;
 
+      let download2 = 0;
       data.comparedDownloads[1].forEach((download: number) => {
         if (data.comparedDownloads[1].length == 1) {
-          this.package2TotalDownload = download;
+          download2 = download;
         } else {
-          this.package2TotalDownload += download;
+          download2 += download;
         }
       });
+      this.package2TotalDownload = download2;
 
       this.basicData = {
         labels: [...data.comparedDownloads[2]],

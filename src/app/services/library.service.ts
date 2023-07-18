@@ -21,6 +21,7 @@ export class LibraryService {
   isLoadingDownload = new Subject<boolean>();
 
   downloadStats = new Subject<DownloadStat>();
+  downloadRange = new Subject<string>();
 
   libDownloadCustomRange = new Subject<{ start: string; end: string }>();
   libVersion: DataTable[] = [];
@@ -28,6 +29,7 @@ export class LibraryService {
 
   comparedLibNames = new Subject<any>();
   isComparingDownloads = new BehaviorSubject<boolean>(false);
+  isCompareError = new Subject<boolean>();
 
   comparedPackageDownloads = new Subject<any[]>();
 
@@ -86,7 +88,7 @@ export class LibraryService {
 
   getDownloads(range: any, lib: string, compare: boolean) {
     this.isLoadingDownload.next(true);
-
+    this.downloadRange.next(range);
     if (compare) {
       this.http
         .get<{
@@ -96,52 +98,69 @@ export class LibraryService {
             package: string;
             start: string;
           };
-        }>(`https://api.npmjs.org/downloads/range/${range}/npm,express`)
-        .subscribe((data) => {
-          this.isLoadingDownload.next(false);
-          const comparedPackagesNames = [];
-          const comparedPackagesDownloads: any[] = [];
+        }>(`https://api.npmjs.org/downloads/range/${range}/${lib}`)
+        .subscribe({
+          next: (data) => {
+            if (
+              Object.values(data)[0] == null ||
+              Object.values(data)[1] == null
+            ) {
+              this.isLoadingDownload.next(false);
+              this.isComparingDownloads.next(false);
+              this.isCompareError.next(true);
+              return;
+            }
 
-          let package1: { downloads: number; day: string }[] = [];
-          let package2: { downloads: number; day: string }[] = [];
+            this.isLoadingDownload.next(false);
+            this.isCompareError.next(false);
 
-          let package1Downloads: number[] = [];
-          let package2Downloads: number[] = [];
+            const comparedPackagesNames = [];
+            const comparedPackagesDownloads: any[] = [];
 
-          let anyPackageDay: string[] = [];
+            let package1: { downloads: number; day: string }[] = [];
+            let package2: { downloads: number; day: string }[] = [];
 
-          let totalPackageDownloads: any[] = [];
+            let package1Downloads: number[] = [];
+            let package2Downloads: number[] = [];
 
-          for (const key in data) {
-            comparedPackagesNames.push(data[key].package);
+            let anyPackageDay: string[] = [];
 
-            comparedPackagesDownloads.push(data[key].downloads);
+            let totalPackageDownloads: any[] = [];
 
-            package1 = comparedPackagesDownloads[0];
-            package2 = comparedPackagesDownloads[1];
-          }
+            for (const key in data) {
+              if (data[key] == null) {
+                return;
+              }
+              comparedPackagesNames.push(data[key].package);
 
-          package1.map((value, index) => {
-            package1Downloads.push(value.downloads);
+              comparedPackagesDownloads.push(data[key].downloads);
 
-            anyPackageDay.push(value.day);
-          });
-          package2.map((value, index) => {
-            package2Downloads.push(value.downloads);
-          });
+              package1 = comparedPackagesDownloads[0];
+              package2 = comparedPackagesDownloads[1];
+            }
 
-          totalPackageDownloads = [
-            package1Downloads,
-            package2Downloads,
-            anyPackageDay,
-            comparedPackagesNames,
-          ];
+            package1.map((value, index) => {
+              package1Downloads.push(value.downloads);
 
-          this.downloadStats.next({
-            count: [],
-            period: [],
-            comparedDownloads: totalPackageDownloads,
-          });
+              anyPackageDay.push(value.day);
+            });
+            package2.map((value, index) => {
+              package2Downloads.push(value.downloads);
+            });
+
+            totalPackageDownloads = [
+              package1Downloads,
+              package2Downloads,
+              anyPackageDay,
+              comparedPackagesNames,
+            ];
+
+            this.downloadStats.next({
+              count: [],
+              period: [],
+              comparedDownloads: totalPackageDownloads,
+            });
+          },
         });
     } else {
       this.http

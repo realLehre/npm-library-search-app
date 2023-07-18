@@ -1,4 +1,6 @@
-<div class="compare-container" fxLayout fxLayoutAlign="center center">
+<div class="compare-container" fxLayout="column" fxLayoutAlign="center center">
+  <p class="error" *ngIf="formError">Fields cannot be empty</p>
+  <div class="close"><i class="fa fa-times" (click)="closeModal()"></i></div>
   <form [formGroup]="compareForm" id="compare-form" (submit)="onSubmit()">
     <div class="form-group-container" formArrayName="libNames">
       <div

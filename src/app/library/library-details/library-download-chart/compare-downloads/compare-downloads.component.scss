@@ -1,8 +1,26 @@
 @import "base-styles";
 
 .compare-container {
+  position: relative;
   width: 100%;
   height: 100%;
+}
+
+.error {
+  font-size: 1rem;
+  color: red;
+  margin-bottom: 10px;
+}
+
+.close {
+  position: absolute;
+  top: -5%;
+  right: 0%;
+
+  & i {
+    font-size: 2rem;
+    cursor: pointer;
+  }
 }
 
 #compare-form {
