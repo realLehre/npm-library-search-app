@@ -12,13 +12,31 @@ export class DownloadChartService {
   basicOptions!: any;
   downloadPeriod!: string;
   downloadPeriodDisplay = new Subject<string>();
+
+  package1TotalDownload: number = 0;
+  package2TotalDownload: number = 0;
+  package1Name!: string;
+  package2Name!: string;
+
   downloadChartInfo = new Subject<{
     basicData: any;
     basicOptions: any;
     totalDownloadCount: number;
+    comparedPackagesData: {
+      package1Download: number;
+      package2Download: number;
+      package1Name: string;
+      package2Name: string;
+    };
   }>();
 
-  constructor(private libService: LibraryService) {}
+  isComparingDownloads: boolean = false;
+
+  constructor(private libService: LibraryService) {
+    this.libService.isComparingDownloads.subscribe((status) => {
+      this.isComparingDownloads = status;
+    });
+  }
 
   loadChart(data: DownloadStat) {
     let totalDownloadCount = 0;
@@ -36,29 +54,77 @@ export class DownloadChartService {
     );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.basicData = {
-      labels: [...data.period],
-      datasets: [
-        {
-          label: 'Downloads',
-          data: [...data.count],
-          fill: false,
-          backgroundColor: [
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-          ],
-          borderColor: [
-            'rgb(255, 159, 64)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    };
+    if (this.isComparingDownloads) {
+      if (data.comparedDownloads[3]) {
+        [this.package1Name, this.package2Name] = data.comparedDownloads[3];
+      }
+
+      data.comparedDownloads[0].forEach((download: number) => {
+        let test1 = 0;
+        if ((data.comparedDownloads[0].length = 1)) {
+          this.package1TotalDownload = download;
+          test1 = download;
+        } else {
+          test1 += download;
+          // this.package1TotalDownload += download;
+        }
+        this.package1TotalDownload = test1;
+      });
+
+      data.comparedDownloads[1].forEach((download: number) => {
+        if (data.comparedDownloads[1].length == 1) {
+          this.package2TotalDownload = download;
+        } else {
+          this.package2TotalDownload += download;
+        }
+      });
+
+      this.basicData = {
+        labels: [...data.comparedDownloads[2]],
+        datasets: [
+          {
+            label: this.package1Name,
+            data: [...data.comparedDownloads[0]],
+            fill: false,
+            backgroundColor: documentStyle.getPropertyValue('--blue-500'),
+            borderColor: documentStyle.getPropertyValue('--blue-500'),
+            borderWidth: 1,
+          },
+          {
+            label: this.package2Name,
+            data: [...data.comparedDownloads[1]],
+            fill: false,
+            backgroundColor: documentStyle.getPropertyValue('--pink-500'),
+            borderColor: documentStyle.getPropertyValue('--pink-500'),
+            borderWidth: 1,
+          },
+        ],
+      };
+    } else {
+      this.basicData = {
+        labels: [...data.period],
+        datasets: [
+          {
+            label: 'Downloads',
+            data: [...data.count],
+            fill: false,
+            backgroundColor: [
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+              'rgb(255, 159, 64)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+    }
 
     this.basicOptions = {
       plugins: {
@@ -95,103 +161,12 @@ export class DownloadChartService {
       basicData: this.basicData,
       basicOptions: this.basicOptions,
       totalDownloadCount: this.totalDownloadCount,
-    });
-  }
-
-  loadChart2(data: any) {
-    let totalDownloadCount = 0;
-
-    // data.count.forEach((value: any) => {
-    //   totalDownloadCount += value;
-    // });
-    console.log(data);
-
-    // this.totalDownloadCount = totalDownloadCount;
-
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue(
-      '--text-color-secondary'
-    );
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-    this.basicData = {
-      labels: [...data[2]],
-      datasets: [
-        {
-          label: 'Downloads',
-          data: [...data[0]],
-          fill: false,
-          backgroundColor: [
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-          ],
-          borderColor: [
-            'rgb(255, 159, 64)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-          ],
-          borderWidth: 1,
-        },
-        {
-          label: 'Downloads',
-          data: [...data[1]],
-          fill: false,
-          backgroundColor: [
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-          ],
-          borderColor: [
-            'rgb(255, 159, 64)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    };
-
-    this.basicOptions = {
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
+      comparedPackagesData: {
+        package1Download: this.package1TotalDownload,
+        package2Download: this.package2TotalDownload,
+        package1Name: this.package1Name,
+        package2Name: this.package2Name,
       },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-        x: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-      },
-    };
-
-    this.downloadChartInfo.next({
-      basicData: this.basicData,
-      basicOptions: this.basicOptions,
-      totalDownloadCount: this.totalDownloadCount,
     });
   }
 

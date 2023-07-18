@@ -7,6 +7,7 @@ import { LibraryService } from 'src/app/services/library.service';
 import { RangeDialogComponent } from './download-range-dialog/range-dialog/range-dialog.component';
 import { DownloadChartService } from 'src/app/services/download-chart-service.service';
 import { CompareDownloadsComponent } from './compare-downloads/compare-downloads.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-library-download-chart',
@@ -16,6 +17,7 @@ import { CompareDownloadsComponent } from './compare-downloads/compare-downloads
 export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
   isLoading: boolean = false;
   libName!: string;
+
   basicData!: any;
   basicOptions!: any;
 
@@ -27,7 +29,14 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
   chartTypeIcon: string = 'bar';
 
+  isFetchingCompareData: boolean = false;
   isCompareDownloads!: boolean;
+  comparedLibNames!: string;
+
+  package1TotalDownload: number = 0;
+  package2TotalDownload: number = 0;
+  package1Name!: string;
+  package2Name!: string;
 
   constructor(
     private libService: LibraryService,
@@ -37,7 +46,7 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
-    this.libService.isComparingDownloads.next(false);
+    // this.libService.isComparingDownloads.next(false);
 
     this.route.queryParams.subscribe((param) => {
       this.libName = param['lib'];
@@ -48,7 +57,6 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
     });
 
     this.onSelectRange('last-day');
-    // this.libService.getDownloads('last-day', this.libName, false);
 
     const downloadRange = localStorage.getItem('downloadStats');
 
@@ -66,13 +74,6 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
       );
     });
 
-    // this.libService.compareDownloads();
-
-    const dialogRef2 = this.dialog.open(CompareDownloadsComponent, {
-      width: '500px',
-      height: '50%',
-    });
-
     this.libService.comparedLibNames.subscribe((value) => {
       let libNames: any = [];
       let range = localStorage.getItem('range');
@@ -84,40 +85,43 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
       });
 
       libNames = libNames.join(',');
+      this.comparedLibNames = libNames;
+
+      localStorage.setItem('libNames', libNames);
+
       this.libService.getDownloads(range, libNames, true);
     });
 
     this.libService.isComparingDownloads.subscribe((value) => {
       this.isCompareDownloads = value;
     });
+
+    this.libService.downloadStats.subscribe((data) => {
+      this.downloadChartService.loadChart(data);
+    });
+
+    this.downloadChartService.downloadPeriodDisplay.subscribe((period) => {
+      this.downloadPeriodDisplay = period;
+    });
   }
 
   ngAfterViewChecked(): void {
-    if (!this.isCompareDownloads) {
-      this.libService.downloadStats.subscribe((data) => {
-        this.downloadChartService.loadChart(data);
-
-        this.downloadChartService.downloadChartInfo.subscribe((info) => {
-          this.basicData = info.basicData;
-          this.basicOptions = info.basicOptions;
-          this.totalDownloadCount = info.totalDownloadCount;
-        });
+    this.downloadChartService.downloadChartInfo
+      .pipe(take(1))
+      .subscribe((info) => {
+        // this.isFetchingCompareData = false;
+        this.basicData = info.basicData;
+        this.basicOptions = info.basicOptions;
+        this.totalDownloadCount = info.totalDownloadCount;
+        if (this.isCompareDownloads) {
+          this.package1Name = info.comparedPackagesData.package1Name;
+          this.package2Name = info.comparedPackagesData.package2Name;
+          this.package1TotalDownload =
+            info.comparedPackagesData.package1Download;
+          this.package2TotalDownload =
+            info.comparedPackagesData.package2Download;
+        }
       });
-
-      this.downloadChartService.downloadPeriodDisplay.subscribe((period) => {
-        this.downloadPeriodDisplay = period;
-      });
-    } else {
-      this.libService.comparedPackageDownloads.subscribe((data) => {
-        this.downloadChartService.loadChart2(data);
-
-        this.downloadChartService.downloadChartInfo.subscribe((info) => {
-          this.basicData = info.basicData;
-          this.basicOptions = info.basicOptions;
-          this.totalDownloadCount = info.totalDownloadCount;
-        });
-      });
-    }
   }
 
   onSelectRange(range: any) {
@@ -128,9 +132,19 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
     if (range == 'today') {
       const date = moment(new Date()).format('YYYY-MM-DD');
-      this.libService.getDownloads(date, this.libName, false);
+      if (this.isCompareDownloads) {
+        this.libService.isComparingDownloads.next(true);
+        this.libService.getDownloads(date, this.comparedLibNames, true);
+      } else {
+        this.libService.getDownloads(date, this.libName, false);
+      }
     } else {
-      this.libService.getDownloads(range, this.libName, false);
+      if (this.isCompareDownloads) {
+        this.libService.isComparingDownloads.next(true);
+        this.libService.getDownloads(range, this.comparedLibNames, true);
+      } else {
+        this.libService.getDownloads(range, this.libName, false);
+      }
     }
 
     this.downloadChartService.periodDisplay(range);
@@ -148,7 +162,7 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
     const dialogRef = this.dialog.open(CompareDownloadsComponent, {
       data: { libName: this.libName },
       width: '500px',
-      height: '200px',
+      height: '250px',
     });
   }
 

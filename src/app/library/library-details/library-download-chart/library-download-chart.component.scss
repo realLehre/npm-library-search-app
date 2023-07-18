@@ -24,6 +24,18 @@
   cursor: pointer;
 }
 
+.compared-package-name {
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.compared-package-download {
+  background: rgba($dark-color, 0.9);
+  color: $light-text-color;
+  padding: 2px 5px;
+  font-size: 1rem;
+}
+
 .chart {
   // overflow-x: scroll;
   width: 100%;

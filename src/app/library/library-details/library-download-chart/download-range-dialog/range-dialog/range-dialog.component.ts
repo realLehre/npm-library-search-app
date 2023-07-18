@@ -27,6 +27,7 @@ export class RangeDialogComponent implements OnInit {
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
+  isComparingDownloads: boolean = false;
   constructor(
     private dialog: MatDialog,
     private libService: LibraryService,
@@ -35,6 +36,10 @@ export class RangeDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.libName = this.data.libName;
+
+    this.libService.isComparingDownloads.subscribe((value) => {
+      this.isComparingDownloads = value;
+    });
   }
 
   onSubmit() {
@@ -72,6 +77,17 @@ export class RangeDialogComponent implements OnInit {
       start: start,
       end: end,
     });
-    this.libService.getDownloads(start + ':' + end, this.libName, false);
+    if (this.isComparingDownloads) {
+      let libNames = localStorage.getItem('libNames');
+      if (libNames) {
+        this.libService.isComparingDownloads.next(true);
+
+        this.libService.getDownloads(start + ':' + end, libNames, true);
+      }
+    } else {
+      this.libService.isComparingDownloads.next(false);
+
+      this.libService.getDownloads(start + ':' + end, this.libName, false);
+    }
   }
 }

@@ -9,6 +9,7 @@ import { LibraryDownloadInterface } from '../library/library-details/library-dow
 export interface DownloadStat {
   count: number[];
   period: string[];
+  comparedDownloads: any[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -95,7 +96,7 @@ export class LibraryService {
             package: string;
             start: string;
           };
-        }>(`https://api.npmjs.org/downloads/range/last-month/npm,express`)
+        }>(`https://api.npmjs.org/downloads/range/${range}/npm,express`)
         .subscribe((data) => {
           this.isLoadingDownload.next(false);
           const comparedPackagesNames = [];
@@ -133,12 +134,14 @@ export class LibraryService {
             package1Downloads,
             package2Downloads,
             anyPackageDay,
+            comparedPackagesNames,
           ];
-          this.comparedPackageDownloads.next(totalPackageDownloads);
 
-          console.log(totalPackageDownloads);
-
-          console.log(comparedPackagesDownloads[0]);
+          this.downloadStats.next({
+            count: [],
+            period: [],
+            comparedDownloads: totalPackageDownloads,
+          });
         });
     } else {
       this.http
@@ -155,7 +158,11 @@ export class LibraryService {
             period.push(data.downloads[key].day);
           }
 
-          this.downloadStats.next({ count: downloads, period: period });
+          this.downloadStats.next({
+            count: downloads,
+            period: period,
+            comparedDownloads: [],
+          });
 
           localStorage.setItem('downloadStats', range);
         });

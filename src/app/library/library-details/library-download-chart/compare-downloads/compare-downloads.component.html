@@ -1,4 +1,4 @@
-<div class="compare-container">
+<div class="compare-container" fxLayout fxLayoutAlign="center center">
   <form [formGroup]="compareForm" id="compare-form" (submit)="onSubmit()">
     <div class="form-group-container" formArrayName="libNames">
       <div
@@ -19,9 +19,9 @@
 
     <div class="form-actions">
       <button type="submit">Submit</button>
-      <button type="button" class="add-input" (click)="addInputs()">
+      <!-- <button type="button" class="add-input" (click)="addInputs()">
         <i class="fa fa-plus"></i>
-      </button>
+      </button> -->
     </div>
   </form>
 </div>
