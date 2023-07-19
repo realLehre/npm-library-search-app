@@ -1,16 +1,28 @@
 <div id="header-container" fxLayout fxLayoutAlign="center center">
   <div id="header" fxLayoutAlign="space-between center">
-    <div class="logo" [routerLink]="['/']">NPM Search App</div>
-    <ul class="links" fxLayout fxLayoutGap="30px" fxHide.xs>
+    <div class="logo" [routerLink]="['/']" fxLayoutAlign="center center">
+      NPM Search App <i class="fa-brands fa-npm"></i>
+    </div>
+    <ul class="links" fxLayout>
       <li class="link">
-        <a> <i class="fa-brands fa-linkedin-in"></i></a>
+        <a
+          href="https://www.linkedin.com/in/david-egbuwalo-aa75581a0/"
+          target="_blank"
+        >
+          <i class="fa-brands fa-linkedin-in"></i
+        ></a>
       </li>
       <li class="link">
-        <a> <i class="fa-brands fa-github"></i></a>
+        <a
+          href="https://github.com/realLehre/npm-library-search-app"
+          target="_blank"
+        >
+          <i class="fa-brands fa-github"></i
+        ></a>
       </li>
     </ul>
-    <div class="menu-icon" fxHide fxShow.xs>
+    <!-- <div class="menu-icon" fxHide fxShow.xs>
       <i class="fa fa-bars"></i>
-    </div>
+    </div> -->
   </div>
 </div>

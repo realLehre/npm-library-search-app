@@ -89,6 +89,7 @@ export class DownloadChartService {
             backgroundColor: documentStyle.getPropertyValue('--blue-500'),
             borderColor: documentStyle.getPropertyValue('--blue-500'),
             borderWidth: 1,
+            tension: 0.4,
           },
           {
             label: this.package2Name,
@@ -97,6 +98,7 @@ export class DownloadChartService {
             backgroundColor: documentStyle.getPropertyValue('--pink-500'),
             borderColor: documentStyle.getPropertyValue('--pink-500'),
             borderWidth: 1,
+            tension: 0.4,
           },
         ],
       };
@@ -121,6 +123,7 @@ export class DownloadChartService {
               'rgb(153, 102, 255)',
             ],
             borderWidth: 1,
+            tension: 0.4,
           },
         ],
       };

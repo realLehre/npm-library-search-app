@@ -17,15 +17,25 @@
     cursor: pointer;
     font-size: 1.2rem;
     font-weight: 800;
+
+    & i {
+      font-size: 2rem;
+      margin-left: 10px;
+    }
   }
 
   & .links {
     list-style: none;
 
     & .link {
+      &:not(:last-child) {
+        margin-right: 30px;
+      }
+
       & a {
         position: relative;
         cursor: pointer;
+        color: $dark-color;
 
         & i {
           font-size: 1.4rem;
@@ -38,8 +48,16 @@
       }
     }
   }
+}
 
-  .menu-icon i {
-    font-size: 1.2rem;
+@media (max-width: 450px) {
+  #header {
+    & .links {
+      & .link {
+        &:not(:last-child) {
+          margin-right: 15px;
+        }
+      }
+    }
   }
 }

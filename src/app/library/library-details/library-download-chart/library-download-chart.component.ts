@@ -69,14 +69,6 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
     this.onSelectRange('last-day');
 
-    const downloadRange = localStorage.getItem('downloadStats');
-
-    if (downloadRange) {
-      // this.libService.getDownloads(downloadRange, this.libName);
-      // this.periodDisplay(downloadRange);
-    } else {
-    }
-
     this.libService.libDownloadCustomRange.subscribe((data) => {
       this.downloadPeriodDisplay = `from ${data.start} to ${data.end}`;
       localStorage.setItem(
@@ -92,10 +84,6 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
     this.libService.comparedLibNames.subscribe((value) => {
       let libNames: any = [];
 
-      if (value.libNames.length < 2) {
-        // return;
-        console.log(1);
-      }
       value.libNames.forEach((value: { [key: string]: any }) => {
         for (const key in value) {
           libNames.push(value[key].toLowerCase());
@@ -131,7 +119,6 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
     this.downloadChartService.downloadChartInfo
       .pipe(take(1))
       .subscribe((info) => {
-        // this.isFetchingCompareData = false;
         this.basicData = info.basicData;
         this.basicOptions = info.basicOptions;
         this.totalDownloadCount = info.totalDownloadCount;
