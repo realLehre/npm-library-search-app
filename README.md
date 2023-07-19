@@ -16,7 +16,7 @@ This web app helps a user quickly find the most important information about an n
 
 ## In-app screenshots
 
-src/assets/home.png
+![Home](src/assets/home-bg.jpg)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
 
