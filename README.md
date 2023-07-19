@@ -1,8 +1,8 @@
-# NpmLibrarySearchApp
+# Npm library search app
 
 This web app helps a user quickly find the most important information about an npm library.
 
-[Live app](https://npm-library-search.netlify.app/).
+[Live app](https://npm-library-search.netlify.app/)
 
 ## Features
 
@@ -11,15 +11,17 @@ This web app helps a user quickly find the most important information about an n
 - [x] Links to library homepage, npm or GitHub pages
 - [x] Charted library download statistics
 - [x] Get download statistics for specific periods
-- [x] View download charts in different chart forms
+- [x] View download chart in different chart forms
 - [x] Compare download statistics for two different libraries
 
 ## In-app screenshots
 
 Home
 ![Home](src/assets/home.png)
+
 Library details and versions
 ![Home](src/assets/versions.png)
+
 Downloads
 ![Home](src/assets/chart-single.png)
 ![Home](src/assets/chart-compare.png)
