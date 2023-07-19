@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { DownloadChartService } from 'src/app/services/download-chart-service.service';
+
 import { LibraryService } from 'src/app/services/library.service';
 
 @Component({
@@ -59,7 +59,6 @@ export class CompareDownloadsComponent implements OnInit {
     }
     this.libService.comparedLibNames.next(this.compareForm.value);
     this.libService.isComparingDownloads.next(true);
-    // this.libService.getDownloads(this.downloadRange, )
 
     this.dialog.closeAll();
   }

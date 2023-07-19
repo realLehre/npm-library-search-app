@@ -14,7 +14,7 @@
   <div class="lib-main-info" *ngIf="!isLoading && libData && !libError">
     <h3 class="lib-name">{{ libData.name }}</h3>
     <p class="desc">{{ libData.description }}</p>
-    <a class="see-more" (click)="loadLib()">See more</a>
+    <!-- <a class="see-more" (click)="loadLib()">See more</a> -->
   </div>
 
   <div class="lib-error" *ngIf="!isLoading && libError">Library not found</div>

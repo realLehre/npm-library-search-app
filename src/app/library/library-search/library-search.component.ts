@@ -44,18 +44,6 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
     this.libService.isLoading.subscribe((status) => {
       this.isLoading = status;
     });
-
-    // this.searchForm.valueChanges.subscribe((value) => {
-    //   if (value.libraryName != '') {
-    //     this.http
-    //       .get(
-    //         `https://www.npmjs.com/search/suggestions?q=${value.libraryName}`
-    //       )
-    //       .subscribe((data) => {
-    //         console.log(data);
-    //       });
-    //   }
-    // });
   }
 
   onSubmit() {
@@ -74,12 +62,6 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
     });
 
     this.searchForm.reset();
-  }
-
-  loadLib() {
-    // const libName = localStorage.getItem('libName');
-    // this.router.navigate(['/details'], { queryParams: { lib: libName } });
-    // this.libService.appIsLoading.next(true);
   }
 
   ngOnDestroy(): void {
