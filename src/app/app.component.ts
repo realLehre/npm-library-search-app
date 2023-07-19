@@ -15,5 +15,7 @@ export class AppComponent implements OnInit {
     this.libService.appIsLoading.subscribe((status) => {
       this.isLoading = status;
     });
+
+    console.log(this.isLoading);
   }
 }

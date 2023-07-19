@@ -5,7 +5,6 @@
   background-image: url("../assets/home-bg.jpg");
   background-size: cover;
   background-position: center center;
-  // height: 100%;
 }
 
 app-header {
@@ -21,11 +20,4 @@ app-header {
   overflow-x: hidden;
   margin-inline: auto;
   z-index: 2;
-}
-.progress-bar {
-  position: absolute;
-  top: 66px;
-  left: 0;
-  width: 100%;
-  z-index: 10000;
 }

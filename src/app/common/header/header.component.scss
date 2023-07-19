@@ -3,6 +3,7 @@
 #header-container {
   position: fixed;
   width: 100%;
+  height: 72px;
   padding: 20px 0;
   background: $light-text-color;
   color: $dark-color;
@@ -48,6 +49,14 @@
       }
     }
   }
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  position: absolute;
+  top: 68px;
+  left: 0;
 }
 
 @media (max-width: 450px) {

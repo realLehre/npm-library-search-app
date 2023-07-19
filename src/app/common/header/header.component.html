@@ -21,8 +21,9 @@
         ></a>
       </li>
     </ul>
-    <!-- <div class="menu-icon" fxHide fxShow.xs>
-      <i class="fa fa-bars"></i>
-    </div> -->
+  </div>
+
+  <div class="progress-bar" *ngIf="isLoading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 </div>

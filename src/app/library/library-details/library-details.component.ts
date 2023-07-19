@@ -38,6 +38,8 @@ export class LibraryDetailsComponent
   ) {}
 
   ngOnInit(): void {
+    // this.libService.appIsLoading.next(true);
+
     this.route.queryParams.subscribe((param) => {
       this.libName = param['lib'];
     });
