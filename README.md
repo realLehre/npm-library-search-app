@@ -14,6 +14,10 @@ This web app helps a user quickly find the most important information about an n
 - [x] View download charts in different chart forms
 - [x] Compare download statistics for two different libraries
 
+## In-app screenshots
+
+<img src="../src/assets/home.png" alt="Home"/>
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
 
 ## Development server
