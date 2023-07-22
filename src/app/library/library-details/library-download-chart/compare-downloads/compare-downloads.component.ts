@@ -63,7 +63,7 @@ export class CompareDownloadsComponent implements OnInit {
 
     const libNames: string[] = [];
     this.compareForm.value.libNames.forEach((name: { libraryName: string }) => {
-      libNames.push(name.libraryName);
+      libNames.push(name.libraryName.toLowerCase());
     });
 
     this.libService.comparedLibNames.next(libNames);
