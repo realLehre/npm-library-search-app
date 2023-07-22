@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
@@ -7,7 +7,7 @@ import { LibraryService } from 'src/app/services/library.service';
 import { RangeDialogComponent } from './download-range-dialog/range-dialog/range-dialog.component';
 import { DownloadChartService } from 'src/app/services/download-chart-service.service';
 import { CompareDownloadsComponent } from './compare-downloads/compare-downloads.component';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -15,7 +15,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './library-download-chart.component.html',
   styleUrls: ['./library-download-chart.component.scss'],
 })
-export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
+export class LibraryDownloadChartComponent
+  implements OnInit, AfterViewChecked, OnDestroy
+{
+  customRange$!: Subscription;
+  downloadRange$!: Subscription;
+  isCompareDownloads$!: Subscription;
+  comparedLibNames$!: Subscription;
+  downloadStats$!: Subscription;
+  downloadPeriodDisplay$!: Subscription;
+
   isLoading: boolean = false;
   libName!: string;
 
@@ -33,12 +42,10 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
   isFetchingCompareData: boolean = false;
   isCompareDownloads!: boolean;
-  comparedLibNames!: string;
+  comparedLibNames: string[] = [];
 
-  package1TotalDownload: number = 0;
-  package2TotalDownload: number = 0;
-  package1Name!: string;
-  package2Name!: string;
+  packageDownloads: number[] = [];
+  packageNames: string[] = [];
 
   constructor(
     private libService: LibraryService,
@@ -52,7 +59,7 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
     this.libService.isCompareError.subscribe((status) => {
       if (status) {
         this.snackBar.open(
-          'An error ocurred! One or more library does not exist',
+          'An error ocurred! One or more library not found',
           'Undo',
           { duration: 6000 }
         );
@@ -69,46 +76,40 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
     this.onSelectRange('last-day');
 
-    this.libService.libDownloadCustomRange.subscribe((data) => {
-      this.downloadPeriodDisplay = `from ${data.start} to ${data.end}`;
-      localStorage.setItem(
-        'customRangeDisplay',
-        JSON.stringify(`from ${data.start} to ${data.end}`)
-      );
-    });
+    this.customRange$ = this.libService.libDownloadCustomRange.subscribe(
+      (data) => {
+        this.downloadPeriodDisplay = `from ${data.start} to ${data.end}`;
+      }
+    );
 
-    this.libService.downloadRange.subscribe((range) => {
+    this.downloadRange$ = this.libService.downloadRange.subscribe((range) => {
       this.downloadRange = range;
     });
 
-    this.libService.comparedLibNames.subscribe((value) => {
-      let libNames: any = [];
+    this.isCompareDownloads$ = this.libService.isComparingDownloads.subscribe(
+      (value) => {
+        this.isCompareDownloads = value;
+      }
+    );
 
-      value.libNames.forEach((value: { [key: string]: any }) => {
-        for (const key in value) {
-          libNames.push(value[key].toLowerCase());
-        }
-      });
+    this.comparedLibNames$ = this.libService.comparedLibNames.subscribe(
+      (value) => {
+        this.comparedLibNames = value;
 
-      libNames = libNames.join(',');
-      this.comparedLibNames = libNames;
+        localStorage.setItem('libNames', JSON.stringify(value));
 
-      localStorage.setItem('libNames', libNames);
+        this.libService.getDownloads(this.downloadRange, value, true);
+      }
+    );
 
-      this.libService.getDownloads(this.downloadRange, libNames, true);
-    });
-
-    this.libService.isComparingDownloads.subscribe((value) => {
-      this.isCompareDownloads = value;
-    });
-
-    this.libService.downloadStats.subscribe((data) => {
+    this.downloadStats$ = this.libService.downloadStats.subscribe((data) => {
       this.downloadChartService.loadChart(data);
     });
 
-    this.downloadChartService.downloadPeriodDisplay.subscribe((period) => {
-      this.downloadPeriodDisplay = period;
-    });
+    this.downloadPeriodDisplay$ =
+      this.downloadChartService.downloadPeriodDisplay.subscribe((period) => {
+        this.downloadPeriodDisplay = period;
+      });
   }
 
   ngAfterViewChecked(): void {
@@ -119,17 +120,16 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
     this.downloadChartService.downloadChartInfo
       .pipe(take(1))
       .subscribe((info) => {
+        let d: any[] = [];
         this.basicData = info.basicData;
         this.basicOptions = info.basicOptions;
         this.totalDownloadCount = info.totalDownloadCount;
         if (this.isCompareDownloads) {
-          this.package1Name = info.comparedPackagesData.package1Name;
-          this.package2Name = info.comparedPackagesData.package2Name;
-          this.package1TotalDownload =
-            info.comparedPackagesData.package1Download;
-          this.package2TotalDownload =
-            info.comparedPackagesData.package2Download;
+          d = info.comparedPackagesData.packageDownloads;
+          this.packageNames = info.comparedPackagesData.packageNames;
         }
+
+        this.packageDownloads = d;
       });
   }
 
@@ -145,14 +145,14 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
         this.libService.isComparingDownloads.next(true);
         this.libService.getDownloads(date, this.comparedLibNames, true);
       } else {
-        this.libService.getDownloads(date, this.libName, false);
+        this.libService.getDownloads(date, [this.libName], false);
       }
     } else {
       if (this.isCompareDownloads) {
         this.libService.isComparingDownloads.next(true);
         this.libService.getDownloads(range, this.comparedLibNames, true);
       } else {
-        this.libService.getDownloads(range, this.libName, false);
+        this.libService.getDownloads(range, [this.libName], false);
       }
     }
 
@@ -171,7 +171,7 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
     const dialogRef = this.dialog.open(CompareDownloadsComponent, {
       data: { range: this.downloadRange },
       width: '500px',
-      height: '250px',
+      height: '50%',
     });
   }
 
@@ -181,7 +181,16 @@ export class LibraryDownloadChartComponent implements OnInit, AfterViewChecked {
 
   onChartReload() {
     this.libService.isComparingDownloads.next(false);
-    this.libService.getDownloads('last-day', this.libName, false);
+    this.libService.getDownloads('last-day', [this.libName], false);
     this.downloadChartService.periodDisplay('last-day');
+  }
+
+  ngOnDestroy(): void {
+    this.customRange$.unsubscribe();
+    this.downloadRange$.unsubscribe();
+    this.isCompareDownloads$.unsubscribe();
+    this.comparedLibNames$.unsubscribe();
+    this.downloadStats$.unsubscribe();
+    this.downloadPeriodDisplay$.unsubscribe();
   }
 }

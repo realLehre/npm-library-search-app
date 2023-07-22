@@ -35,6 +35,10 @@ export class CompareDownloadsComponent implements OnInit {
     this.downloadRange = this.data.downloadRange;
   }
 
+  get formArray() {
+    return <FormArray>this.compareForm.get('libNames');
+  }
+
   get formArrayControl() {
     return (<FormArray>this.compareForm.get('libNames')).controls;
   }
@@ -50,17 +54,25 @@ export class CompareDownloadsComponent implements OnInit {
   onSubmit() {
     if (this.compareForm.invalid) {
       this.formError = true;
-
       setTimeout(() => {
         this.formError = false;
       }, 2000);
-
       return;
     }
-    this.libService.comparedLibNames.next(this.compareForm.value);
     this.libService.isComparingDownloads.next(true);
 
+    const libNames: string[] = [];
+    this.compareForm.value.libNames.forEach((name: { libraryName: string }) => {
+      libNames.push(name.libraryName);
+    });
+
+    this.libService.comparedLibNames.next(libNames);
+
     this.dialog.closeAll();
+  }
+
+  removeInput(index: number) {
+    this.formArray.removeAt(index);
   }
 
   closeModal() {

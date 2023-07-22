@@ -14,8 +14,8 @@
 
 .close {
   position: absolute;
-  top: -5%;
-  right: 0%;
+  top: 1%;
+  right: 5%;
 
   & i {
     font-size: 2rem;
@@ -40,6 +40,10 @@
         font-weight: 700;
       }
 
+      & .input-main {
+        position: relative;
+      }
+
       & input {
         width: 100%;
         margin-top: 3px;
@@ -49,6 +53,21 @@
 
         &:focus {
           outline: none;
+        }
+      }
+
+      & .remove-input {
+        position: absolute;
+        right: -17px;
+        cursor: pointer;
+
+        & i {
+          font-size: 1rem;
+          color: $dark-color;
+
+          &:hover {
+            color: rgba($dark-color, 0.7);
+          }
         }
       }
     }

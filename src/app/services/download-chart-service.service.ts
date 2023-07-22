@@ -13,20 +13,17 @@ export class DownloadChartService {
   downloadPeriod!: string;
   downloadPeriodDisplay = new Subject<string>();
 
-  package1TotalDownload: number = 0;
-  package2TotalDownload: number = 0;
-  package1Name!: string;
-  package2Name!: string;
+  packageDownloads: number[] = [];
+  packageNames: string[] = [];
+  dataSetData: Object[] = [];
 
   downloadChartInfo = new Subject<{
     basicData: any;
     basicOptions: any;
     totalDownloadCount: number;
     comparedPackagesData: {
-      package1Download: number;
-      package2Download: number;
-      package1Name: string;
-      package2Name: string;
+      packageDownloads: number[];
+      packageNames: string[];
     };
   }>();
 
@@ -41,6 +38,7 @@ export class DownloadChartService {
   loadChart(data: DownloadStat) {
     let totalDownloadCount = 0;
 
+    let downloads: any[] = [];
     data.count.forEach((value) => {
       totalDownloadCount += value;
     });
@@ -54,54 +52,34 @@ export class DownloadChartService {
     );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
+    if (data.compare) {
+      downloads = data.comparedDownloads.comparedPackagesTotalDownloads;
+    }
+
     if (this.isComparingDownloads) {
-      if (data.comparedDownloads[3]) {
-        [this.package1Name, this.package2Name] = data.comparedDownloads[3];
+      const dataSetData: Object[] = [];
+
+      this.packageNames = data.comparedDownloads.comparedPackagesNames;
+
+      for (let d = 0; d < data.comparedDownloads.downloads.length; d++) {
+        dataSetData.push({
+          label: data.comparedDownloads.comparedPackagesNames[d],
+          data: [...data.comparedDownloads.downloads[d]],
+          fill: false,
+          backgroundColor: documentStyle.getPropertyValue('--blue-500'),
+          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          borderWidth: 1,
+          tension: 0.4,
+        });
       }
+      this.dataSetData = dataSetData;
 
-      let download1 = 0;
-      data.comparedDownloads[0].forEach((download: number) => {
-        if (data.comparedDownloads[0].length == 1) {
-          download1 = download;
-        } else {
-          download1 += download;
-        }
-      });
-      this.package1TotalDownload = download1;
-
-      let download2 = 0;
-      data.comparedDownloads[1].forEach((download: number) => {
-        if (data.comparedDownloads[1].length == 1) {
-          download2 = download;
-        } else {
-          download2 += download;
-        }
-      });
-      this.package2TotalDownload = download2;
-
-      this.basicData = {
-        labels: [...data.comparedDownloads[2]],
-        datasets: [
-          {
-            label: this.package1Name,
-            data: [...data.comparedDownloads[0]],
-            fill: false,
-            backgroundColor: documentStyle.getPropertyValue('--blue-500'),
-            borderColor: documentStyle.getPropertyValue('--blue-500'),
-            borderWidth: 1,
-            tension: 0.4,
-          },
-          {
-            label: this.package2Name,
-            data: [...data.comparedDownloads[1]],
-            fill: false,
-            backgroundColor: documentStyle.getPropertyValue('--pink-500'),
-            borderColor: documentStyle.getPropertyValue('--pink-500'),
-            borderWidth: 1,
-            tension: 0.4,
-          },
-        ],
-      };
+      if (this.dataSetData.length == data.comparedDownloads.downloads.length) {
+        this.basicData = {
+          labels: [...data.comparedDownloads.anyPackageDay[0]],
+          datasets: [...this.dataSetData],
+        };
+      }
     } else {
       this.basicData = {
         labels: [...data.period],
@@ -160,15 +138,15 @@ export class DownloadChartService {
       },
     };
 
+    this.packageDownloads = downloads;
+
     this.downloadChartInfo.next({
       basicData: this.basicData,
       basicOptions: this.basicOptions,
       totalDownloadCount: this.totalDownloadCount,
       comparedPackagesData: {
-        package1Download: this.package1TotalDownload,
-        package2Download: this.package2TotalDownload,
-        package1Name: this.package1Name,
-        package2Name: this.package2Name,
+        packageDownloads: this.packageDownloads,
+        packageNames: this.packageNames,
       },
     });
   }

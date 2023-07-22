@@ -10,17 +10,25 @@
       >
         <div class="form-item">
           <label>Library {{ i + 1 }}</label>
-          <input
-            type="text"
-            placeholder="enter library name"
-            [formControlName]="'libraryName'"
-          />
+          <div class="input-main" fxLayoutAlign="center center">
+            <input
+              type="text"
+              placeholder="enter library name"
+              [formControlName]="'libraryName'"
+            />
+            <span *ngIf="i >= 2" class="remove-input" (click)="removeInput(i)"
+              ><i class="fa fa-trash"></i
+            ></span>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="form-actions">
       <button type="submit">Submit</button>
+      <button type="button" class="add-input" (click)="addInputs()">
+        <i class="fa fa-plus"></i>
+      </button>
     </div>
   </form>
 </div>

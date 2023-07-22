@@ -80,7 +80,7 @@ export class RangeDialogComponent implements OnInit {
     if (this.isComparingDownloads) {
       console.log(start, end);
 
-      let libNames = localStorage.getItem('libNames');
+      let libNames = JSON.parse(localStorage.getItem('libNames') || '{}');
       if (libNames) {
         this.libService.isComparingDownloads.next(true);
 
@@ -89,7 +89,7 @@ export class RangeDialogComponent implements OnInit {
     } else {
       this.libService.isComparingDownloads.next(false);
 
-      this.libService.getDownloads(start + ':' + end, this.libName, false);
+      this.libService.getDownloads(start + ':' + end, [this.libName], false);
     }
   }
 }

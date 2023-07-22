@@ -17,16 +17,16 @@
       <span class="download-count" *ngIf="!isCompareDownloads">{{
         totalDownloadCount
       }}</span>
-      <span class="download-count" *ngIf="isCompareDownloads"
-        ><span class="compared-package-name">{{ package1Name }}: </span>
-        <span class="compared-package-download">{{
-          package1TotalDownload | number
-        }}</span>
-        -
-        <span class="compared-package-name"> {{ package2Name }}: </span>
-        <span class="compared-package-download">{{
-          package2TotalDownload | number
-        }}</span>
+      <span class="download-count" *ngIf="isCompareDownloads">
+        <ng-container
+          *ngFor="let downloadCount of packageDownloads; let i = index"
+        >
+          <span class="compared-package-name">{{ packageNames[i] }}: </span>
+          <span class="compared-package-download">{{
+            packageDownloads[i] | number
+          }}</span>
+          -
+        </ng-container>
       </span>
       downloads
       <span

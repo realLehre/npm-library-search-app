@@ -31,7 +31,6 @@ export class LibraryVersionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.libSub = this.libService.libCommonInfo.subscribe((info) => {
       this.libVersion = info.libVersion;
-
       this.dataSource.data = info.libVersion;
     });
   }
