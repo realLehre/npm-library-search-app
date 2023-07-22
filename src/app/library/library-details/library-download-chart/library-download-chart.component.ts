@@ -171,7 +171,7 @@ export class LibraryDownloadChartComponent
     const dialogRef = this.dialog.open(CompareDownloadsComponent, {
       data: { range: this.downloadRange },
       width: '500px',
-      height: '50%',
+      height: '70%',
     });
   }
 

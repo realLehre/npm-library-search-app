@@ -46,7 +46,7 @@ export class CompareDownloadsComponent implements OnInit {
   addInputs() {
     (<FormArray>this.compareForm.get('libNames')).push(
       new FormGroup({
-        libraryName: new FormControl(null),
+        libraryName: new FormControl(null, Validators.required),
       })
     );
   }
