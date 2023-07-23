@@ -30,15 +30,16 @@
 }
 
 .compared-package-name {
-  text-transform: capitalize;
+  color: rgba($dark-color, 0.8);
+  font-size: 0.9rem;
   font-weight: 700;
 }
 
 .compared-package-download {
-  background: rgba($dark-color, 0.9);
-  color: $light-text-color;
+  color: $dark-color;
   padding: 2px 5px;
   font-size: 1rem;
+  font-weight: 700;
 }
 
 .chart {
@@ -128,6 +129,13 @@
 .compare {
   margin-top: 10px;
   &-header {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &-previous {
     font-size: 1.2rem;
     font-weight: 500;
     text-decoration: underline;

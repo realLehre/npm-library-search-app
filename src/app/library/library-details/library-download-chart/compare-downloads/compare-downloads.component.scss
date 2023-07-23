@@ -93,3 +93,23 @@
     }
   }
 }
+
+.previous-main {
+  cursor: pointer;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba($dark-color, 0.5);
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  & .s-n {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  & .libraries {
+    font-size: 1.3rem;
+    margin-left: 20px;
+  }
+}

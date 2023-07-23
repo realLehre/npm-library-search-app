@@ -43,6 +43,7 @@ export class LibraryDownloadChartComponent
   isFetchingCompareData: boolean = false;
   isCompareDownloads!: boolean;
   comparedLibNames: string[] = [];
+  previousLibNames: any[] = [];
 
   packageDownloads: number[] = [];
   packageNames: string[] = [];
@@ -131,6 +132,9 @@ export class LibraryDownloadChartComponent
 
         this.packageDownloads = d;
       });
+
+    let previousComps = localStorage.getItem('libNamesPrevious');
+    this.previousLibNames = previousComps ? JSON.parse(previousComps) : [];
   }
 
   onSelectRange(range: any) {
@@ -139,21 +143,11 @@ export class LibraryDownloadChartComponent
       return;
     }
 
-    if (range == 'today') {
-      const date = moment(new Date()).format('YYYY-MM-DD');
-      if (this.isCompareDownloads) {
-        this.libService.isComparingDownloads.next(true);
-        this.libService.getDownloads(date, this.comparedLibNames, true);
-      } else {
-        this.libService.getDownloads(date, [this.libName], false);
-      }
+    if (this.isCompareDownloads) {
+      this.libService.isComparingDownloads.next(true);
+      this.libService.getDownloads(range, this.comparedLibNames, true);
     } else {
-      if (this.isCompareDownloads) {
-        this.libService.isComparingDownloads.next(true);
-        this.libService.getDownloads(range, this.comparedLibNames, true);
-      } else {
-        this.libService.getDownloads(range, [this.libName], false);
-      }
+      this.libService.getDownloads(range, [this.libName], false);
     }
 
     this.downloadChartService.periodDisplay(range);
@@ -167,9 +161,13 @@ export class LibraryDownloadChartComponent
     });
   }
 
-  openCompareDialog() {
+  openCompareDialog(status: boolean) {
     const dialogRef = this.dialog.open(CompareDownloadsComponent, {
-      data: { range: this.downloadRange },
+      data: {
+        range: this.downloadRange,
+        status: status,
+        previousLibs: this.previousLibNames,
+      },
       width: '500px',
       height: '70%',
     });

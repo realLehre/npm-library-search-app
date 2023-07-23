@@ -13,11 +13,14 @@ export class CompareDownloadsComponent implements OnInit {
   compareForm!: FormGroup;
   downloadRange!: string;
   formError: boolean = false;
+  status: boolean = true;
+  libNamesPrevious: any[] = [];
 
   constructor(
     private libService: LibraryService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) private data: { downloadRange: string }
+    @Inject(MAT_DIALOG_DATA)
+    private data: { range: string; status: boolean; previousLibs: any[] }
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +35,13 @@ export class CompareDownloadsComponent implements OnInit {
       ]),
     });
 
-    this.downloadRange = this.data.downloadRange;
+    this.downloadRange = this.data.range;
+    this.status = this.data.status;
+    this.libNamesPrevious = this.data.previousLibs;
+
+    if (this.libNamesPrevious.length > 5) {
+      this.libNamesPrevious.splice(5);
+    }
   }
 
   get formArray() {
@@ -54,6 +63,7 @@ export class CompareDownloadsComponent implements OnInit {
   onSubmit() {
     if (this.compareForm.invalid) {
       this.formError = true;
+
       setTimeout(() => {
         this.formError = false;
       }, 2000);
@@ -62,6 +72,7 @@ export class CompareDownloadsComponent implements OnInit {
     this.libService.isComparingDownloads.next(true);
 
     const libNames: string[] = [];
+
     this.compareForm.value.libNames.forEach((name: { libraryName: string }) => {
       libNames.push(name.libraryName.toLowerCase());
     });
@@ -76,6 +87,12 @@ export class CompareDownloadsComponent implements OnInit {
   }
 
   closeModal() {
+    this.dialog.closeAll();
+  }
+
+  loadDownloadData(lib: string[]) {
+    this.libService.isComparingDownloads.next(true);
+    this.libService.getDownloads('last-day', lib, true);
     this.dialog.closeAll();
   }
 }

@@ -21,7 +21,9 @@
         <ng-container
           *ngFor="let downloadCount of packageDownloads; let i = index"
         >
-          <span class="compared-package-name">{{ packageNames[i] }}: </span>
+          <span class="compared-package-name"
+            >{{ packageNames[i].toLocaleUpperCase() }}:
+          </span>
           <span class="compared-package-download">{{
             packageDownloads[i] | number
           }}</span>
@@ -37,10 +39,6 @@
       >
       <span
         ><mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onSelectRange('today')">
-            <span>Today</span>
-          </button>
-
           <button mat-menu-item (click)="onSelectRange('last-day')">
             <span>Yesterday</span>
           </button>
@@ -183,9 +181,12 @@
     </div>
   </div>
 
-  <div class="compare">
-    <p class="compare-header" (click)="openCompareDialog()">
+  <div class="compare" fxLayoutAlign="space-between center">
+    <p class="compare-header" (click)="openCompareDialog(true)">
       Compare downloads
     </p>
+    <div class="compare-previous" (click)="openCompareDialog(false)">
+      Previous
+    </div>
   </div>
 </div>

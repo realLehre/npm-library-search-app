@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, forkJoin } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { DataTable, Library } from '../library/library.model';
 import { LibraryDownloadInterface } from '../library/library-details/library-download-chart/library-download.model';
-import { resolve } from 'chart.js/dist/helpers/helpers.options';
 
 export interface DownloadStat {
   count: number[];
@@ -37,10 +36,16 @@ export class LibraryService {
   isComparingDownloads = new BehaviorSubject<boolean>(false);
   isCompareError = new Subject<boolean>();
   comparedLibNames = new Subject<string[]>();
+  previousLibNames: any[] = [];
+  previousLibNamesSub = new Subject<any[]>();
 
   compareFormHeight = new BehaviorSubject<number>(180);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    let previousComps = localStorage.getItem('libNamesPrevious');
+    this.previousLibNames = previousComps ? JSON.parse(previousComps) : [];
+    console.log(this.previousLibNames);
+  }
 
   getLibStats(libName: string) {
     this.isLoading.next(true);
@@ -158,46 +163,26 @@ export class LibraryService {
         compare: true,
       });
 
-      libNames.forEach((lib: string, index) => {
-        this.http
-          .get<LibraryDownloadInterface>(
-            `https://api.npmjs.org/downloads/range/${range}/${libNames[index]}`
-          )
-          .subscribe((data) => {
-            // const period = [];
-            // let totalDownloads = 0;
-            // let comparedPackages: {
-            //   downloads: any[];
-            //   anyPackageDay: string[];
-            //   comparedPackagesNames: string[];
-            //   comparedPackagesTotalDownloads: number[];
-            // };
-            // console.log(data);
-            // console.log(data.downloads);
-            // for (const key in data.downloads) {
-            //   downloads.push(data.downloads[key].downloads);
-            //   period.push(data.downloads[key].day);
-            // }
-            // comparedPackageDownloads.push(downloads);
-            // downloads.forEach((download) => {
-            //   totalDownloads += download;
-            // });
-            // this.comparedPackagesTotalDownloads.push(totalDownloads);
-            // comparedPackages = {
-            //   downloads: comparedPackageDownloads,
-            //   anyPackageDay: period,
-            //   comparedPackagesNames: libNames,
-            //   comparedPackagesTotalDownloads:
-            //     this.comparedPackagesTotalDownloads,
-            // };
-            // this.downloadStats.next({
-            //   count: [],
-            //   period: [],
-            //   comparedDownloads: comparedPackages,
-            //   compare: true,
-            // });
-          });
-      });
+      const libNamesRe = libNames;
+
+      if (this.previousLibNames.length != 0) {
+        if (
+          libNamesRe.toString() !==
+          this.previousLibNames[this.previousLibNames.length - 1].toString()
+        ) {
+          this.previousLibNames.unshift(libNames);
+          localStorage.setItem(
+            'libNamesPrevious',
+            JSON.stringify(this.previousLibNames)
+          );
+        } else {
+          return;
+        }
+      } else {
+        localStorage.setItem('libNamesPrevious', JSON.stringify([libNames]));
+      }
+
+      this.previousLibNamesSub.next(this.previousLibNames);
     } else {
       this.http
         .get<LibraryDownloadInterface>(
