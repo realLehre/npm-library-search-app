@@ -38,6 +38,10 @@
   </form>
 
   <div class="previous" *ngIf="!status">
+    <div class="previous-alert" *ngIf="libNamesPrevious.length == 0">
+      No previously compared libraries.
+      <span class="previous-alert-btn" (click)="status = true"> Compare? </span>
+    </div>
     <div
       class="previous-main"
       *ngFor="let lib of libNamesPrevious; let i = index"

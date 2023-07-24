@@ -94,6 +94,15 @@
   }
 }
 
+.previous-alert {
+  font-size: 1.5rem;
+
+  &-btn {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
 .previous-main {
   cursor: pointer;
   padding-bottom: 5px;

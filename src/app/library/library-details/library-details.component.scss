@@ -66,29 +66,39 @@
 .lib-actions {
   width: 100%;
   margin-inline: auto;
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
+  margin: 40px 0;
 
-  & a {
-    display: inline-block;
-    text-decoration: none;
+  & .action {
+    display: block;
 
-    &.github {
-      margin-right: 20px;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+      // border-bottom: 1px solid $dark-color;
     }
 
-    & i {
+    &-heading {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: rgba($dark-color, 0.8);
+      text-decoration: underline;
+    }
+
+    & a {
+      display: inline-block;
+      text-decoration: none;
       color: $dark-color;
-      font-size: 2rem;
-      transition: all 500ms ease-in-out;
+      font-size: 1.2rem;
+      font-weight: 700;
 
-      &.fa-npm {
-        font-size: 3rem;
-      }
+      & i {
+        color: $dark-color;
+        font-size: 1.2rem;
+        transition: all 500ms ease-in-out;
 
-      &:hover {
-        color: rgba($dark-color, 0.8);
+        &.fa-npm {
+          font-size: 1.5rem;
+          margin-right: 5px;
+        }
       }
     }
   }

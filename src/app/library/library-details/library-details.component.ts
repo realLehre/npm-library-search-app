@@ -1,17 +1,17 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Subscription, map, take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 import { LibraryService } from 'src/app/services/library.service';
 import { DataTable, Library } from '../library.model';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-library-details',
@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./library-details.component.scss'],
 })
 export class LibraryDetailsComponent
-  implements OnInit, OnDestroy, AfterViewInit
+  implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked
 {
   isLoading: boolean = true;
   libSub!: Subscription;
@@ -31,6 +31,9 @@ export class LibraryDetailsComponent
   libGithub!: string;
   libNpm!: string;
   libAuthor!: string;
+
+  pageWidth!: number;
+  @ViewChild('detailsContainer') detailsContainer!: ElementRef;
 
   constructor(
     private libService: LibraryService,
@@ -52,7 +55,8 @@ export class LibraryDetailsComponent
       next: (data) => {
         this.lib = data;
         this.libName = data.name;
-        this.libGithub = data.homepage;
+        this.libGithub = data.repository.url;
+        this.libGithub = this.libGithub.slice(4, this.libGithub.length);
         if (data.author) {
           for (const key in data.author) {
             this.libAuthor = data.author[key];
@@ -69,6 +73,10 @@ export class LibraryDetailsComponent
 
   ngAfterViewInit(): void {
     this.libService.getLibStats(this.libName);
+  }
+
+  ngAfterViewChecked(): void {
+    this.pageWidth = this.detailsContainer.nativeElement.offsetWidth;
   }
 
   ngOnDestroy(): void {

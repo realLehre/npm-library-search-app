@@ -10,7 +10,7 @@ export interface Library {
   license: string;
   maintainers: Array<Object>;
   readme: string;
-  repository: Object;
+  repository: { directory: string; type: string; url: string };
   time: { [key: string]: string };
   users: Object;
   versions: Object;

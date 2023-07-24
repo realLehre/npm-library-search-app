@@ -12,6 +12,10 @@
     & i {
       cursor: pointer;
       margin-left: 10px;
+
+      &.fa-download {
+        color: rgba($dark-color, 0.8);
+      }
     }
   }
 

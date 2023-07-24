@@ -5,6 +5,10 @@
   font-weight: 500;
   margin-bottom: 10px;
   text-decoration: underline;
+
+  & i {
+    color: rgba($dark-color, 0.8);
+  }
 }
 
 .lib-version {

@@ -1,4 +1,4 @@
-<div class="lib-details-container" fxFlex>
+<div class="lib-details-container" fxFlex #detailsContainer>
   <div class="lib" *ngIf="!isLoading">
     <div class="lib-name-info" fxLayout fxLayoutAlign="space-between center">
       <div class="lib-name-desc">
@@ -19,12 +19,25 @@
     </div>
 
     <div class="lib-actions">
-      <a [href]="libGithub" class="github" target="_blank">
-        <i class="fa-brands fa-github"></i
-      ></a>
-      <a [href]="libNpm" class="npm" target="_blank"
-        ><i class="fa-brands fa-npm"></i
-      ></a>
+      <div class="action">
+        <p class="action-heading">Repository</p>
+        <a [href]="libGithub" class="github" target="_blank">
+          <i class="fa-brands fa-github"></i>
+          {{ libGithub | shortenText : pageWidth }}
+        </a>
+      </div>
+
+      <div class="action">
+        <p class="action-heading">Npm</p>
+        <a
+          [href]="libNpm"
+          class="npm"
+          target="_blank"
+          fxLayoutAlign="start center "
+          ><i class="fa-brands fa-npm"></i>
+          {{ libNpm | shortenText : pageWidth }}</a
+        >
+      </div>
     </div>
 
     <div class="lib-versions">
