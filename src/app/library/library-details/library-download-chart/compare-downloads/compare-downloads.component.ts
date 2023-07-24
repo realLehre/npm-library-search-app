@@ -90,9 +90,9 @@ export class CompareDownloadsComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  loadDownloadData(lib: string[]) {
+  loadDownloadData(libNames: string[]) {
     this.libService.isComparingDownloads.next(true);
-    this.libService.getDownloads('last-day', lib, true);
+    this.libService.comparedLibNames.next(libNames);
     this.dialog.closeAll();
   }
 }

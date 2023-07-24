@@ -37,14 +37,12 @@ export class LibraryService {
   isCompareError = new Subject<boolean>();
   comparedLibNames = new Subject<string[]>();
   previousLibNames: any[] = [];
-  previousLibNamesSub = new Subject<any[]>();
 
   compareFormHeight = new BehaviorSubject<number>(180);
 
   constructor(private http: HttpClient) {
     let previousComps = localStorage.getItem('libNamesPrevious');
     this.previousLibNames = previousComps ? JSON.parse(previousComps) : [];
-    console.log(this.previousLibNames);
   }
 
   getLibStats(libName: string) {
@@ -166,10 +164,7 @@ export class LibraryService {
       const libNamesRe = libNames;
 
       if (this.previousLibNames.length != 0) {
-        if (
-          libNamesRe.toString() !==
-          this.previousLibNames[this.previousLibNames.length - 1].toString()
-        ) {
+        if (libNamesRe.toString() !== this.previousLibNames[0].toString()) {
           this.previousLibNames.unshift(libNames);
           localStorage.setItem(
             'libNamesPrevious',
@@ -181,8 +176,6 @@ export class LibraryService {
       } else {
         localStorage.setItem('libNamesPrevious', JSON.stringify([libNames]));
       }
-
-      this.previousLibNamesSub.next(this.previousLibNames);
     } else {
       this.http
         .get<LibraryDownloadInterface>(

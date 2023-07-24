@@ -145,6 +145,7 @@ export class LibraryDownloadChartComponent
 
     if (this.isCompareDownloads) {
       this.libService.isComparingDownloads.next(true);
+
       this.libService.getDownloads(range, this.comparedLibNames, true);
     } else {
       this.libService.getDownloads(range, [this.libName], false);
