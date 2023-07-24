@@ -39,8 +39,8 @@ export class CompareDownloadsComponent implements OnInit {
     this.status = this.data.status;
     this.libNamesPrevious = this.data.previousLibs;
 
-    if (this.libNamesPrevious.length > 5) {
-      this.libNamesPrevious.splice(5);
+    if (this.libNamesPrevious.length > 6) {
+      this.libNamesPrevious.splice(6);
     }
   }
 
