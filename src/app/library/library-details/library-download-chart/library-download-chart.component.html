@@ -8,11 +8,7 @@
       (click)="onChartReload()"
     ></i>
   </p>
-  <div
-    class="download-chart-container-header"
-    fxLayout
-    fxLayoutAlign="space-between center"
-  >
+  <div class="download-chart-container-header">
     <span>
       <span class="download-count" *ngIf="!isCompareDownloads">{{
         totalDownloadCount
@@ -22,15 +18,14 @@
           *ngFor="let downloadCount of packageDownloads; let i = index"
         >
           <span class="compared-package-name"
-            >{{ packageNames[i].toLocaleUpperCase() }}:
-          </span>
+            >{{ packageNames[i].toLocaleUpperCase() }}:</span
+          >
           <span class="compared-package-download">{{
             packageDownloads[i] | number
           }}</span>
-          -
         </ng-container>
       </span>
-      downloads
+      <span id="dlds"> - downloads </span>
       <span
         class="downloads-toggle"
         [matMenuTriggerFor]="menu"

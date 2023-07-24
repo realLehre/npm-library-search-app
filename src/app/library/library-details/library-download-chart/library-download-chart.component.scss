@@ -21,6 +21,9 @@
     margin-bottom: 10px;
     height: 40px;
     margin-inline: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
@@ -147,15 +150,25 @@
   .download-chart-container {
     &-header {
       font-size: 0.7rem;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 30px;
+    }
+
+    & #dlds {
+      font-size: 0.8rem;
     }
   }
 
   .download-count {
     line-height: 1.5;
   }
+  .compared-package-name {
+    font-size: 0.7rem;
+  }
 
   .compared-package-download {
-    font-size: 0.5rem;
+    font-size: 0.9rem;
   }
 
   .compare {
