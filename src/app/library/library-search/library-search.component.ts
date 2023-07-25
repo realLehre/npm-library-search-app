@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LibraryService } from '../../services/library.service';
 import { Router } from '@angular/router';
-import { Library } from '../library.model';
 import { Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+
+import { LibraryService } from '../../services/library.service';
+import { Library } from '../library.model';
 
 @Component({
   selector: 'app-library-search',
@@ -20,11 +20,7 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
 
   text: string = '';
 
-  constructor(
-    private libService: LibraryService,
-    private router: Router,
-    private http: HttpClient
-  ) {}
+  constructor(private libService: LibraryService, private router: Router) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
@@ -49,9 +45,9 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
   onSubmit() {
     const libName = this.searchForm.value.libraryName.toLowerCase();
 
-    this.libService.getLibStats(libName);
-
+    this.libService.usingHistory.next(false);
     this.libService.appIsLoading.next(true);
+    this.libService.getLibStats(libName);
 
     this.libService.libError.subscribe((error) => {
       if (error) {

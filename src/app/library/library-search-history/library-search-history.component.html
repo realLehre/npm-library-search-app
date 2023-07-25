@@ -1,5 +1,7 @@
 <div class="history-container" fxLayout="column" fxLayoutAlign="center center">
-  <p class="history-heading">Search history</p>
+  <p class="history-heading" *ngIf="searchHistory.length != 0">
+    Search history
+  </p>
 
   <div class="nothing" *ngIf="searchHistory.length == 0">
     No previous data. <a [routerLink]="['/']" (click)="close()">Search?</a>
@@ -10,7 +12,7 @@
       class="prev-searches"
       *ngFor="let history of searchHistory; let i = index"
     >
-      <li class="prev-searches-item">
+      <li class="prev-searches-item" (click)="loadLibraryData(history)">
         <span class="index">{{ i + 1 }}. </span>{{ history }}
       </li>
     </ul>

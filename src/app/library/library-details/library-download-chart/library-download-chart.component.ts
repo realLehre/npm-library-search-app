@@ -1,14 +1,13 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
+import { Subscription, take } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { LibraryService } from 'src/app/services/library.service';
 import { RangeDialogComponent } from './download-range-dialog/range-dialog/range-dialog.component';
 import { DownloadChartService } from 'src/app/services/download-chart-service.service';
 import { CompareDownloadsComponent } from './compare-downloads/compare-downloads.component';
-import { Subscription, take } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-library-download-chart',

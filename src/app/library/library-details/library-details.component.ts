@@ -1,6 +1,4 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -12,17 +10,13 @@ import { ActivatedRoute } from '@angular/router';
 
 import { LibraryService } from 'src/app/services/library.service';
 import { DataTable, Library } from '../library.model';
-import { MatDialog } from '@angular/material/dialog';
-import { LibrarySearchHistoryComponent } from '../library-search-history/library-search-history.component';
 
 @Component({
   selector: 'app-library-details',
   templateUrl: './library-details.component.html',
   styleUrls: ['./library-details.component.scss'],
 })
-export class LibraryDetailsComponent
-  implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked
-{
+export class LibraryDetailsComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   libSub!: Subscription;
 
@@ -72,14 +66,6 @@ export class LibraryDetailsComponent
     this.libService.libCommonInfo.subscribe((info) => {
       this.libCurrentVersion = info.currentVersion;
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.libService.getLibStats(this.libName);
-  }
-
-  ngAfterViewChecked(): void {
-    this.pageWidth = this.detailsContainer.nativeElement.offsetWidth;
   }
 
   ngOnDestroy(): void {

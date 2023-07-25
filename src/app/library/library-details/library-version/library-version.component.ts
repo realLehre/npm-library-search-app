@@ -1,18 +1,21 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataTable } from '../../library.model';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { LibraryService } from 'src/app/services/library.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-library-version',
   templateUrl: './library-version.component.html',
   styleUrls: ['./library-version.component.scss'],
 })
-export class LibraryVersionComponent implements OnInit, OnDestroy {
+export class LibraryVersionComponent implements OnInit {
+  lib!: string;
   libSub!: Subscription;
+  libVersionInfo!: any;
   libCurrentVersion!: string;
   libVersion: DataTable[] = [];
   displayedColumns: string[] = ['date', 'version'];
@@ -26,16 +29,15 @@ export class LibraryVersionComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private libService: LibraryService) {}
+  constructor(
+    private libService: LibraryService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.libSub = this.libService.libCommonInfo.subscribe((info) => {
-      this.libVersion = info.libVersion;
-      this.dataSource.data = info.libVersion;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.libSub.unsubscribe();
+    let libVersionInfo = localStorage.getItem('libVersion');
+    this.libVersionInfo = libVersionInfo ? JSON.parse(libVersionInfo) : {};
+    this.libVersion = this.libVersionInfo.libVersion;
+    this.dataSource.data = this.libVersionInfo.libVersion;
   }
 }

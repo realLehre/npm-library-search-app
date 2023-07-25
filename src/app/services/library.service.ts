@@ -33,6 +33,7 @@ export class LibraryService {
   libVersion: DataTable[] = [];
   libCommonInfo = new Subject<any>();
   searchHistory: string[] = [];
+  usingHistory = new BehaviorSubject<boolean>(false);
 
   isComparingDownloads = new BehaviorSubject<boolean>(false);
   isCompareError = new Subject<boolean>();
@@ -47,59 +48,60 @@ export class LibraryService {
 
     let history = localStorage.getItem('search-history');
     this.searchHistory = history ? JSON.parse(history) : [];
-
-    console.log(this.searchHistory);
   }
 
   getLibStats(libName: string) {
     this.isLoading.next(true);
     this.appIsLoading.next(true);
-    this.http
-      .get<Library>(`https://registry.npmjs.org/${libName}`)
-      .pipe(
-        map((data: Library) => {
-          return {
-            ...data,
-          };
-        })
-      )
-      .subscribe({
-        next: (data) => {
-          this.isLoading.next(false);
-          this.appIsLoading.next(false);
-          this.libError.next(false);
-          this.libInfo.next(data);
 
-          let currentVersion = Object.keys(data.versions)[
-            Object.keys(data.versions).length - 1
+    this.http.get<Library>(`https://registry.npmjs.org/${libName}`).subscribe({
+      next: (data) => {
+        this.isLoading.next(false);
+        this.appIsLoading.next(false);
+        this.libError.next(false);
+
+        this.libInfo.next(data);
+        let libVersion: any[] = [];
+
+        let currentVersion = Object.keys(data.versions)[
+          Object.keys(data.versions).length - 1
+        ];
+        if (currentVersion.charAt(0) == '0') {
+          currentVersion = Object.keys(data.versions)[
+            Object.keys(data.versions).length - 2
           ];
-          if (currentVersion.charAt(0) == '0') {
-            currentVersion = Object.keys(data.versions)[
-              Object.keys(data.versions).length - 2
-            ];
-          }
+        }
 
-          for (const key in data.time) {
-            this.libVersion.push({
-              date: data.time[key].slice(-data.time[key].length, 10),
-              version: key,
-            });
-          }
+        for (const key in data.time) {
+          libVersion.push({
+            date: data.time[key].slice(-data.time[key].length, 10),
+            version: key,
+          });
+        }
 
-          this.libVersion = this.libVersion.slice(2);
+        this.libVersion = libVersion;
+        this.libVersion = this.libVersion.slice(2);
 
-          this.libCommonInfo.next({
+        this.libCommonInfo.next({
+          currentVersion: currentVersion,
+          libVersion: this.libVersion,
+        });
+
+        localStorage.setItem(
+          'libVersion',
+          JSON.stringify({
             currentVersion: currentVersion,
             libVersion: this.libVersion,
-          });
-        },
-        error: (err) => {
-          this.isLoading.next(false);
-          this.appIsLoading.next(false);
-          this.libError.next(true);
-          console.log(err);
-        },
-      });
+          })
+        );
+      },
+      error: (err) => {
+        this.isLoading.next(false);
+        this.appIsLoading.next(false);
+        this.libError.next(true);
+        console.log(err);
+      },
+    });
   }
 
   async getDownloads(range: any, libNames: string[], compare: boolean) {
