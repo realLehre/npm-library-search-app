@@ -32,6 +32,7 @@ export class LibraryService {
   libDownloadCustomRange = new Subject<{ start: string; end: string }>();
   libVersion: DataTable[] = [];
   libCommonInfo = new Subject<any>();
+  searchHistory: string[] = [];
 
   isComparingDownloads = new BehaviorSubject<boolean>(false);
   isCompareError = new Subject<boolean>();
@@ -43,6 +44,11 @@ export class LibraryService {
   constructor(private http: HttpClient) {
     let previousComps = localStorage.getItem('libNamesPrevious');
     this.previousLibNames = previousComps ? JSON.parse(previousComps) : [];
+
+    let history = localStorage.getItem('search-history');
+    this.searchHistory = history ? JSON.parse(history) : [];
+
+    console.log(this.searchHistory);
   }
 
   getLibStats(libName: string) {
@@ -202,6 +208,26 @@ export class LibraryService {
             },
             compare: false,
           });
+
+          if (this.searchHistory.length == 0) {
+            this.searchHistory = libNames;
+            localStorage.setItem('search-history', JSON.stringify(libNames));
+          } else if (
+            this.searchHistory.some((history: string) => history == libNames[0])
+          ) {
+            return;
+          } else {
+            this.searchHistory.unshift(...libNames);
+
+            if (this.searchHistory.length > 5) {
+              this.searchHistory = this.searchHistory.slice(0, 5);
+            }
+
+            localStorage.setItem(
+              'search-history',
+              JSON.stringify(this.searchHistory)
+            );
+          }
 
           localStorage.setItem('downloadStats', range);
         });

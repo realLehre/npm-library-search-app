@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { LibraryService } from 'src/app/services/library.service';
 import { DataTable, Library } from '../library.model';
+import { MatDialog } from '@angular/material/dialog';
+import { LibrarySearchHistoryComponent } from '../library-search-history/library-search-history.component';
 
 @Component({
   selector: 'app-library-details',
@@ -31,6 +33,7 @@ export class LibraryDetailsComponent
   libGithub!: string;
   libNpm!: string;
   libAuthor!: string;
+  searchHistory: any[] = [];
 
   pageWidth!: number;
   @ViewChild('detailsContainer') detailsContainer!: ElementRef;
