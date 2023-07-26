@@ -20,12 +20,14 @@ Home
 ![Home](src/assets/home.png)
 
 Library details and versions
-![Home](src/assets/versions.png)
+![Home](src/assets/details.png)
+![Home](src/assets/version.png)
 
 Downloads
-![Home](src/assets/chart-single.png)
-![Home](src/assets/chart-compare.png)
-![Home](src/assets/chart-line.png)
+![Home](src/assets/chart-single-2.png)
+![Home](src/assets/chart-compare-bars.png)
+![Home](src/assets/chart-compare-line.png)
+![Home](src/assets/chart-compare-pie.png)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
 
