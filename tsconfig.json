@@ -24,7 +24,8 @@
       "tslib": ["./node_modules/tslib/tslib.d.ts"],
       "stream": ["./node_modules/stream-browserify"],
       "http": ["./node_modules/stream-http"],
-      "https": ["./node_modules/https-browserify"]
+      "https": ["./node_modules/https-browserify"],
+      "path": ["./node_modules/path-browserify"]
     },
     "exactOptionalPropertyTypes": false
   },

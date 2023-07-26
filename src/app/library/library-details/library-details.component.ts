@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   Component,
   ElementRef,
   OnDestroy,
@@ -16,7 +17,9 @@ import { DataTable, Library } from '../library.model';
   templateUrl: './library-details.component.html',
   styleUrls: ['./library-details.component.scss'],
 })
-export class LibraryDetailsComponent implements OnInit, OnDestroy {
+export class LibraryDetailsComponent
+  implements OnInit, AfterViewChecked, OnDestroy
+{
   isLoading: boolean = true;
   libSub!: Subscription;
 
@@ -66,6 +69,10 @@ export class LibraryDetailsComponent implements OnInit, OnDestroy {
     this.libService.libCommonInfo.subscribe((info) => {
       this.libCurrentVersion = info.currentVersion;
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.pageWidth = this.detailsContainer.nativeElement.offsetWidth;
   }
 
   ngOnDestroy(): void {

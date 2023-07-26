@@ -36,7 +36,14 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/config-styles"]
             },
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "crypto",
+              "stream",
+              "http",
+              "https",
+              "path"
+            ]
           },
           "configurations": {
             "production": {
