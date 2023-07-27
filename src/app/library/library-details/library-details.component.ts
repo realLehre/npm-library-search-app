@@ -51,6 +51,7 @@ export class LibraryDetailsComponent
     });
 
     this.libService.getLibStats(this.libName);
+    this.libService.isComparingDownloads.next(false);
 
     this.libService.libCommonInfo.subscribe((info) => {
       this.libCurrentVersion = info.currentVersion;
