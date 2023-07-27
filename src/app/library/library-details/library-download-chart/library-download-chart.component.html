@@ -11,30 +11,40 @@
       (click)="onChartReload()"
     ></i>
   </p>
+
   <div class="download-chart-container-header">
-    <span>
-      <span class="download-count" *ngIf="!isCompareDownloads">{{
-        totalDownloadCount
-      }}</span>
-      <span class="download-count" *ngIf="isCompareDownloads">
-        <ng-container
-          *ngFor="let downloadCount of packageDownloads; let i = index"
-        >
-          <span class="compared-package-name"
-            >{{ packageNames[i].toLocaleUpperCase() }}:</span
+    <span class="main-download-controls">
+      <div class="download-count single" *ngIf="!isCompareDownloads">
+        <span class="single-name">{{ libName }}: </span>
+        <span class="single-download-count"></span>
+        {{ totalDownloadCount | number }}
+      </div>
+      <div
+        class="compare-download-container"
+        *ngIf="isCompareDownloads && packageDownloads.length != 0"
+      >
+        <div class="download-count compare-download-count">
+          <div
+            class="compare-count"
+            *ngFor="let downloadCount of packageDownloads; let i = index"
           >
-          <span class="compared-package-download">{{
-            packageDownloads[i] | number
-          }}</span>
-        </ng-container>
-      </span>
-      <span id="dlds"> - downloads </span>
-      <span
+            <span class="compared-package-name"
+              >{{ packageNames[i].toLocaleUpperCase() }}:
+            </span>
+            <span class="compared-package-download">{{
+              packageDownloads[i] | number
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div
         class="downloads-toggle"
         [matMenuTriggerFor]="menu"
         matTooltip="select downloads period"
-        >({{ downloadPeriodDisplay }})</span
       >
+        {{ downloadPeriodDisplay }}
+      </div>
       <span
         ><mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onSelectRange('last-day')">
@@ -52,8 +62,8 @@
           >
             <span>Custom range</span>
           </button>
-        </mat-menu></span
-      >
+        </mat-menu>
+      </span>
     </span>
 
     <span class="chart-type" fxLayout fxLayoutAlign="center center">

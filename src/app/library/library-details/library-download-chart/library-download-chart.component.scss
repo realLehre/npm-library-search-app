@@ -1,6 +1,7 @@
 @import "base-styles";
 
 .download-chart-container {
+  width: 100%;
   position: relative;
 
   & .download-chart-header {
@@ -20,20 +21,49 @@
   }
 
   &-header {
+    width: 100%;
     font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: 10px;
-    height: 40px;
+    // height: 40px;
     margin-inline: auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    overflow-x: hidden;
   }
 }
 
-.downloads-toggle {
-  color: rgb(32, 73, 255);
-  cursor: pointer;
+.download-count.single {
+  & .single-name {
+    color: rgba($dark-color, 0.8);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  & .single-download-count {
+    color: $dark-color;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+.compare-download-container {
+  width: 100%;
+}
+
+.compare-download-count {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.compare-count {
+  border: 1px solid rgba($dark-color, 0.6);
+  padding: 1px 4px;
 }
 
 .compared-package-name {
@@ -44,9 +74,21 @@
 
 .compared-package-download {
   color: $dark-color;
-  padding: 2px 5px;
   font-size: 1rem;
   font-weight: 700;
+}
+
+.downloads-toggle {
+  cursor: pointer;
+  color: $dark-color;
+  font-weight: 800;
+  text-decoration: underline;
+  margin-top: 10px;
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    color: rgba($dark-color, 0.8);
+  }
 }
 
 .chart {
@@ -96,6 +138,7 @@
 
   & p {
     margin-right: 5px;
+    line-height: 1.1;
   }
 
   &-icon {
@@ -134,6 +177,7 @@
 }
 
 .compare {
+  width: 100%;
   margin-top: 10px;
   &-header {
     font-size: 1.2rem;
@@ -156,6 +200,7 @@
       font-size: 0.7rem;
       flex-direction: column;
       align-items: flex-start;
+      flex-wrap: nowrap;
       margin-bottom: 30px;
     }
 

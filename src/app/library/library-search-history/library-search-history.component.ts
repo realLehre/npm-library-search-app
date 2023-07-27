@@ -25,6 +25,7 @@ export class LibrarySearchHistoryComponent implements OnInit {
   loadLibraryData(lib: string) {
     this.libService.usingHistory.next(true);
     this.libService.appIsLoading.next(true);
+    this.libService.isComparingDownloads.next(false);
 
     this.libService.getLibStats(lib);
 

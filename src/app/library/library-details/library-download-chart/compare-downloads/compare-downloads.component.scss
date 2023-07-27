@@ -103,13 +103,29 @@
   }
 }
 
+.previous {
+  width: 90%;
+  margin-inline: auto;
+}
+
 .previous-main {
   cursor: pointer;
+  width: 100%;
   padding-bottom: 5px;
   border-bottom: 1px solid rgba($dark-color, 0.5);
 
   &:not(:last-child) {
     margin-bottom: 10px;
+  }
+
+  & .previous-lib-main {
+    width: 100%;
+  }
+
+  & .prev-lib-details {
+    width: 100%;
+    display: flex;
+    word-break: break-all;
   }
 
   & .s-n {
@@ -119,6 +135,7 @@
 
   & .libraries {
     font-size: 1.3rem;
-    margin-left: 20px;
+    margin-left: 5px;
+    text-transform: capitalize;
   }
 }

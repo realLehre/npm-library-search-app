@@ -46,9 +46,11 @@
       class="previous-main"
       *ngFor="let lib of libNamesPrevious; let i = index"
     >
-      <div (click)="loadDownloadData(lib)">
-        <span class="s-n">{{ i + 1 }}</span>
-        <span class="libraries">{{ lib }}</span>
+      <div (click)="loadDownloadData(lib)" class="previous-lib-main">
+        <p class="prev-lib-details">
+          <span class="s-n">{{ i + 1 }}</span>
+          <span class="libraries">{{ lib }}</span>
+        </p>
       </div>
     </div>
   </div>
