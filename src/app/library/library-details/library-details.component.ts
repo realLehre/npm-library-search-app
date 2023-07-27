@@ -30,6 +30,7 @@ export class LibraryDetailsComponent
   libGithub!: string;
   libNpm!: string;
   libAuthor!: string;
+  isAuthorAvailable: boolean = false;
   searchHistory: any[] = [];
 
   pageWidth!: number;
@@ -59,16 +60,17 @@ export class LibraryDetailsComponent
   ngAfterViewChecked(): void {
     this.libSub = this.libService.libInfo.pipe(take(1)).subscribe({
       next: (data) => {
-        console.log(data);
-
         this.lib = data;
         this.libName = data.name;
         this.libGithub = data.repository.url;
         this.libGithub = this.libGithub.slice(4, this.libGithub.length);
         if (data.author) {
           for (const key in data.author) {
-            this.libAuthor = data.author[key];
+            this.libAuthor = data.author['name'];
           }
+          this.isAuthorAvailable = true;
+        } else {
+          this.isAuthorAvailable = false;
         }
         this.libNpm = `https://www.npmjs.com/package/${data._id}`;
       },
