@@ -74,6 +74,8 @@
 @media (max-width: 450px) {
   #header {
     & .logo {
+      font-size: 1rem;
+
       & i {
         display: none;
       }
