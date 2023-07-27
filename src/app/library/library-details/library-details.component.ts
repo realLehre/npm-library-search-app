@@ -51,8 +51,16 @@ export class LibraryDetailsComponent
 
     this.libService.getLibStats(this.libName);
 
+    this.libService.libCommonInfo.subscribe((info) => {
+      this.libCurrentVersion = info.currentVersion;
+    });
+  }
+
+  ngAfterViewChecked(): void {
     this.libSub = this.libService.libInfo.pipe(take(1)).subscribe({
       next: (data) => {
+        console.log(data);
+
         this.lib = data;
         this.libName = data.name;
         this.libGithub = data.repository.url;
@@ -66,12 +74,6 @@ export class LibraryDetailsComponent
       },
     });
 
-    this.libService.libCommonInfo.subscribe((info) => {
-      this.libCurrentVersion = info.currentVersion;
-    });
-  }
-
-  ngAfterViewChecked(): void {
     this.pageWidth = this.detailsContainer.nativeElement.offsetWidth;
   }
 
