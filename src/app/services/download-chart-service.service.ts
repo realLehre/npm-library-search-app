@@ -39,9 +39,10 @@ export class DownloadChartService {
     let totalDownloadCount = 0;
 
     let downloads: any[] = [];
-    data.count.forEach((value) => {
-      totalDownloadCount += value;
-    });
+
+    totalDownloadCount = data.count.reduce((acca, current) => {
+      return acca + current;
+    }, 0);
 
     this.totalDownloadCount = totalDownloadCount;
 

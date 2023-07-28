@@ -136,12 +136,13 @@ export class LibraryService {
                   eachDownloads.push(data.downloads[key].downloads);
                   eachPeriod.push(data.downloads[key].day);
                 }
+
                 downloads.push(eachDownloads);
                 periods.push(eachPeriod);
 
-                eachDownloads.forEach((download) => {
-                  totalDownloads += download;
-                });
+                totalDownloads = eachDownloads.reduce((acca, current) => {
+                  return acca + current;
+                }, 0);
 
                 eachTotalDownloadCount.push(totalDownloads);
               },
