@@ -238,8 +238,10 @@ export class LibraryService {
     }
   }
 
-  getLibNames (){
-    return allThePackageNames
+  getLibNames (term: string){
 
+
+    const names = require("all-the-package-names")
+    return names.filter((name: any) => name.includes(term))
   }
 }

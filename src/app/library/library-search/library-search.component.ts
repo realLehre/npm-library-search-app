@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, fromEvent, map, Subscription} from 'rxjs';
 
 import { LibraryService } from '../../services/library.service';
 import { Library } from '../library.model';
@@ -11,7 +11,7 @@ import { Library } from '../library.model';
   templateUrl: './library-search.component.html',
   styleUrls: ['./library-search.component.scss'],
 })
-export class LibrarySearchComponent implements OnInit, OnDestroy {
+export class LibrarySearchComponent implements OnInit, AfterViewInit, OnDestroy {
   libSub!: Subscription;
   searchForm!: FormGroup;
   libData!: Library;
@@ -19,6 +19,7 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
   libError: boolean = false;
 
   text: string = '';
+  @ViewChild('searchInput', {static: true}) searchInput!: ElementRef<HTMLInputElement>
 
   constructor(private libService: LibraryService, private router: Router) {}
 
@@ -40,6 +41,26 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
     this.libService.isLoading.subscribe((status) => {
       this.isLoading = status;
     });
+  }
+
+  ngAfterViewInit() {
+    this.getSearch()
+  }
+
+  getSearch(){
+    fromEvent(this.searchInput.nativeElement, 'keyup')
+        .pipe(
+            filter(Boolean),
+            debounceTime(300),
+            distinctUntilChanged(),
+            map((data) => this.searchInput.nativeElement.value.toLowerCase())
+        )
+        .subscribe((searchValue) => {
+          console.log(searchValue)
+          console.log(this.libService.getLibNames(searchValue))
+        });
+
+
   }
 
   onSubmit() {
