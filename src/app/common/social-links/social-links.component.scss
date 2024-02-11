@@ -2,7 +2,9 @@
 
 .links {
   list-style: none;
-
+  padding: 5px;
+  border-radius: 4px;
+  background-color: $light-text-color;
 
   & .link {
     &:not(:last-child) {
