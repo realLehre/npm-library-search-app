@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import * as allThePackageNames from 'all-the-package-names';
+
 
 import { DataTable, Library } from '../library/library.model';
 import { LibraryDownloadInterface } from '../library/library-details/library-download-chart/library-download.model';
@@ -235,5 +236,10 @@ export class LibraryService {
           localStorage.setItem('downloadStats', range);
         });
     }
+  }
+
+  getLibNames (){
+    return allThePackageNames
+
   }
 }

@@ -9,6 +9,7 @@ import { RangeDialogComponent } from './download-range-dialog/range-dialog/range
 import { DownloadChartService } from 'src/app/services/download-chart-service.service';
 import { CompareDownloadsComponent } from './compare-downloads/compare-downloads.component';
 
+
 @Component({
   selector: 'app-library-download-chart',
   templateUrl: './library-download-chart.component.html',
