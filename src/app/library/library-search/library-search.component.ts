@@ -1,7 +1,21 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {debounceTime, distinctUntilChanged, filter, fromEvent, map, Subscription} from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  fromEvent,
+  map,
+  Subscription,
+} from 'rxjs';
 
 import { LibraryService } from '../../services/library.service';
 import { Library } from '../library.model';
@@ -11,7 +25,9 @@ import { Library } from '../library.model';
   templateUrl: './library-search.component.html',
   styleUrls: ['./library-search.component.scss'],
 })
-export class LibrarySearchComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LibrarySearchComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   libSub!: Subscription;
   searchForm!: FormGroup;
   libData!: Library;
@@ -19,9 +35,13 @@ export class LibrarySearchComponent implements OnInit, AfterViewInit, OnDestroy 
   libError: boolean = false;
 
   text: string = '';
-  @ViewChild('searchInput', {static: true}) searchInput!: ElementRef<HTMLInputElement>
+  @ViewChild('searchInput', { static: true })
+  searchInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private libService: LibraryService, private router: Router) {}
+  constructor(
+    private libService: LibraryService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
@@ -44,23 +64,21 @@ export class LibrarySearchComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    this.getSearch()
+    this.getSearch();
   }
 
-  getSearch(){
+  getSearch() {
     fromEvent(this.searchInput.nativeElement, 'keyup')
-        .pipe(
-            filter(Boolean),
-            debounceTime(300),
-            distinctUntilChanged(),
-            map((data) => this.searchInput.nativeElement.value.toLowerCase())
-        )
-        .subscribe((searchValue) => {
-          console.log(searchValue)
-          console.log(this.libService.getLibNames(searchValue))
-        });
-
-
+      .pipe(
+        filter(Boolean),
+        debounceTime(300),
+        distinctUntilChanged(),
+        map((data) => this.searchInput.nativeElement.value.toLowerCase()),
+      )
+      .subscribe((searchValue) => {
+        console.log(searchValue);
+        console.log(this.libService.getLibNames(searchValue));
+      });
   }
 
   onSubmit() {

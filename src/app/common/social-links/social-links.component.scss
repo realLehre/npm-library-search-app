@@ -1,0 +1,27 @@
+@import "base-styles";
+
+.links {
+  list-style: none;
+
+
+  & .link {
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+
+    & a {
+      position: relative;
+      cursor: pointer;
+      color: $dark-color;
+
+      & i {
+        font-size: 1.4rem;
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}

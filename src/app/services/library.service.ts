@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import * as allThePackageNames from 'all-the-package-names';
 
-
 import { DataTable, Library } from '../library/library.model';
 import { LibraryDownloadInterface } from '../library/library-details/library-download-chart/library-download.model';
 
@@ -93,7 +92,7 @@ export class LibraryService {
           JSON.stringify({
             currentVersion: currentVersion,
             libVersion: this.libVersion,
-          })
+          }),
         );
       },
       error: (err) => {
@@ -124,7 +123,7 @@ export class LibraryService {
         await new Promise((resolve) => {
           this.http
             .get<LibraryDownloadInterface>(
-              `https://api.npmjs.org/downloads/range/${range}/${libNames[d]}`
+              `https://api.npmjs.org/downloads/range/${range}/${libNames[d]}`,
             )
             .subscribe({
               next: (data) => {
@@ -178,7 +177,7 @@ export class LibraryService {
           this.previousLibNames.unshift(libNames);
           localStorage.setItem(
             'libNamesPrevious',
-            JSON.stringify(this.previousLibNames)
+            JSON.stringify(this.previousLibNames),
           );
         } else {
           return;
@@ -189,7 +188,7 @@ export class LibraryService {
     } else {
       this.http
         .get<LibraryDownloadInterface>(
-          `https://api.npmjs.org/downloads/range/${range}/${libNames}`
+          `https://api.npmjs.org/downloads/range/${range}/${libNames}`,
         )
         .subscribe((data) => {
           this.isLoadingDownload.next(false);
@@ -229,7 +228,7 @@ export class LibraryService {
 
             localStorage.setItem(
               'search-history',
-              JSON.stringify(this.searchHistory)
+              JSON.stringify(this.searchHistory),
             );
           }
 
@@ -238,10 +237,8 @@ export class LibraryService {
     }
   }
 
-  getLibNames (term: string){
-
-
-    const names = require("all-the-package-names")
-    return names.filter((name: any) => name.includes(term))
+  getLibNames(term: string) {
+    const names = require('all-the-package-names');
+    return names.filter((name: any) => name.includes(term));
   }
 }

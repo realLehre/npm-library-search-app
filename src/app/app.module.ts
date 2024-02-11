@@ -29,6 +29,7 @@ import { LibraryErrorComponent } from './library/lib-error/library-error.compone
 import { CompareDownloadsComponent } from './library/library-details/library-download-chart/compare-downloads/compare-downloads.component';
 import { ShortenTextPipe } from './library/shorten-text.pipe';
 import { LibrarySearchHistoryComponent } from './library/library-search-history/library-search-history.component';
+import { SocialLinksComponent } from './common/social-links/social-links.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { LibrarySearchHistoryComponent } from './library/library-search-history/
     CompareDownloadsComponent,
     ShortenTextPipe,
     LibrarySearchHistoryComponent,
+    SocialLinksComponent,
   ],
   imports: [
     BrowserModule,
