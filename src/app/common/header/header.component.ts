@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   searchForm!: FormGroup;
   @ViewChild('searchInput', { static: true })
   searchInput!: ElementRef<HTMLInputElement>;
+  isToggled: boolean = false;
   constructor(
     private libService: LibraryService,
     private dailog: MatDialog,
@@ -47,6 +48,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getSearch();
+  }
+
+  onToggleSearch() {
+    this.isToggled = !this.isToggled;
+  }
+
+  onCloseSearch() {
+    this.isToggled = false;
   }
 
   getSearch() {

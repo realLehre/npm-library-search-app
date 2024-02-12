@@ -5,17 +5,21 @@
     </div>
 
     <ul class="links" fxLayout fxLayoutAlign="space-between center">
-      <li class="search-form">
+      <li class="mobile-search-icon" (click)="onToggleSearch()">
+        <i class="fa fa-search"></i>
+      </li>
+      <li class="search-form" [ngClass]="{ show: isToggled }">
         <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <input
               type="text"
-              placeholder="start typing a library name"
+              placeholder="Start typing a library name"
               #searchInput
               [formControlName]="'libraryName'"
             />
 
-            <i class="fa fa-search" fxLayout fxLayoutAlign="center center"></i>
+            <i class="fa fa-search"></i>
+            <i class="fa fa-times" (click)="onCloseSearch()"></i>
           </div>
         </form>
       </li>
