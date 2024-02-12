@@ -3,7 +3,22 @@
     <div class="logo" [routerLink]="['/']" fxLayoutAlign="center center">
       NPM Lib. Search App <i class="fa-brands fa-npm"></i>
     </div>
+
     <ul class="links" fxLayout fxLayoutAlign="space-between center">
+      <li class="search-form">
+        <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <input
+              type="text"
+              placeholder="start typing a library name"
+              #searchInput
+              [formControlName]="'libraryName'"
+            />
+
+            <i class="fa fa-search" fxLayout fxLayoutAlign="center center"></i>
+          </div>
+        </form>
+      </li>
       <li class="link history-btn" (click)="openHistory()">
         <i class="fa-solid fa-ellipsis-vertical"></i>
       </li>

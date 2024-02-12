@@ -25,9 +25,7 @@ import { Library } from '../library.model';
   templateUrl: './library-search.component.html',
   styleUrls: ['./library-search.component.scss'],
 })
-export class LibrarySearchComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class LibrarySearchComponent implements OnInit, OnDestroy {
   libSub!: Subscription;
   searchForm!: FormGroup;
   libData!: Library;
@@ -35,8 +33,6 @@ export class LibrarySearchComponent
   libError: boolean = false;
 
   text: string = '';
-  @ViewChild('searchInput', { static: true })
-  searchInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private libService: LibraryService,
@@ -61,42 +57,6 @@ export class LibrarySearchComponent
     this.libService.isLoading.subscribe((status) => {
       this.isLoading = status;
     });
-  }
-
-  ngAfterViewInit() {
-    this.getSearch();
-  }
-
-  getSearch() {
-    fromEvent(this.searchInput.nativeElement, 'keyup')
-      .pipe(
-        filter(Boolean),
-        debounceTime(300),
-        distinctUntilChanged(),
-        map((data) => this.searchInput.nativeElement.value.toLowerCase()),
-      )
-      .subscribe((searchValue) => {
-        console.log(searchValue);
-        console.log(this.libService.getLibNames(searchValue));
-      });
-  }
-
-  onSubmit() {
-    const libName = this.searchForm.value.libraryName.toLowerCase();
-
-    this.libService.usingHistory.next(false);
-    this.libService.appIsLoading.next(true);
-    this.libService.getLibStats(libName);
-
-    this.libService.libError.subscribe((error) => {
-      if (error) {
-        this.router.navigate(['/error']);
-      } else {
-        this.router.navigate(['/details'], { queryParams: { lib: libName } });
-      }
-    });
-
-    this.searchForm.reset();
   }
 
   ngOnDestroy(): void {
