@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isToggled: boolean = false;
   constructor(
     private libService: LibraryService,
-    private dailog: MatDialog,
+    private dialog: MatDialog,
     private router: Router,
   ) {}
 
@@ -64,11 +64,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         filter(Boolean),
         debounceTime(300),
         distinctUntilChanged(),
-        map((data) => this.searchInput.nativeElement.value.toLowerCase()),
+        map(() => this.searchInput.nativeElement.value.toLowerCase()),
       )
       .subscribe((searchValue) => {
-        console.log(searchValue);
-        console.log(this.libService.getLibNames(searchValue));
+        // console.log(this.libService.getLibNames(searchValue));
       });
   }
 
@@ -88,10 +87,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     });
 
     this.searchForm.reset();
+    this.searchInput.nativeElement.blur();
   }
 
   openHistory() {
-    this.dailog.open(LibrarySearchHistoryComponent, {
+    this.dialog.open(LibrarySearchHistoryComponent, {
       data: { history: '' },
       width: '500px',
       height: '230px',

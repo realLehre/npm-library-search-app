@@ -1,21 +1,7 @@
 <div class="search-container">
-  <!--  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">-->
-  <!--    <div class="form-group">-->
-  <!--      <input-->
-  <!--        type="text"-->
-  <!--        placeholder="start typing a library name"-->
-  <!--		#searchInput-->
-  <!--        [formControlName]="'libraryName'"-->
-  <!--      />-->
-
-  <!--      <i class="fa fa-search" fxLayout fxLayoutAlign="center center"></i>-->
-  <!--    </div>-->
-  <!--  </form>-->
-
   <div class="lib-main-info" *ngIf="!isLoading && libData && !libError">
     <h3 class="lib-name">{{ libData.name }}</h3>
     <p class="desc">{{ libData.description }}</p>
-    <!-- <a class="see-more" (click)="loadLib()">See more</a> -->
   </div>
 
   <div class="lib-error" *ngIf="!isLoading && libError">Library not found</div>
