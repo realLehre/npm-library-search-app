@@ -5,6 +5,7 @@ import * as allThePackageNames from 'all-the-package-names';
 
 import { DataTable, Library } from '../library/library.model';
 import { LibraryDownloadInterface } from '../library/library-details/library-download-chart/library-download.model';
+import { Router } from '@angular/router';
 
 export interface DownloadStat {
   count: number[];
@@ -25,6 +26,7 @@ export class LibraryService {
   isLoading = new Subject<boolean>();
   appIsLoading = new Subject<boolean>();
   isLoadingDownload = new Subject<boolean>();
+  isTyping = new Subject<boolean>();
 
   downloadStats = new Subject<DownloadStat>();
   downloadRange = new Subject<string>();
@@ -42,7 +44,10 @@ export class LibraryService {
 
   compareFormHeight = new BehaviorSubject<number>(180);
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {
     let previousComps = localStorage.getItem('libNamesPrevious');
     this.previousLibNames = previousComps ? JSON.parse(previousComps) : [];
 
@@ -53,6 +58,7 @@ export class LibraryService {
   getLibStats(libName: string) {
     this.isLoading.next(true);
     this.appIsLoading.next(true);
+    this.usingHistory.next(false);
 
     this.http.get<Library>(`https://registry.npmjs.org/${libName}`).subscribe({
       next: (data) => {
@@ -94,11 +100,14 @@ export class LibraryService {
             libVersion: this.libVersion,
           }),
         );
+
+        this.router.navigate(['/details'], { queryParams: { lib: libName } });
       },
       error: (err) => {
         this.isLoading.next(false);
         this.appIsLoading.next(false);
         this.libError.next(true);
+        this.router.navigate(['/error']);
         console.log(err);
       },
     });

@@ -31,7 +31,6 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
   libData!: Library;
   isLoading!: boolean;
   libError: boolean = false;
-
   text: string = '';
 
   constructor(

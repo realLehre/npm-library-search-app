@@ -16,6 +16,7 @@ import {
   filter,
   fromEvent,
   map,
+  tap,
 } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -64,6 +65,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         filter(Boolean),
         debounceTime(300),
         distinctUntilChanged(),
+        tap(() => {
+          this.libService.isTyping.next(true);
+        }),
         map(() => this.searchInput.nativeElement.value.toLowerCase()),
       )
       .subscribe((searchValue) => {
@@ -73,7 +77,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     const libName = this.searchForm.value.libraryName.toLowerCase();
-
+    this.libService.isTyping.next(false);
     this.libService.usingHistory.next(false);
     this.libService.appIsLoading.next(true);
     this.libService.getLibStats(libName);

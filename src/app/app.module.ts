@@ -30,6 +30,7 @@ import { CompareDownloadsComponent } from './library/library-details/library-dow
 import { ShortenTextPipe } from './library/shorten-text.pipe';
 import { LibrarySearchHistoryComponent } from './library/library-search-history/library-search-history.component';
 import { SocialLinksComponent } from './common/social-links/social-links.component';
+import { SearchResultsComponent } from './library/search-results/search-results.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { SocialLinksComponent } from './common/social-links/social-links.compone
     ChartModule,
     BrowserAnimationsModule,
     MomentDateModule,
+    SearchResultsComponent,
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },

@@ -1,5 +1,11 @@
 <div id="app-container" fxFlex fxLayout="column">
   <app-header></app-header>
+  <div
+    class="absolute top-0 left-0 hidden"
+    [ngClass]="{ block: isTyping$ | async }"
+  >
+    <app-search-results></app-search-results>
+  </div>
   <div class="main-content">
     <router-outlet></router-outlet>
   </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LibraryService } from '../../services/library.service';
 
 @Component({
   selector: 'app-search-results',
@@ -432,7 +433,12 @@ export class SearchResultsComponent implements OnInit {
     '@angularpatch/compiler-cli',
     '@angulartoolbox/alerts',
   ];
-  constructor() {}
+  constructor(private libService: LibraryService) {}
 
   ngOnInit(): void {}
+
+  onViewLib(lib: string) {
+    this.libService.isTyping.next(false);
+    this.libService.getLibStats(lib);
+  }
 }
