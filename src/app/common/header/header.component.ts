@@ -67,7 +67,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         map(() => this.searchInput.nativeElement.value.toLowerCase()),
       )
       .subscribe((searchValue) => {
-        // console.log(this.libService.getLibNames(searchValue));
+        console.log(this.libService.getLibNames(searchValue));
       });
   }
 
