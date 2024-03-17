@@ -1,12 +1,12 @@
 <div id="app-container" fxFlex fxLayout="column">
   <app-header></app-header>
   <div
-    class="absolute top-0 left-0 hidden"
-    [ngClass]="{ block: isTyping$ | async }"
+    class="absolute top-[72px] left-0 z-20 w-full"
+    [ngClass]="{ block: isTyping$ | async, hidden: !(isTyping$ | async) }"
   >
     <app-search-results></app-search-results>
   </div>
-  <div class="main-content">
+  <div class="main-content z-10">
     <router-outlet></router-outlet>
   </div>
   <div class="social"><app-social-links></app-social-links></div>

@@ -45,6 +45,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.searchForm = new FormGroup({
       libraryName: new FormControl('', [Validators.required]),
     });
+
+    this.libService.isTyping.subscribe((value) => {
+      if (!value) {
+        this.resetInput();
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -57,20 +63,30 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   onCloseSearch() {
     this.isToggled = false;
+    this.libService.isTyping.next(false);
   }
 
   getSearch() {
     fromEvent(this.searchInput.nativeElement, 'keyup')
       .pipe(
         filter(Boolean),
+        tap(() => {
+          this.libService.isFetchingSearchResults.next(true);
+          if (this.searchInput.nativeElement.value === '') {
+            this.libService.isTyping.next(false);
+          } else {
+            this.libService.isTyping.next(true);
+          }
+        }),
         debounceTime(300),
         distinctUntilChanged(),
-        tap(() => {
-          this.libService.isTyping.next(true);
-        }),
         map(() => this.searchInput.nativeElement.value.toLowerCase()),
       )
       .subscribe((searchValue) => {
+        this.libService.searchResults.next(
+          this.libService.getLibNames(searchValue),
+        );
+        this.libService.isFetchingSearchResults.next(false);
         console.log(this.libService.getLibNames(searchValue));
       });
   }
@@ -90,8 +106,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.searchForm.reset();
-    this.searchInput.nativeElement.blur();
+    this.resetInput();
   }
 
   openHistory() {
@@ -100,5 +115,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       width: '500px',
       height: '230px',
     });
+  }
+
+  resetInput() {
+    this.searchForm.reset();
+    this.searchInput.nativeElement.blur();
   }
 }

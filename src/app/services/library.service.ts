@@ -27,6 +27,8 @@ export class LibraryService {
   appIsLoading = new Subject<boolean>();
   isLoadingDownload = new Subject<boolean>();
   isTyping = new Subject<boolean>();
+  isFetchingSearchResults = new Subject<boolean>();
+  searchResults = new BehaviorSubject<string[]>([]);
 
   downloadStats = new Subject<DownloadStat>();
   downloadRange = new Subject<string>();
@@ -53,6 +55,12 @@ export class LibraryService {
 
     let history = localStorage.getItem('search-history');
     this.searchHistory = history ? JSON.parse(history) : [];
+
+    this.test().subscribe((value) => console.log(value));
+  }
+
+  test() {
+    return this.http.get('https://www.npmjs.com/search/suggestions?q=vue');
   }
 
   getLibStats(libName: string) {
@@ -248,6 +256,6 @@ export class LibraryService {
 
   getLibNames(term: string) {
     const names = require('all-the-package-names');
-    return names.filter((name: any) => name.includes(term));
+    return names.filter((name: any) => name.includes(term)).slice(0, 50);
   }
 }
